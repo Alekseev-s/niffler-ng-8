@@ -4,6 +4,8 @@ import com.codeborne.selenide.ElementsCollection;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selectors.byText;
+import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class MainPage {
@@ -23,5 +25,8 @@ public class MainPage {
         .should(visible);
   }
 
-
+  public void checkLoginIsSuccessful() {
+    $(byText("Statistics")).shouldBe(visible);
+    $(byText("History of Spendings")).shouldBe(visible);
+  }
 }

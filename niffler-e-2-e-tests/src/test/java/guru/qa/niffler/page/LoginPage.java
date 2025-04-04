@@ -2,7 +2,9 @@ package guru.qa.niffler.page;
 
 import com.codeborne.selenide.SelenideElement;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Condition.visible;
 
 public class LoginPage {
 
@@ -15,5 +17,11 @@ public class LoginPage {
     passwordInput.setValue(password);
     submitBtn.click();
     return new MainPage();
+  }
+
+  public void checkWrongUserError() {
+    $("p.form__error")
+            .shouldBe(visible)
+            .shouldHave(text("Неверные учетные данные пользователя"));
   }
 }

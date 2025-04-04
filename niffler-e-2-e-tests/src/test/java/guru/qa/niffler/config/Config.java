@@ -8,6 +8,10 @@ public interface Config {
 
   String frontUrl();
 
+  String registrationUrl();
+
+  String profileUrl();
+
   String spendUrl();
 
   String ghUrl();

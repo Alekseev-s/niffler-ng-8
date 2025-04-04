@@ -9,6 +9,16 @@ enum LocalConfig implements Config {
   }
 
   @Override
+  public String registrationUrl() {
+    return "http://127.0.0.1:9000/register";
+  }
+
+  @Override
+  public String profileUrl() {
+    return "http://127.0.0.1:3000/profile";
+  }
+
+  @Override
   public String spendUrl() {
     return "http://127.0.0.1:8093/";
   }

@@ -28,10 +28,12 @@ public class SpendingTest {
     final String newDescription = "Обучение Niffler NG";
 
     Selenide.open(CFG.frontUrl(), LoginPage.class)
-        .doLogin("duck", "12345")
-        .editSpending(spend.description())
+        .doLogin("duck", "12345");
+
+    MainPage mainPage = new MainPage();
+    mainPage.editSpending(spend.description())
         .editDescription(newDescription);
 
-    new MainPage().checkThatTableContains(newDescription);
+    mainPage.checkThatTableContains(newDescription);
   }
 }
