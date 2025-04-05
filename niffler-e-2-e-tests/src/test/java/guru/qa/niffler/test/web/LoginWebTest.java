@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(BrowserExtension.class)
-public class LoginTest {
+public class LoginWebTest {
 
     private static final Config CFG = Config.getInstance();
 

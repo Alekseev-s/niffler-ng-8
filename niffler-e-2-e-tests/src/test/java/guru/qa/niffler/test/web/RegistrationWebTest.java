@@ -1,23 +1,22 @@
 package guru.qa.niffler.test.web;
 
 import com.codeborne.selenide.Selenide;
-import com.github.javafaker.Faker;
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.jupiter.extension.BrowserExtension;
 import guru.qa.niffler.page.RegistrationPage;
+import guru.qa.niffler.utils.DataUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(BrowserExtension.class)
-public class RegistrationTest {
+public class RegistrationWebTest {
 
     private static final Config CFG = Config.getInstance();
-    private final Faker faker = new Faker();
 
     @Test
     void shouldRegisterNewUser() {
-        String username = faker.name().firstName();
-        String password = faker.internet().password(3, 10);
+        String username = DataUtils.getRandomUsername();
+        String password = DataUtils.getRandomPassword();
 
         RegistrationPage registrationPage = Selenide.open(CFG.registrationUrl(), RegistrationPage.class)
                 .doRegistration(username, password, password);
@@ -38,9 +37,9 @@ public class RegistrationTest {
 
     @Test
     void shouldShowErrorIfPasswordAndConfirmPasswordAreNotEqual() {
-        String username = faker.name().firstName();
-        String password = faker.internet().password(3, 10);
-        String confirmPassword = faker.internet().password(3, 10);
+        String username = DataUtils.getRandomUsername();
+        String password = DataUtils.getRandomPassword();
+        String confirmPassword = DataUtils.getRandomPassword();
 
         RegistrationPage registrationPage = Selenide.open(CFG.registrationUrl(), RegistrationPage.class)
                 .doRegistration(username, password, confirmPassword);
