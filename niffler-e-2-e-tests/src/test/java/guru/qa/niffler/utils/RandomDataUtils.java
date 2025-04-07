@@ -2,10 +2,10 @@ package guru.qa.niffler.utils;
 
 import com.github.javafaker.Faker;
 
-public final class DataUtils {
+public final class RandomDataUtils {
     private static final Faker FAKER = new Faker();
 
-    private DataUtils() {
+    private RandomDataUtils() {
     }
 
     public static String getRandomCategoryName() {

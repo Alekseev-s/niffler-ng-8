@@ -1,7 +1,8 @@
 package guru.qa.niffler.jupiter.extension;
 
 import guru.qa.niffler.api.SpendApiClient;
-import guru.qa.niffler.jupiter.annotation.Spend;
+import guru.qa.niffler.jupiter.annotation.Spending;
+import guru.qa.niffler.jupiter.annotation.meta.User;
 import guru.qa.niffler.model.CategoryJson;
 import guru.qa.niffler.model.SpendJson;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
@@ -20,25 +21,28 @@ public class SpendingExtension implements BeforeEachCallback, ParameterResolver 
 
   @Override
   public void beforeEach(ExtensionContext context) {
-    AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), Spend.class)
+    AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), User.class)
         .ifPresent(anno -> {
-          SpendJson spendJson = new SpendJson(
-              null,
-              new Date(),
-              new CategoryJson(
-                  null,
-                  anno.category(),
-                  anno.username(),
-                  false
-              ),
-              anno.currency(),
-              anno.amount(),
-              anno.description(),
-              anno.username()
-          );
+            if (anno.spendings().length > 0) {
+                Spending spending = anno.spendings()[0];
+                SpendJson spendJson = new SpendJson(
+                        null,
+                        new Date(),
+                        new CategoryJson(
+                                null,
+                                spending.category(),
+                                anno.username(),
+                                false
+                        ),
+                        spending.currency(),
+                        spending.amount(),
+                        spending.description(),
+                        anno.username()
+                );
 
-          SpendJson created = spendApiClient.addSpend(spendJson);
-          context.getStore(NAMESPACE).put(context.getUniqueId(), created);
+                SpendJson created = spendApiClient.addSpend(spendJson);
+                context.getStore(NAMESPACE).put(context.getUniqueId(), created);
+            }
         });
   }
 
