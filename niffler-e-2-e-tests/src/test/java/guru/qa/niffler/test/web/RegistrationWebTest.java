@@ -4,7 +4,7 @@ import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.jupiter.extension.BrowserExtension;
 import guru.qa.niffler.page.RegistrationPage;
-import guru.qa.niffler.utils.DataUtils;
+import guru.qa.niffler.utils.RandomDataUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -15,8 +15,8 @@ public class RegistrationWebTest {
 
     @Test
     void shouldRegisterNewUser() {
-        String username = DataUtils.getRandomUsername();
-        String password = DataUtils.getRandomPassword();
+        String username = RandomDataUtils.getRandomUsername();
+        String password = RandomDataUtils.getRandomPassword();
 
         RegistrationPage registrationPage = Selenide.open(CFG.registrationUrl(), RegistrationPage.class)
                 .doRegistration(username, password, password);
@@ -37,9 +37,9 @@ public class RegistrationWebTest {
 
     @Test
     void shouldShowErrorIfPasswordAndConfirmPasswordAreNotEqual() {
-        String username = DataUtils.getRandomUsername();
-        String password = DataUtils.getRandomPassword();
-        String confirmPassword = DataUtils.getRandomPassword();
+        String username = RandomDataUtils.getRandomUsername();
+        String password = RandomDataUtils.getRandomPassword();
+        String confirmPassword = RandomDataUtils.getRandomPassword();
 
         RegistrationPage registrationPage = Selenide.open(CFG.registrationUrl(), RegistrationPage.class)
                 .doRegistration(username, password, confirmPassword);

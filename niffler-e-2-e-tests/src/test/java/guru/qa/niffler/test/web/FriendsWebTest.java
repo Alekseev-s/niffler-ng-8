@@ -3,17 +3,15 @@ package guru.qa.niffler.test.web;
 import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.jupiter.annotation.UserType;
-import guru.qa.niffler.jupiter.extension.BrowserExtension;
-import guru.qa.niffler.jupiter.extension.UsersQueueExtension;
 import guru.qa.niffler.model.StaticUser;
+import guru.qa.niffler.jupiter.annotation.meta.WebTest;
 import guru.qa.niffler.page.FriendsPage;
 import guru.qa.niffler.page.LoginPage;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import static guru.qa.niffler.jupiter.annotation.UserType.Type.*;
 
-@ExtendWith({BrowserExtension.class, UsersQueueExtension.class})
+@WebTest
 public class FriendsWebTest {
 
     private static final Config CFG = Config.getInstance();

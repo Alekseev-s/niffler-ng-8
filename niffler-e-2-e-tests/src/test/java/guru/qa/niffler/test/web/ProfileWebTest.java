@@ -3,6 +3,7 @@ package guru.qa.niffler.test.web;
 import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.jupiter.annotation.Category;
+import guru.qa.niffler.jupiter.annotation.meta.User;
 import guru.qa.niffler.jupiter.extension.BrowserExtension;
 import guru.qa.niffler.model.CategoryJson;
 import guru.qa.niffler.page.LoginPage;
@@ -17,9 +18,11 @@ public class ProfileWebTest {
     private final String username = "duck";
     private final String password = "12345";
 
-    @Category(
+    @User(
             username = "duck",
-            archived = true
+            categories = @Category(
+                    archived = true
+            )
     )
     @Test
     void archivedCategoryShouldPresentInCategoriesList(CategoryJson category) {
@@ -33,9 +36,11 @@ public class ProfileWebTest {
         profilePage.checkCategoryIsVisible(category.name());
     }
 
-    @Category(
+    @User(
             username = "duck",
-            archived = false
+            categories = @Category(
+                    archived = false
+            )
     )
     @Test
     void activeCategoryShouldPresentInCategoriesList(CategoryJson category) {
