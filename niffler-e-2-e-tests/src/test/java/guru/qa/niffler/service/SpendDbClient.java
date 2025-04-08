@@ -17,11 +17,13 @@ public class SpendDbClient {
     public SpendJson createSpend(SpendJson spendJson) {
         SpendEntity spendEntity = SpendEntity.fromJson(spendJson);
         CategoryEntity inputCategory = spendEntity.getCategory();
-        CategoryEntity finalCategory = categoryDao.findCategoryByUsernameAndCategoryName(
-                inputCategory.getUsername(),
-                inputCategory.getName()
-        ).orElseGet(() -> categoryDao.create(inputCategory));
-        spendEntity.setCategory(finalCategory);
+        if (inputCategory.getId() == null) {
+            CategoryEntity finalCategory = categoryDao.findCategoryByUsernameAndCategoryName(
+                    inputCategory.getUsername(),
+                    inputCategory.getName()
+            ).orElseGet(() -> categoryDao.create(inputCategory));
+            spendEntity.setCategory(finalCategory);
+        }
         return SpendJson.fromEntity(spendDao.create(spendEntity));
     }
 
