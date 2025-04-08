@@ -17,4 +17,12 @@ public interface Config {
   String ghUrl();
 
   String friendsUrl();
+
+  String authJdbcUrl();
+
+  String userdataJdbcUrl();
+
+  String spendJdbcUrl();
+
+  String currencyJdbcUrl();
 }
