@@ -1,6 +1,7 @@
 package guru.qa.niffler.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import guru.qa.niffler.data.entity.CategoryEntity;
 
 import java.util.UUID;
 
@@ -13,4 +14,13 @@ public record CategoryJson(
     String username,
     @JsonProperty("archived")
     boolean archived) {
+
+    public static CategoryJson fromEntity(CategoryEntity categoryEntity) {
+        return new CategoryJson(
+                categoryEntity.getId(),
+                categoryEntity.getName(),
+                categoryEntity.getUsername(),
+                categoryEntity.isArchived()
+        );
+    }
 }
