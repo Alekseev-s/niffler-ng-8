@@ -72,7 +72,7 @@ public class SpendDaoJdbc implements SpendDao {
                         spendEntity.setAmount(rs.getDouble("amount"));
                         spendEntity.setDescription(rs.getString("description"));
                         CategoryEntity categoryEntity = categoryDao.findCategoryById(
-                                rs.getObject("id", UUID.class))
+                                rs.getObject("category_id", UUID.class))
                                 .orElse(null);
                         spendEntity.setCategory(categoryEntity);
                         return Optional.of(spendEntity);
@@ -107,7 +107,7 @@ public class SpendDaoJdbc implements SpendDao {
                         spendEntity.setAmount(rs.getDouble("amount"));
                         spendEntity.setDescription(rs.getString("description"));
                         CategoryEntity categoryEntity = categoryDao.findCategoryById(
-                                        rs.getObject("id", UUID.class))
+                                        rs.getObject("category_id", UUID.class))
                                 .orElse(null);
                         spendEntity.setCategory(categoryEntity);
                         spendList.add(spendEntity);
