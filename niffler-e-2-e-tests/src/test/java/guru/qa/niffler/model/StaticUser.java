@@ -6,5 +6,4 @@ public record StaticUser(
         String friend,
         String income,
         String outcome) {
-
 }
