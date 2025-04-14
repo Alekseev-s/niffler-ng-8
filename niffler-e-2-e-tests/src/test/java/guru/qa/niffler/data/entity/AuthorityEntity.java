@@ -12,6 +12,7 @@ import java.util.UUID;
 @Setter
 public class AuthorityEntity implements Serializable {
     private UUID id;
+    private UUID userId;
     private AuthUserEntity user;
     private AuthorityValues authority;
 
