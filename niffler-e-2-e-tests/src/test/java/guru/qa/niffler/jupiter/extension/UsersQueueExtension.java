@@ -1,7 +1,7 @@
 package guru.qa.niffler.jupiter.extension;
 
 import guru.qa.niffler.jupiter.annotation.UserType;
-import guru.qa.niffler.model.StaticUser;
+import guru.qa.niffler.model.userdata.StaticUser;
 import io.qameta.allure.Allure;
 import org.apache.commons.lang3.time.StopWatch;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;

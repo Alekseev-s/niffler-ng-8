@@ -1,9 +1,8 @@
 package guru.qa.niffler.data.dao.impl;
 
 import guru.qa.niffler.data.dao.SpendDao;
-import guru.qa.niffler.data.entity.CategoryEntity;
-import guru.qa.niffler.data.entity.SpendEntity;
-import guru.qa.niffler.model.CurrencyValues;
+import guru.qa.niffler.data.entity.spend.SpendEntity;
+import guru.qa.niffler.model.spend.CurrencyValues;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -68,10 +67,7 @@ public class SpendDaoJdbc implements SpendDao {
                     spendEntity.setCurrency(CurrencyValues.valueOf(rs.getString("currency")));
                     spendEntity.setAmount(rs.getDouble("amount"));
                     spendEntity.setDescription(rs.getString("description"));
-                    CategoryEntity categoryEntity = new CategoryDaoJdbc(connection).findCategoryById(
-                                    rs.getObject("category_id", UUID.class))
-                            .orElse(null);
-                    spendEntity.setCategory(categoryEntity);
+                    spendEntity.setCategoryId(rs.getObject("category_id", UUID.class));
                     return Optional.of(spendEntity);
                 } else {
                     return Optional.empty();
@@ -101,10 +97,7 @@ public class SpendDaoJdbc implements SpendDao {
                     spendEntity.setCurrency(CurrencyValues.valueOf(rs.getString("currency")));
                     spendEntity.setAmount(rs.getDouble("amount"));
                     spendEntity.setDescription(rs.getString("description"));
-                    CategoryEntity categoryEntity = new CategoryDaoJdbc(connection).findCategoryById(
-                                    rs.getObject("category_id", UUID.class))
-                            .orElse(null);
-                    spendEntity.setCategory(categoryEntity);
+                    spendEntity.setCategoryId(rs.getObject("category_id", UUID.class));
                     spendList.add(spendEntity);
                 }
             }

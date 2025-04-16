@@ -1,7 +1,7 @@
-package guru.qa.niffler.data.entity;
+package guru.qa.niffler.data.entity.spend;
 
-import guru.qa.niffler.model.CurrencyValues;
-import guru.qa.niffler.model.SpendJson;
+import guru.qa.niffler.model.spend.CurrencyValues;
+import guru.qa.niffler.model.spend.SpendJson;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +18,7 @@ public class SpendEntity implements Serializable {
     private Date spendDate;
     private Double amount;
     private String description;
+    private UUID categoryId;
     private CategoryEntity category;
 
     public static SpendEntity fromJson(SpendJson spendJson) {

@@ -1,6 +1,6 @@
-package guru.qa.niffler.data.entity;
+package guru.qa.niffler.data.entity.auth;
 
-import guru.qa.niffler.model.AuthUserJson;
+import guru.qa.niffler.model.auth.AuthUserJson;
 import lombok.Getter;
 import lombok.Setter;
 

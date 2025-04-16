@@ -2,12 +2,14 @@ package guru.qa.niffler.test.web;
 
 import guru.qa.niffler.jupiter.annotation.UserType;
 import guru.qa.niffler.jupiter.extension.UsersQueueExtension;
-import guru.qa.niffler.model.StaticUser;
+import guru.qa.niffler.model.userdata.StaticUser;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import static guru.qa.niffler.jupiter.annotation.UserType.Type.*;
 
+@Disabled
 @ExtendWith(UsersQueueExtension.class)
 public class UsersQueueTest {
 

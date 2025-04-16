@@ -1,7 +1,7 @@
-package guru.qa.niffler.data.entity;
+package guru.qa.niffler.data.entity.auth;
 
-import guru.qa.niffler.model.AuthorityJson;
-import guru.qa.niffler.model.AuthorityValues;
+import guru.qa.niffler.model.auth.AuthorityJson;
+import guru.qa.niffler.model.auth.AuthorityValues;
 import lombok.Getter;
 import lombok.Setter;
 
