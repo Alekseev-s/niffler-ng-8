@@ -124,6 +124,30 @@ public class CategoryDaoJdbc implements CategoryDao {
     }
 
     @Override
+    public List<CategoryEntity> findAll() {
+        try (PreparedStatement ps = connection.prepareStatement(
+                "SELECT * FROM category"
+        )) {
+            ps.execute();
+
+            List<CategoryEntity> categoryEntities = new ArrayList<>();
+
+            try (ResultSet rs = ps.getResultSet()) {
+                CategoryEntity categoryEntity = new CategoryEntity();
+                categoryEntity.setId(rs.getObject("id", UUID.class));
+                categoryEntity.setName(rs.getString("name"));
+                categoryEntity.setUsername(rs.getString("username"));
+                categoryEntity.setArchived(rs.getBoolean("archived"));
+                categoryEntities.add(categoryEntity);
+            }
+
+            return categoryEntities;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public void deleteCategory(CategoryEntity categoryEntity) {
         try (PreparedStatement ps = connection.prepareStatement(
                 "DELETE FROM category WHERE id = ?"
