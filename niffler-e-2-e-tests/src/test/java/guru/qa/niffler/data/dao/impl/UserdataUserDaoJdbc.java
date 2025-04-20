@@ -118,16 +118,18 @@ public class UserdataUserDaoJdbc implements UserdataUserDao {
             List<UserEntity> userEntities = new ArrayList<>();
 
             try (ResultSet rs = ps.getResultSet()) {
-                UserEntity userEntity = new UserEntity();
-                userEntity.setId(rs.getObject("id", UUID.class));
-                userEntity.setUsername(rs.getString("username"));
-                userEntity.setCurrency(CurrencyValues.valueOf(rs.getString("currency")));
-                userEntity.setFirstname(rs.getString("firstname"));
-                userEntity.setSurname(rs.getString("surname"));
-                userEntity.setPhoto(rs.getBytes("photo"));
-                userEntity.setPhotoSmall(rs.getBytes("photo_small"));
-                userEntity.setFullname(rs.getString("full_name"));
-                userEntities.add(userEntity);
+                while (rs.next()) {
+                    UserEntity userEntity = new UserEntity();
+                    userEntity.setId(rs.getObject("id", UUID.class));
+                    userEntity.setUsername(rs.getString("username"));
+                    userEntity.setCurrency(CurrencyValues.valueOf(rs.getString("currency")));
+                    userEntity.setFirstname(rs.getString("firstname"));
+                    userEntity.setSurname(rs.getString("surname"));
+                    userEntity.setPhoto(rs.getBytes("photo"));
+                    userEntity.setPhotoSmall(rs.getBytes("photo_small"));
+                    userEntity.setFullname(rs.getString("full_name"));
+                    userEntities.add(userEntity);
+                }
             }
 
             return userEntities;
