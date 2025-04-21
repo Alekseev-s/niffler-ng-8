@@ -1,50 +1,38 @@
 package guru.qa.niffler.test.web;
 
-import guru.qa.niffler.model.spend.CategoryJson;
 import guru.qa.niffler.model.spend.CurrencyValues;
-import guru.qa.niffler.model.spend.SpendJson;
 import guru.qa.niffler.model.userdata.UserJson;
-import guru.qa.niffler.service.SpendDbClient;
 import guru.qa.niffler.service.UserDbClient;
-import org.junit.jupiter.api.Disabled;
+import guru.qa.niffler.utils.RandomDataUtils;
 import org.junit.jupiter.api.Test;
 
-import java.util.Date;
-
-@Disabled
 public class JdbcTest {
 
     @Test
-    void txTest() {
-        SpendDbClient spendDbClient = new SpendDbClient();
-
-        SpendJson spend = spendDbClient.createSpend(
-                new SpendJson(
+    void jdbcWithoutTxTest() {
+        UserDbClient userDbClient = new UserDbClient();
+        UserJson user = userDbClient.createUserJdbcWithoutTx(
+                new UserJson(
                         null,
-                        new Date(),
-                        new CategoryJson(
-                                null,
-                                "cat-name-tx-2",
-                                "duck",
-                                false
-                        ),
+                        RandomDataUtils.getRandomUsername(),
+                        null,
+                        null,
+                        null,
                         CurrencyValues.RUB,
-                        1000.0,
-                        "spend-name-tx",
+                        null,
                         null
                 )
         );
-
-        System.out.println(spend);
+        System.out.println(user);
     }
 
     @Test
-    void springJdbcTest() {
+    void jdbcWithTxTest() {
         UserDbClient userDbClient = new UserDbClient();
-        UserJson userJson = userDbClient.createUserSpringJdbc(
+        UserJson user = userDbClient.createUserJdbcWithTx(
                 new UserJson(
                         null,
-                        "valentin-5",
+                        RandomDataUtils.getRandomUsername(),
                         null,
                         null,
                         null,
@@ -53,6 +41,84 @@ public class JdbcTest {
                         null
                 )
         );
-        System.out.println(userJson);
+        System.out.println(user);
+    }
+
+    @Test
+    void springJdbcWithoutTxTest() {
+        UserDbClient userDbClient = new UserDbClient();
+        UserJson user = userDbClient.createUserSpringJdbcWithoutTx(
+                new UserJson(
+                        null,
+                        RandomDataUtils.getRandomUsername(),
+                        null,
+                        null,
+                        null,
+                        CurrencyValues.RUB,
+                        null,
+                        null
+                )
+        );
+        System.out.println(user);
+    }
+
+    @Test
+    void springJdbcWithTxTest() {
+        UserDbClient userDbClient = new UserDbClient();
+        UserJson user = userDbClient.createUserSpringJdbcWithTx(
+                new UserJson(
+                        null,
+                        RandomDataUtils.getRandomUsername(),
+                        null,
+                        null,
+                        null,
+                        CurrencyValues.RUB,
+                        null,
+                        null
+                )
+        );
+        System.out.println(user);
+    }
+
+    @Test
+    void correctChainedSpringJdbcTest() {
+        UserDbClient userDbClient = new UserDbClient();
+        UserJson user = userDbClient.createUserChainedTxTemplate(
+                new UserJson(
+                        null,
+                        RandomDataUtils.getRandomUsername(),
+                        null,
+                        null,
+                        null,
+                        CurrencyValues.RUB,
+                        null,
+                        null
+                )
+        );
+        System.out.println(user);
+    }
+
+    /*
+    Доказательство невозможности отката внутренней транзакции:
+    В БД niffler-auth в таблицах user и authority создается запись о пользователе и его authorities.
+    В БД uiffler-userdata в таблице user запись о пользователе не создается.
+    При возникновении ошибки не выполняется откат из niffler-auth
+     */
+    @Test
+    void incorrectChainedSpringJdbcTest() {
+        UserDbClient userDbClient = new UserDbClient();
+        UserJson user = userDbClient.createUserChainedTxTemplate(
+                new UserJson(
+                        null,
+                        RandomDataUtils.getRandomUsername(),
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                )
+        );
+        System.out.println(user);
     }
 }
