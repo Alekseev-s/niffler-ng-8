@@ -73,7 +73,8 @@ public class UserDbClient {
         authAuthorityDao.create(authorityEntities);
 
         return UserJson.fromEntity(
-                userdataUserDao.createUser(UserEntity.fromJson(userJson))
+                userdataUserDao.createUser(UserEntity.fromJson(userJson)),
+                null
         );
     }
 
@@ -93,7 +94,8 @@ public class UserDbClient {
             authAuthorityDao.create(authorityEntities);
 
             return UserJson.fromEntity(
-                    userdataUserDao.createUser(UserEntity.fromJson(userJson))
+                    userdataUserDao.createUser(UserEntity.fromJson(userJson)),
+                    null
             );
         });
     }
@@ -113,7 +115,8 @@ public class UserDbClient {
         authAuthoritySpringDao.create(authorityEntities);
 
         return UserJson.fromEntity(
-                userdataUserSpringDao.createUser(UserEntity.fromJson(userJson))
+                userdataUserSpringDao.createUser(UserEntity.fromJson(userJson)),
+                null
         );
     }
 
@@ -133,7 +136,8 @@ public class UserDbClient {
             authAuthoritySpringDao.create(authorityEntities);
 
             return UserJson.fromEntity(
-                    userdataUserSpringDao.createUser(UserEntity.fromJson(userJson))
+                    userdataUserSpringDao.createUser(UserEntity.fromJson(userJson)),
+                    null
             );
         });
     }
@@ -154,7 +158,8 @@ public class UserDbClient {
             authAuthorityDao.create(authorityEntities);
 
             return UserJson.fromEntity(
-                    userdataUserDao.createUser(UserEntity.fromJson(userJson))
+                    userdataUserDao.createUser(UserEntity.fromJson(userJson)),
+                    null
             );
         });
     }
@@ -166,8 +171,8 @@ public class UserDbClient {
                 throw new RuntimeException("Authority not found");
             }
             AuthorityEntity authorityEntity = authorityOpt.get();
-            if (authorityEntity.getUserId() != null) {
-                Optional<AuthUserEntity> userOpt = authUserDao.findUserById(authorityEntity.getUserId());
+            if (authorityEntity.getUser() != null) {
+                Optional<AuthUserEntity> userOpt = authUserDao.findUserById(authorityEntity.getUser().getId());
                 if (userOpt.isEmpty()) {
                     throw new RuntimeException("User not found");
                 }
@@ -181,7 +186,7 @@ public class UserDbClient {
         return Arrays.stream(AuthorityValues.values()).map(
                 a -> {
                     AuthorityEntity ae = new AuthorityEntity();
-                    ae.setUserId(userEntity.getId());
+                    ae.setUser(userEntity);
                     ae.setAuthority(a);
                     return ae;
                 }

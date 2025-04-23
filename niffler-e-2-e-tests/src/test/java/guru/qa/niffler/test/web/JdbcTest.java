@@ -1,6 +1,7 @@
 package guru.qa.niffler.test.web;
 
 import guru.qa.niffler.model.spend.CurrencyValues;
+
 import guru.qa.niffler.model.userdata.UserJson;
 import guru.qa.niffler.service.UserDbClient;
 import guru.qa.niffler.utils.RandomDataUtils;
@@ -20,6 +21,7 @@ public class JdbcTest {
                         null,
                         CurrencyValues.RUB,
                         null,
+                        null,
                         null
                 )
         );
@@ -37,6 +39,7 @@ public class JdbcTest {
                         null,
                         null,
                         CurrencyValues.RUB,
+                        null,
                         null,
                         null
                 )
@@ -56,6 +59,7 @@ public class JdbcTest {
                         null,
                         CurrencyValues.RUB,
                         null,
+                        null,
                         null
                 )
         );
@@ -74,6 +78,7 @@ public class JdbcTest {
                         null,
                         CurrencyValues.RUB,
                         null,
+                        null,
                         null
                 )
         );
@@ -91,6 +96,7 @@ public class JdbcTest {
                         null,
                         null,
                         CurrencyValues.RUB,
+                        null,
                         null,
                         null
                 )
@@ -111,6 +117,7 @@ public class JdbcTest {
                 new UserJson(
                         null,
                         RandomDataUtils.getRandomUsername(),
+                        null,
                         null,
                         null,
                         null,

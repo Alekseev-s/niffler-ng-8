@@ -2,6 +2,7 @@ package guru.qa.niffler.data.dao.impl;
 
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.data.dao.SpendDao;
+import guru.qa.niffler.data.entity.spend.CategoryEntity;
 import guru.qa.niffler.data.entity.spend.SpendEntity;
 import guru.qa.niffler.model.spend.CurrencyValues;
 
@@ -24,7 +25,7 @@ public class SpendDaoJdbc implements SpendDao {
                 Statement.RETURN_GENERATED_KEYS
         )) {
             ps.setString(1, spendEntity.getUsername());
-            ps.setDate(2, spendEntity.getSpendDate());
+            ps.setDate(2, new Date(spendEntity.getSpendDate().getTime()));
             ps.setString(3, spendEntity.getCurrency().name());
             ps.setDouble(4, spendEntity.getAmount());
             ps.setString(5, spendEntity.getDescription());
@@ -66,7 +67,9 @@ public class SpendDaoJdbc implements SpendDao {
                     spendEntity.setCurrency(CurrencyValues.valueOf(rs.getString("currency")));
                     spendEntity.setAmount(rs.getDouble("amount"));
                     spendEntity.setDescription(rs.getString("description"));
-                    spendEntity.setCategoryId(rs.getObject("category_id", UUID.class));
+                    CategoryEntity categoryEntity = new CategoryEntity();
+                    categoryEntity.setId(rs.getObject("category_id", UUID.class));
+                    spendEntity.setCategory(categoryEntity);
                     return Optional.of(spendEntity);
                 } else {
                     return Optional.empty();
@@ -96,7 +99,9 @@ public class SpendDaoJdbc implements SpendDao {
                     spendEntity.setCurrency(CurrencyValues.valueOf(rs.getString("currency")));
                     spendEntity.setAmount(rs.getDouble("amount"));
                     spendEntity.setDescription(rs.getString("description"));
-                    spendEntity.setCategoryId(rs.getObject("category_id", UUID.class));
+                    CategoryEntity categoryEntity = new CategoryEntity();
+                    categoryEntity.setId(rs.getObject("category_id", UUID.class));
+                    spendEntity.setCategory(categoryEntity);
                     spendList.add(spendEntity);
                 }
             }
@@ -125,7 +130,9 @@ public class SpendDaoJdbc implements SpendDao {
                     spendEntity.setCurrency(CurrencyValues.valueOf(rs.getString("currency")));
                     spendEntity.setAmount(rs.getDouble("amount"));
                     spendEntity.setDescription(rs.getString("description"));
-                    spendEntity.setCategoryId(rs.getObject("category_id", UUID.class));
+                    CategoryEntity categoryEntity = new CategoryEntity();
+                    categoryEntity.setId(rs.getObject("category_id", UUID.class));
+                    spendEntity.setCategory(categoryEntity);
                     spendList.add(spendEntity);
                 }
             }
