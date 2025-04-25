@@ -9,7 +9,11 @@ import guru.qa.niffler.data.entity.auth.AuthUserEntity;
 import guru.qa.niffler.data.entity.auth.AuthorityEntity;
 import guru.qa.niffler.data.entity.userdata.UserEntity;
 import guru.qa.niffler.data.repository.AuthUserRepository;
-import guru.qa.niffler.data.repository.impl.AuthUserRepositoryJdbc;
+import guru.qa.niffler.data.repository.UserdataUserRepository;
+import guru.qa.niffler.data.repository.impl.jdbc.AuthUserRepositoryJdbc;
+import guru.qa.niffler.data.repository.impl.jdbc.UserdataUserRepositoryJdbc;
+import guru.qa.niffler.data.repository.impl.spring.AuthUserRepositorySpringJdbc;
+import guru.qa.niffler.data.repository.impl.spring.UserdataUserRepositorySpringJdbc;
 import guru.qa.niffler.data.template.DataSources;
 import guru.qa.niffler.data.template.JdbcTransactionTemplate;
 import guru.qa.niffler.data.template.XaTransactionTemplate;
@@ -38,7 +42,12 @@ public class UserDbClient {
     private final AuthUserDao authUserSpringDao = new AuthUserDaoSpringJdbc();
     private final AuthAuthorityDao authAuthoritySpringDao = new AuthAuthorityDaoSpringJdbc();
     private final UserdataUserDao userdataUserSpringDao = new UserdataUserDaoSpringJdbc();
+
     private final AuthUserRepository authUserRepository = new AuthUserRepositoryJdbc();
+    private final UserdataUserRepository userdataUserRepository = new UserdataUserRepositoryJdbc();
+
+    private final AuthUserRepository authUserRepositorySpring = new AuthUserRepositorySpringJdbc();
+    private final UserdataUserRepository userdataUserRepositorySpring = new UserdataUserRepositorySpringJdbc();
 
     private final TransactionTemplate txTemplate = new TransactionTemplate(
             new JdbcTransactionManager(DataSources.dataSource(CFG.authJdbcUrl()))
@@ -61,10 +70,10 @@ public class UserDbClient {
 
     private final JdbcTransactionTemplate jdbcTxTemplate = new JdbcTransactionTemplate(CFG.spendJdbcUrl());
 
-    public UserJson createUser(UserJson user) {
+    public UserJson createUserRepositoryJdbc(UserJson userJson) {
         return xaTxTemplate.execute(() -> {
                     AuthUserEntity authUser = new AuthUserEntity();
-                    authUser.setUsername(user.username());
+                    authUser.setUsername(userJson.username());
                     authUser.setPassword(pe.encode("12345"));
                     authUser.setEnabled(true);
                     authUser.setAccountNonExpired(true);
@@ -82,11 +91,45 @@ public class UserDbClient {
                     );
                     authUserRepository.create(authUser);
                     return UserJson.fromEntity(
-                            userdataUserDao.createUser(UserEntity.fromJson(user)),
+                            userdataUserRepository.create(UserEntity.fromJson(userJson)),
                             null
                     );
                 }
         );
+    }
+
+    public UserJson createUserRepositorySpringJdbc(UserJson userJson) {
+        return txTemplate.execute(status -> {
+            AuthUserEntity authUser = new AuthUserEntity();
+            authUser.setUsername(userJson.username());
+            authUser.setPassword(pe.encode("12345"));
+            authUser.setEnabled(true);
+            authUser.setAccountNonExpired(true);
+            authUser.setAccountNonLocked(true);
+            authUser.setCredentialsNonExpired(true);
+            authUser.setAuthorities(
+                    Arrays.stream(AuthorityValues.values()).map(
+                            e -> {
+                                AuthorityEntity ae = new AuthorityEntity();
+                                ae.setUser(authUser);
+                                ae.setAuthority(e);
+                                return ae;
+                            }
+                    ).toList()
+            );
+            authUserRepositorySpring.create(authUser);
+            return UserJson.fromEntity(
+                    userdataUserRepositorySpring.create(UserEntity.fromJson(userJson)),
+                    null
+            );
+        });
+    }
+
+    public void addFriend(UserJson requester, UserJson addressee) {
+        jdbcTxTemplate.execute(() -> {
+            userdataUserRepository.addFriend(UserEntity.fromJson(requester), UserEntity.fromJson(addressee));
+            return null;
+        });
     }
 
     public UserJson createUserJdbcWithoutTx(UserJson userJson) {
