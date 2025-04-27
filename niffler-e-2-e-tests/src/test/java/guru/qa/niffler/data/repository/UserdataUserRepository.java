@@ -10,8 +10,9 @@ public interface UserdataUserRepository {
 
     Optional<UserEntity> findById(UUID id);
 
-    void addFriendshipInvitation(UserEntity requester, UserEntity addressee);
+    Optional<UserEntity> findByUsername(String username);
 
+    void addFriendshipInvitation(UserEntity requester, UserEntity addressee);
 
     void addFriend(UserEntity requester, UserEntity addressee);
 }

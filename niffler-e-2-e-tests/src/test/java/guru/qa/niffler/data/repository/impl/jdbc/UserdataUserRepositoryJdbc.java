@@ -72,6 +72,27 @@ public class UserdataUserRepositoryJdbc implements UserdataUserRepository {
     }
 
     @Override
+    public Optional<UserEntity> findByUsername(String username) {
+        try (PreparedStatement ps = holder(CFG.userdataJdbcUrl()).connection().prepareStatement(
+                "SELECT * FROM \"user\" WHERE username = ?"
+        )) {
+            ps.setObject(1, username);
+            ps.execute();
+
+            try (ResultSet rs = ps.getResultSet()) {
+                if (rs.next()) {
+                    UserEntity userEntity = UserdataUserEntityRowMapper.instance.mapRow(rs, 1);
+                    return Optional.of(userEntity);
+                } else {
+                    return Optional.empty();
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public void addFriendshipInvitation(UserEntity requester, UserEntity addressee) {
         try (PreparedStatement ps = holder(CFG.userdataJdbcUrl()).connection().prepareStatement(
                 "INSERT INTO friendship (requester_id, addressee_id, status) VALUES (?, ?, ?)"
@@ -88,22 +109,20 @@ public class UserdataUserRepositoryJdbc implements UserdataUserRepository {
 
     @Override
     public void addFriend(UserEntity requester, UserEntity addressee) {
-        try (PreparedStatement firstPs = holder(CFG.userdataJdbcUrl()).connection().prepareStatement(
+        try (PreparedStatement ps = holder(CFG.userdataJdbcUrl()).connection().prepareStatement(
                 "INSERT INTO friendship (requester_id, addressee_id, status) VALUES (?, ?, ?)"
-        );
-             PreparedStatement secondPs = holder(CFG.userdataJdbcUrl()).connection().prepareStatement(
-                     "INSERT INTO friendship (requester_id, addressee_id, status) VALUES (?, ?, ?)"
-             )
-        ) {
-            firstPs.setObject(1, requester.getId());
-            firstPs.setObject(2, addressee.getId());
-            firstPs.setString(3, String.valueOf(FriendshipStatus.ACCEPTED));
-            firstPs.executeUpdate();
+        )) {
+            ps.setObject(1, requester.getId());
+            ps.setObject(2, addressee.getId());
+            ps.setString(3, String.valueOf(FriendshipStatus.ACCEPTED));
+            ps.addBatch();
 
-            secondPs.setObject(1, addressee.getId());
-            secondPs.setObject(2, requester.getId());
-            secondPs.setString(3, String.valueOf(FriendshipStatus.ACCEPTED));
-            secondPs.executeUpdate();
+            ps.setObject(1, addressee.getId());
+            ps.setObject(2, requester.getId());
+            ps.setString(3, String.valueOf(FriendshipStatus.ACCEPTED));
+            ps.addBatch();
+
+            ps.executeBatch();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

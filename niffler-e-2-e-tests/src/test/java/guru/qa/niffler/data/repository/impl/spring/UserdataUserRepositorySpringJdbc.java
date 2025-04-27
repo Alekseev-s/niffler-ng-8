@@ -62,6 +62,22 @@ public class UserdataUserRepositorySpringJdbc implements UserdataUserRepository 
     }
 
     @Override
+    public Optional<UserEntity> findByUsername(String username) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.userdataJdbcUrl()));
+        try {
+            return Optional.ofNullable(
+                    jdbcTemplate.queryForObject(
+                            "SELECT * FROM \"user\" WHERE username = ?",
+                            UserdataUserEntityRowMapper.instance,
+                            username
+                    )
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
     public void addFriendshipInvitation(UserEntity requester, UserEntity addressee) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.userdataJdbcUrl()));
         jdbcTemplate.update(con -> {
@@ -85,15 +101,14 @@ public class UserdataUserRepositorySpringJdbc implements UserdataUserRepository 
             ps.setObject(1, requester.getId());
             ps.setObject(2, addressee.getId());
             ps.setString(3, String.valueOf(FriendshipStatus.ACCEPTED));
-            return ps;
-        });
-        jdbcTemplate.update(con -> {
-            PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO friendship (requester_id, addressee_id, status) VALUES (?, ?, ?)"
-            );
+            ps.addBatch();
+
             ps.setObject(1, addressee.getId());
             ps.setObject(2, requester.getId());
             ps.setString(3, String.valueOf(FriendshipStatus.ACCEPTED));
+            ps.addBatch();
+
+            ps.executeBatch();
             return ps;
         });
     }

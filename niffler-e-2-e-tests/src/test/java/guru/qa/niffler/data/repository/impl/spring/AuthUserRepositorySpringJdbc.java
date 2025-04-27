@@ -78,10 +78,35 @@ public class AuthUserRepositorySpringJdbc implements AuthUserRepository {
                                     "u.enabled," +
                                     "u.account_non_expired," +
                                     "u.account_non_locked," +
-                                    "u.credentials_non_expired" +
+                                    "u.credentials_non_expired " +
                                     "FROM \"user\" u JOIN authority a ON u.id = a.user_id WHERE u.id = ?",
                             AuthUserEntityExtractor.instance,
                             id
+                    )
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<AuthUserEntity> findByUsername(String username) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.authJdbcUrl()));
+        try {
+            return Optional.ofNullable(
+                    jdbcTemplate.query(
+                            "SELECT a.id as authority_id," +
+                                    "authority," +
+                                    "user_id as id," +
+                                    "u.username," +
+                                    "u.password," +
+                                    "u.enabled," +
+                                    "u.account_non_expired," +
+                                    "u.account_non_locked," +
+                                    "u.credentials_non_expired " +
+                                    "FROM \"user\" u JOIN authority a ON u.id = a.user_id WHERE u.username = ?",
+                            AuthUserEntityExtractor.instance,
+                            username
                     )
             );
         } catch (EmptyResultDataAccessException e) {
