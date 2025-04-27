@@ -1,22 +1,25 @@
-package guru.qa.niffler.data.dao.impl;
+package guru.qa.niffler.data.repository.impl.spring;
 
 import guru.qa.niffler.config.Config;
-import guru.qa.niffler.data.dao.AuthUserDao;
 import guru.qa.niffler.data.entity.auth.AuthUserEntity;
-import guru.qa.niffler.data.mapper.AuthUserEntityRowMapper;
+import guru.qa.niffler.data.entity.auth.AuthorityEntity;
+import guru.qa.niffler.data.extractor.AuthUserEntityExtractor;
+import guru.qa.niffler.data.repository.AuthUserRepository;
 import guru.qa.niffler.data.template.DataSources;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class AuthUserDaoSpringJdbc implements AuthUserDao {
+public class AuthUserRepositorySpringJdbc implements AuthUserRepository {
 
     private static final Config CFG = Config.getInstance();
 
@@ -40,32 +43,49 @@ public class AuthUserDaoSpringJdbc implements AuthUserDao {
 
         final UUID generatedKey = (UUID) kh.getKeys().get("id");
         userEntity.setId(generatedKey);
+        List<AuthorityEntity> authorityEntities = userEntity.getAuthorities();
+
+        jdbcTemplate.batchUpdate(
+                "INSERT INTO authority (user_id, authority) VALUES (?, ?)",
+                new BatchPreparedStatementSetter() {
+                    @Override
+                    public void setValues(PreparedStatement ps, int i) throws SQLException {
+                        ps.setObject(1, authorityEntities.get(i).getUser().getId());
+                        ps.setString(2, String.valueOf(authorityEntities.get(i).getAuthority()));
+                    }
+
+                    @Override
+                    public int getBatchSize() {
+                        return authorityEntities.size();
+                    }
+                }
+        );
+
         return userEntity;
     }
 
     @Override
-    public Optional<AuthUserEntity> findUserById(UUID id) {
+    public Optional<AuthUserEntity> findById(UUID id) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.authJdbcUrl()));
         try {
             return Optional.ofNullable(
-                    jdbcTemplate.queryForObject(
-                            "SELECT * FROM \"user\" WHERE id = ?",
-                            AuthUserEntityRowMapper.instance,
+                    jdbcTemplate.query(
+                            "SELECT a.id as authority_id," +
+                                    "authority," +
+                                    "user_id as id," +
+                                    "u.username," +
+                                    "u.password," +
+                                    "u.enabled," +
+                                    "u.account_non_expired," +
+                                    "u.account_non_locked," +
+                                    "u.credentials_non_expired" +
+                                    "FROM \"user\" u JOIN authority a ON u.id = a.user_id WHERE u.id = ?",
+                            AuthUserEntityExtractor.instance,
                             id
                     )
             );
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
-
-    }
-
-    @Override
-    public List<AuthUserEntity> findAll() {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.authJdbcUrl()));
-        return jdbcTemplate.query(
-                "SELECT * FROM \"user\"",
-                AuthUserEntityRowMapper.instance
-        );
     }
 }
