@@ -35,13 +35,20 @@ public class UserdataUserRepositoryHibernate implements UserdataUserRepository {
     public Optional<UserEntity> findByUsername(String username) {
         try {
             return Optional.of(
-                    entityManager.createQuery("SELECT u FROM UserEnity u WHERE u.username =: username", UserEntity.class)
+                    entityManager.createQuery("SELECT u FROM UserEntity u WHERE u.username =: username", UserEntity.class)
                             .setParameter("username", username)
                             .getSingleResult()
             );
         } catch (NoResultException e) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public UserEntity update(UserEntity userEntity) {
+        entityManager.joinTransaction();
+        entityManager.merge(userEntity);
+        return userEntity;
     }
 
     @Override
@@ -55,5 +62,11 @@ public class UserdataUserRepositoryHibernate implements UserdataUserRepository {
         entityManager.joinTransaction();
         requester.addFriends(FriendshipStatus.ACCEPTED, addressee);
         addressee.addFriends(FriendshipStatus.ACCEPTED, requester);
+    }
+
+    @Override
+    public void remove(UserEntity userEntity) {
+        entityManager.joinTransaction();
+        entityManager.remove(userEntity);
     }
 }

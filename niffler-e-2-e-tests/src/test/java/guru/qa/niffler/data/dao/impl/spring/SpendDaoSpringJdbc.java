@@ -1,4 +1,4 @@
-package guru.qa.niffler.data.dao.impl;
+package guru.qa.niffler.data.dao.impl.spring;
 
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.data.dao.SpendDao;
@@ -28,7 +28,15 @@ public class SpendDaoSpringJdbc implements SpendDao {
         jdbcTemplate.update(
                 con -> {
                     PreparedStatement ps = con.prepareStatement(
-                            "INSERT INTO spend (username, spend_date, currency, amount, description, category_id) VALUES ( ?, ?, ?, ?, ?, ?)",
+                            """
+                                    INSERT INTO spend (
+                                        username,
+                                        spend_date,
+                                        currency,
+                                        amount,
+                                        description,
+                                        category_id
+                                    ) VALUES ( ?, ?, ?, ?, ?, ?)""",
                             Statement.RETURN_GENERATED_KEYS
                     );
                     ps.setString(1, spendEntity.getUsername());

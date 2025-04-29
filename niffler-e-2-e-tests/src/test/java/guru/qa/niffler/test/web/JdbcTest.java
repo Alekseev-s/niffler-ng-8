@@ -1,25 +1,53 @@
 package guru.qa.niffler.test.web;
 
 import guru.qa.niffler.model.userdata.UserJson;
-import guru.qa.niffler.service.UserDbClient;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import guru.qa.niffler.service.UsersClient;
+import guru.qa.niffler.service.impl.UsersDbClient;
+import guru.qa.niffler.utils.RandomDataUtils;
+import org.junit.jupiter.api.Test;
 
 public class JdbcTest {
 
-    static UserDbClient userDbClient = new UserDbClient();
+    private final UsersClient usersClient = new UsersDbClient();
 
-    @ValueSource(strings = {
-            "valentine-3"
-    })
-    @ParameterizedTest
-    void springJdbcTest(String username) {
-        UserJson userJson = userDbClient.createUser(
-                username,
+    @Test
+    void createUser() {
+        UserJson user = usersClient.createUser(
+                RandomDataUtils.getRandomUsername(),
                 "12345"
         );
 
-        userDbClient.addIncomeInvitation(userJson, 1);
-        userDbClient.addOutcomeInvitation(userJson, 1);
+        System.out.println(user);
+    }
+
+    @Test
+    void createIncomeInvitation() {
+        UserJson user = usersClient.createUser(
+                RandomDataUtils.getRandomUsername(),
+                "12345"
+        );
+
+        usersClient.createIncomeInvitations(user, 1);
+    }
+
+    @Test
+    void createOutcomeInvitation() {
+        UserJson user = usersClient.createUser(
+                RandomDataUtils.getRandomUsername(),
+                "12345"
+        );
+
+        usersClient.createOutcomeInvitations(user, 1);
+    }
+
+    @Test
+    void createFriendship() {
+        UserJson user = usersClient.createUser(
+                RandomDataUtils.getRandomUsername(),
+                "12345"
+        );
+
+        usersClient.createFriend(user, 1);
     }
 }
+

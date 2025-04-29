@@ -1,4 +1,4 @@
-package guru.qa.niffler.data.dao.impl;
+package guru.qa.niffler.data.dao.impl.jdbc;
 
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.data.dao.UserdataUserDao;
@@ -20,7 +20,16 @@ public class UserdataUserDaoJdbc implements UserdataUserDao {
     @Override
     public UserEntity createUser(UserEntity user) {
         try (PreparedStatement ps = holder(CFG.userdataJdbcUrl()).connection().prepareStatement(
-                "INSERT INTO \"user\" (username, currency, firstname, surname, photo, photo_small, full_name) VALUES(?, ?, ?, ?, ?, ?, ?)",
+                """
+                        INSERT INTO "user" (
+                            username,
+                            currency,
+                            firstname,
+                            surname,
+                            photo,
+                            photo_small,
+                            full_name
+                        ) VALUES(?, ?, ?, ?, ?, ?, ?)""",
                 Statement.RETURN_GENERATED_KEYS
         )) {
             ps.setString(1, user.getUsername());

@@ -1,4 +1,4 @@
-package guru.qa.niffler.data.dao.impl;
+package guru.qa.niffler.data.dao.impl.spring;
 
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.data.dao.AuthAuthorityDao;
@@ -62,5 +62,17 @@ public class AuthAuthorityDaoSpringJdbc implements AuthAuthorityDao {
                 "SELECT * FROM authority",
                 AuthorityEntityRowMapper.instance
         );
+    }
+
+    @Override
+    public void remove(AuthorityEntity authorityEntity) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.authJdbcUrl()));
+        jdbcTemplate.update(con -> {
+            PreparedStatement ps = con.prepareStatement(
+                    "DELETE FROM authority WHERE user_id = ?"
+            );
+            ps.setObject(1, authorityEntity.getId());
+            return ps;
+        });
     }
 }

@@ -1,4 +1,4 @@
-package guru.qa.niffler.data.dao.impl;
+package guru.qa.niffler.data.dao.impl.jdbc;
 
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.data.dao.AuthUserDao;
@@ -19,7 +19,16 @@ public class AuthUserDaoJdbc implements AuthUserDao {
     @Override
     public AuthUserEntity create(AuthUserEntity userEntity) {
         try (PreparedStatement ps = holder(CFG.authJdbcUrl()).connection().prepareStatement(
-                "INSERT INTO \"user\" (username, password, enabled, account_non_expired, account_non_locked, credentials_non_expired) VALUES (?, ?, ?, ?, ?, ?)",
+                """
+                        INSERT INTO "user" (
+                            username,
+                            password,
+                            enabled,
+                            account_non_expired,
+                            account_non_locked,
+                            credentials_non_expired
+                        ) VALUES (?, ?, ?, ?, ?, ?)
+                        """,
                 Statement.RETURN_GENERATED_KEYS
         )) {
             ps.setString(1, userEntity.getUsername());
@@ -100,6 +109,18 @@ public class AuthUserDaoJdbc implements AuthUserDao {
             }
 
             return userEntities;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void remove(AuthUserEntity authUserEntity) {
+        try (PreparedStatement ps = holder(CFG.authJdbcUrl()).connection().prepareStatement(
+                "DELETE FROM \"user\" WHERE id = ?"
+        )) {
+            ps.setObject(1, authUserEntity.getId());
+            ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

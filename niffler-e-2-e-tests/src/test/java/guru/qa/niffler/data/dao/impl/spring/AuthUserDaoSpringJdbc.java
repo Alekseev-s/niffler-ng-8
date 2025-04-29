@@ -1,4 +1,4 @@
-package guru.qa.niffler.data.dao.impl;
+package guru.qa.niffler.data.dao.impl.spring;
 
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.data.dao.AuthUserDao;
@@ -26,7 +26,16 @@ public class AuthUserDaoSpringJdbc implements AuthUserDao {
         KeyHolder kh = new GeneratedKeyHolder();
         jdbcTemplate.update(con -> {
             PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO \"user\" (username, password, enabled, account_non_expired, account_non_locked, credentials_non_expired) VALUES(?, ?, ?, ?, ?, ?)",
+                    """
+                            INSERT INTO "user" (
+                                username,
+                                password,
+                                enabled,
+                                account_non_expired,
+                                account_non_locked,
+                                credentials_non_expired
+                            ) VALUES (?, ?, ?, ?, ?, ?)
+                            """,
                     Statement.RETURN_GENERATED_KEYS
             );
             ps.setString(1, userEntity.getUsername());
@@ -67,5 +76,17 @@ public class AuthUserDaoSpringJdbc implements AuthUserDao {
                 "SELECT * FROM \"user\"",
                 AuthUserEntityRowMapper.instance
         );
+    }
+
+    @Override
+    public void remove(AuthUserEntity authUserEntity) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.authJdbcUrl()));
+        jdbcTemplate.update(con -> {
+            PreparedStatement ps = con.prepareStatement(
+                    "DELETE FROM \"user\" WHERE id = ?"
+            );
+            ps.setObject(1, authUserEntity.getId());
+            return ps;
+        });
     }
 }
