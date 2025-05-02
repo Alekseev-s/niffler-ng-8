@@ -38,11 +38,11 @@ public class AuthUserRepositoryJdbc implements AuthUserRepository {
         try (PreparedStatement ps = holder(CFG.authJdbcUrl()).connection().prepareStatement(
                 "UPDATE \"user\" " +
                         "SET " +
-                        "username = ? " +
-                        "password = ? " +
-                        "enabled = ? " +
-                        "account_non_expired = ? " +
-                        "account_non_locked = ? " +
+                        "username = ?, " +
+                        "password = ?, " +
+                        "enabled = ?, " +
+                        "account_non_expired = ?, " +
+                        "account_non_locked = ?, " +
                         "credentials_non_expired = ? " +
                         "WHERE id = ?"
         )) {

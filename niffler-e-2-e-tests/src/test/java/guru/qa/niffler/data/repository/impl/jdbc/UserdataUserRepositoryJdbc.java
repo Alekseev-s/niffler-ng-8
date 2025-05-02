@@ -40,12 +40,12 @@ public class UserdataUserRepositoryJdbc implements UserdataUserRepository {
         try (PreparedStatement ps = holder(CFG.userdataJdbcUrl()).connection().prepareStatement(
                 "UPDATE \"user\" " +
                         "SET " +
-                        "username = ? " +
-                        "currency = ? " +
-                        "firstname = ? " +
-                        "surname = ? " +
-                        "photo = ? " +
-                        "photo_small = ? " +
+                        "username = ?, " +
+                        "currency = ?, " +
+                        "firstname = ?, " +
+                        "surname = ?, " +
+                        "photo = ?, " +
+                        "photo_small = ?, " +
                         "full_name = ? " +
                         "WHERE id = ?"
         )) {
@@ -103,7 +103,7 @@ public class UserdataUserRepositoryJdbc implements UserdataUserRepository {
     @Override
     public void remove(UserEntity userEntity) {
         try (PreparedStatement friendshipPs = holder(CFG.userdataJdbcUrl()).connection().prepareStatement(
-                "DELETE FROM friendship WHERE requester_id = ? OR addressee = ?"
+                "DELETE FROM friendship WHERE requester_id = ? OR addressee_id = ?"
         );
             PreparedStatement userPs = holder(CFG.userdataJdbcUrl()).connection().prepareStatement(
                 "DELETE FROM \"user\" WHERE id = ?"

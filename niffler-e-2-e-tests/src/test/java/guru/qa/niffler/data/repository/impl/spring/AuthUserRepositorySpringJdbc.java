@@ -93,13 +93,13 @@ public class AuthUserRepositorySpringJdbc implements AuthUserRepository {
             return Optional.ofNullable(
                     jdbcTemplate.query(
                             "SELECT a.id as authority_id," +
-                                    "authority," +
-                                    "user_id as id," +
-                                    "u.username," +
-                                    "u.password," +
-                                    "u.enabled," +
-                                    "u.account_non_expired," +
-                                    "u.account_non_locked," +
+                                    "authority, " +
+                                    "user_id as id, " +
+                                    "u.username, " +
+                                    "u.password, " +
+                                    "u.enabled, " +
+                                    "u.account_non_expired, " +
+                                    "u.account_non_locked, " +
                                     "u.credentials_non_expired " +
                                     "FROM \"user\" u JOIN authority a ON u.id = a.user_id WHERE u.username = ?",
                             AuthUserEntityExtractor.instance,

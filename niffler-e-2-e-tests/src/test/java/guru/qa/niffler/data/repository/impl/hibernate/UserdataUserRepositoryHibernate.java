@@ -47,8 +47,7 @@ public class UserdataUserRepositoryHibernate implements UserdataUserRepository {
     @Override
     public UserEntity update(UserEntity userEntity) {
         entityManager.joinTransaction();
-        entityManager.merge(userEntity);
-        return userEntity;
+        return entityManager.merge(userEntity);
     }
 
     @Override
@@ -67,6 +66,7 @@ public class UserdataUserRepositoryHibernate implements UserdataUserRepository {
     @Override
     public void remove(UserEntity userEntity) {
         entityManager.joinTransaction();
-        entityManager.remove(userEntity);
+        UserEntity managed = entityManager.contains(userEntity) ? userEntity : entityManager.merge(userEntity);
+        entityManager.remove(managed);
     }
 }

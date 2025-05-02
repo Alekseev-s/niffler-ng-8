@@ -27,8 +27,7 @@ public class SpendRepositoryHibernate implements SpendRepository {
     @Override
     public SpendEntity update(SpendEntity spendEntity) {
         entityManager.joinTransaction();
-        entityManager.merge(spendEntity);
-        return spendEntity;
+        return entityManager.merge(spendEntity);
     }
 
     @Override
@@ -83,12 +82,14 @@ public class SpendRepositoryHibernate implements SpendRepository {
     @Override
     public void remove(SpendEntity spendEntity) {
         entityManager.joinTransaction();
-        entityManager.remove(spendEntity);
+        SpendEntity managed = entityManager.contains(spendEntity) ? spendEntity : entityManager.merge(spendEntity);
+        entityManager.remove(managed);
     }
 
     @Override
     public void removeCategory(CategoryEntity categoryEntity) {
         entityManager.joinTransaction();
-        entityManager.remove(categoryEntity);
+        CategoryEntity managed = entityManager.contains(categoryEntity) ? categoryEntity : entityManager.merge(categoryEntity);
+        entityManager.remove(managed);
     }
 }

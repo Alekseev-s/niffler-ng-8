@@ -43,11 +43,11 @@ public class SpendRepositoryJdbc implements SpendRepository {
         try (PreparedStatement ps = holder(CFG.spendJdbcUrl()).connection().prepareStatement(
                 "UPDATE spend " +
                         "SET " +
-                        "username = ? " +
-                        "spend_date = ? " +
-                        "currency = ? " +
-                        "amount = ? " +
-                        "description = ? " +
+                        "username = ?, " +
+                        "spend_date = ?, " +
+                        "currency = ?, " +
+                        "amount = ?, " +
+                        "description = ?, " +
                         "category_id = ? " +
                         "WHERE id = ?"
         )) {

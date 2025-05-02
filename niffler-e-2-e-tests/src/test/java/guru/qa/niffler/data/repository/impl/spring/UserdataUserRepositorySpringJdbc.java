@@ -102,20 +102,11 @@ public class UserdataUserRepositorySpringJdbc implements UserdataUserRepository 
     @Override
     public void remove(UserEntity userEntity) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.userdataJdbcUrl()));
-        jdbcTemplate.update(con -> {
-            PreparedStatement ps = con.prepareStatement(
-                    "DELETE FROM friendship WHERE requester_id = ? OR addressee_id = ?"
-            );
-            ps.setObject(1, userEntity.getId());
-            ps.setObject(2, userEntity.getId());
-            return ps;
-        });
-        jdbcTemplate.update(con -> {
-            PreparedStatement ps = con.prepareStatement(
-                    "DELETE FROM \"user\" WHERE id = ?"
-            );
-            ps.setObject(1, userEntity.getId());
-            return ps;
-        });
+        jdbcTemplate.update(
+                "DELETE FROM friendship WHERE requester_id = ? OR addressee_id = ?",
+                userEntity.getId(),
+                userEntity.getId()
+        );
+        jdbcTemplate.update("DELETE FROM \"user\" WHERE id = ?", userEntity.getId());
     }
 }

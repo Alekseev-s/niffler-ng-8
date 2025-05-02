@@ -26,8 +26,7 @@ public class AuthUserRepositoryHibernate implements AuthUserRepository {
     @Override
     public AuthUserEntity update(AuthUserEntity authUserEntity) {
         entityManager.joinTransaction();
-        entityManager.merge(authUserEntity);
-        return authUserEntity;
+        return entityManager.merge(authUserEntity);
     }
 
     @Override
@@ -53,6 +52,7 @@ public class AuthUserRepositoryHibernate implements AuthUserRepository {
     @Override
     public void remove(AuthUserEntity authUserEntity) {
         entityManager.joinTransaction();
-        entityManager.remove(authUserEntity);
+        AuthUserEntity managed = entityManager.contains(authUserEntity) ? authUserEntity : entityManager.merge(authUserEntity);
+        entityManager.remove(managed);
     }
 }
