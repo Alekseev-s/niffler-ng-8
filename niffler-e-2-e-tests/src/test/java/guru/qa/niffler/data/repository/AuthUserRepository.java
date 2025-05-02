@@ -9,5 +9,11 @@ public interface AuthUserRepository {
 
     AuthUserEntity create(AuthUserEntity userEntity);
 
+    AuthUserEntity update(AuthUserEntity authUserEntity);
+
     Optional<AuthUserEntity> findById(UUID id);
+
+    Optional<AuthUserEntity> findByUsername(String username);
+
+    void remove(AuthUserEntity authUserEntity);
 }

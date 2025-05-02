@@ -1,4 +1,4 @@
-package guru.qa.niffler.data.dao.impl;
+package guru.qa.niffler.data.dao.impl.spring;
 
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.data.dao.UserdataUserDao;
@@ -26,7 +26,16 @@ public class UserdataUserDaoSpringJdbc implements UserdataUserDao {
         KeyHolder kh = new GeneratedKeyHolder();
         jdbcTemplate.update(con -> {
             PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO \"user\" (username, currency, firstname, surname, photo, photo_small, full_name) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    """
+                            INSERT INTO "user" (
+                                username,
+                                currency,
+                                firstname,
+                                surname,
+                                photo,
+                                photo_small,
+                                full_name
+                            ) VALUES(?, ?, ?, ?, ?, ?, ?)""",
                     Statement.RETURN_GENERATED_KEYS
             );
             ps.setString(1, userEntity.getUsername());
@@ -88,9 +97,6 @@ public class UserdataUserDaoSpringJdbc implements UserdataUserDao {
     @Override
     public void delete(UserEntity user) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.userdataJdbcUrl()));
-        jdbcTemplate.update(
-                "DELETE FROM \"user\" WHERE id = ?",
-                user.getId()
-        );
+        jdbcTemplate.update("DELETE FROM \"user\" WHERE id = ?", user.getId());
     }
 }
