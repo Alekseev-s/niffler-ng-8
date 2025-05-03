@@ -39,16 +39,18 @@ public class UserdataUserRepositorySpringJdbc implements UserdataUserRepository 
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.userdataJdbcUrl()));
         jdbcTemplate.update(con -> {
             PreparedStatement ps = con.prepareStatement(
-                    "UPDATE \"user\" " +
-                            "SET " +
-                            "username = ? " +
-                            "currency = ? " +
-                            "firstname = ? " +
-                            "surname = ? " +
-                            "photo = ? " +
-                            "photo_small = ? " +
-                            "full_name = ? " +
-                            "WHERE id = ?"
+                    """
+                            UPDATE "user"
+                            SET
+                                username = ?,
+                                currency = ?,
+                                firstname = ?,
+                                surname = ?,
+                                photo = ?,
+                                photo_small = ?,
+                                full_name = ?
+                            WHERE id = ?
+                            """
             );
             ps.setString(1, userEntity.getUsername());
             ps.setString(2, String.valueOf(userEntity.getCurrency()));

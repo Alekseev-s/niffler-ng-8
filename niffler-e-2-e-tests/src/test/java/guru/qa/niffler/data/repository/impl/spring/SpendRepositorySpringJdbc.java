@@ -45,15 +45,17 @@ public class SpendRepositorySpringJdbc implements SpendRepository {
 
         jdbcTemplate.update(con -> {
             PreparedStatement ps = con.prepareStatement(
-                    "UPDATE spend " +
-                            "SET " +
-                            "username = ?, " +
-                            "spend_date = ?, " +
-                            "currency = ?, " +
-                            "amount = ?, " +
-                            "description = ?, " +
-                            "category_id = ? " +
-                            "WHERE id = ?"
+                    """
+                            UPDATE spend
+                            SET
+                                username = ?,
+                                spend_date = ?,
+                                currency = ?,
+                                amount = ?,
+                                description = ?,
+                                category_id = ?
+                            WHERE id = ?
+                            """
             );
             ps.setString(1, spendEntity.getUsername());
             ps.setDate(2, new Date(spendEntity.getSpendDate().getTime()));

@@ -35,7 +35,8 @@ public class UserdataUserDaoSpringJdbc implements UserdataUserDao {
                                 photo,
                                 photo_small,
                                 full_name
-                            ) VALUES(?, ?, ?, ?, ?, ?, ?)""",
+                            ) VALUES(?, ?, ?, ?, ?, ?, ?)
+                            """,
                     Statement.RETURN_GENERATED_KEYS
             );
             ps.setString(1, userEntity.getUsername());

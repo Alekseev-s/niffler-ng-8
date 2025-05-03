@@ -48,7 +48,9 @@ public class SpendRepositoryHibernate implements SpendRepository {
     public Optional<CategoryEntity> findCategoryByUsernameAndCategoryName(String username, String name) {
         try {
             return Optional.of(
-                    entityManager.createQuery("SELECT c FROM CategoryEntity c WHERE c.username =: username AND c.name =: name", CategoryEntity.class)
+                    entityManager.createQuery(
+                            "SELECT c FROM CategoryEntity c WHERE c.username =: username AND c.name =: name",
+                                    CategoryEntity.class)
                             .setParameter("username", username)
                             .setParameter("name", name)
                             .getSingleResult()
@@ -69,7 +71,9 @@ public class SpendRepositoryHibernate implements SpendRepository {
     public Optional<SpendEntity> findByUsernameAndSpendDescription(String username, String description) {
         try {
             return Optional.of(
-                    entityManager.createQuery("SELECT s SpendEntity s WHERE s.username =: username AND s.description =: description", SpendEntity.class)
+                    entityManager.createQuery(
+                            "SELECT s SpendEntity s WHERE s.username =: username AND s.description =: description",
+                                    SpendEntity.class)
                             .setParameter("username", username)
                             .setParameter("description", description)
                             .getSingleResult()

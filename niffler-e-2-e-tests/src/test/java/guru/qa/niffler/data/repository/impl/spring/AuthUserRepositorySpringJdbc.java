@@ -38,16 +38,18 @@ public class AuthUserRepositorySpringJdbc implements AuthUserRepository {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.authJdbcUrl()));
         jdbcTemplate.update(con -> {
             PreparedStatement ps = con.prepareStatement(
-                    "UPDATE \"user\" " +
-                            "SET " +
-                            "username = ? " +
-                            "currency = ? " +
-                            "firstname = ? " +
-                            "surname = ? " +
-                            "photo = ? " +
-                            "photo_small = ? " +
-                            "full_name = ? " +
-                            "WHERE id = ?"
+                    """
+                            UPDATE "user"
+                            SET
+                                username = ?,
+                                currency = ?,
+                                firstname = ?,
+                                surname = ?,
+                                photo = ?,
+                                photo_small = ?,
+                                full_name = ?,
+                            WHERE id = ?
+                            """
             );
             ps.setString(1, authUserEntity.getUsername());
             ps.setString(2, authUserEntity.getPassword());
@@ -67,16 +69,21 @@ public class AuthUserRepositorySpringJdbc implements AuthUserRepository {
         try {
             return Optional.ofNullable(
                     jdbcTemplate.query(
-                            "SELECT a.id as authority_id," +
-                                    "authority," +
-                                    "user_id as id," +
-                                    "u.username," +
-                                    "u.password," +
-                                    "u.enabled," +
-                                    "u.account_non_expired," +
-                                    "u.account_non_locked," +
-                                    "u.credentials_non_expired " +
-                                    "FROM \"user\" u JOIN authority a ON u.id = a.user_id WHERE u.id = ?",
+                            """
+                                    SELECT
+                                        a.id as authority_id,
+                                        authority,
+                                        user_id as id,
+                                        u.username,
+                                        u.password,
+                                        u.enabled,
+                                        u.account_non_expired,
+                                        u.account_non_locked,
+                                        u.credentials_non_expired
+                                    FROM "user" u
+                                    JOIN authority a ON u.id = a.user_id
+                                    WHERE u.id = ?
+                                    """,
                             AuthUserEntityExtractor.instance,
                             id
                     )
@@ -92,16 +99,21 @@ public class AuthUserRepositorySpringJdbc implements AuthUserRepository {
         try {
             return Optional.ofNullable(
                     jdbcTemplate.query(
-                            "SELECT a.id as authority_id," +
-                                    "authority, " +
-                                    "user_id as id, " +
-                                    "u.username, " +
-                                    "u.password, " +
-                                    "u.enabled, " +
-                                    "u.account_non_expired, " +
-                                    "u.account_non_locked, " +
-                                    "u.credentials_non_expired " +
-                                    "FROM \"user\" u JOIN authority a ON u.id = a.user_id WHERE u.username = ?",
+                            """
+                                    SELECT
+                                        a.id as authority_id,
+                                        authority,
+                                        user_id as id,
+                                        u.username,
+                                        u.password,
+                                        u.enabled,
+                                        u.account_non_expired,
+                                        u.account_non_locked,
+                                        u.credentials_non_expired
+                                    FROM "user" u
+                                    JOIN authority a ON u.id = a.user_id
+                                    WHERE u.username = ?
+                                    """,
                             AuthUserEntityExtractor.instance,
                             username
                     )

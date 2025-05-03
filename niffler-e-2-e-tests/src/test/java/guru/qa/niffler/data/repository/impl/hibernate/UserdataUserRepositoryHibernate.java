@@ -35,7 +35,9 @@ public class UserdataUserRepositoryHibernate implements UserdataUserRepository {
     public Optional<UserEntity> findByUsername(String username) {
         try {
             return Optional.of(
-                    entityManager.createQuery("SELECT u FROM UserEntity u WHERE u.username =: username", UserEntity.class)
+                    entityManager.createQuery(
+                            "SELECT u FROM UserEntity u WHERE u.username =: username",
+                                    UserEntity.class)
                             .setParameter("username", username)
                             .getSingleResult()
             );

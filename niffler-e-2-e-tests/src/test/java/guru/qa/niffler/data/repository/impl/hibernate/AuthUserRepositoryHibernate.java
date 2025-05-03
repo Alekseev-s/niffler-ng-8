@@ -40,7 +40,9 @@ public class AuthUserRepositoryHibernate implements AuthUserRepository {
     public Optional<AuthUserEntity> findByUsername(String username) {
         try {
             return Optional.of(
-                    entityManager.createQuery("SELECT u FROM AuthUserEntity u WHERE u.username =: username", AuthUserEntity.class)
+                    entityManager.createQuery(
+                            "SELECT u FROM AuthUserEntity u WHERE u.username =: username",
+                                    AuthUserEntity.class)
                             .setParameter("username", username)
                             .getSingleResult()
             );

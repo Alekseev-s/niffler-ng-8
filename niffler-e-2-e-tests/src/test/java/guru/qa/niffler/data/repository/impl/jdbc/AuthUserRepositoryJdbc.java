@@ -36,15 +36,17 @@ public class AuthUserRepositoryJdbc implements AuthUserRepository {
     @Override
     public AuthUserEntity update(AuthUserEntity authUserEntity) {
         try (PreparedStatement ps = holder(CFG.authJdbcUrl()).connection().prepareStatement(
-                "UPDATE \"user\" " +
-                        "SET " +
-                        "username = ?, " +
-                        "password = ?, " +
-                        "enabled = ?, " +
-                        "account_non_expired = ?, " +
-                        "account_non_locked = ?, " +
-                        "credentials_non_expired = ? " +
-                        "WHERE id = ?"
+                """
+                        UPDATE "user"  +
+                        SET
+                            username = ?,
+                            password = ?,
+                            enabled = ?,
+                            account_non_expired = ?,
+                            account_non_locked = ?,
+                            credentials_non_expired = ?
+                        WHERE id = ?
+                        """
         )) {
             ps.setString(1, authUserEntity.getUsername());
             ps.setString(2, authUserEntity.getPassword());

@@ -38,16 +38,18 @@ public class UserdataUserRepositoryJdbc implements UserdataUserRepository {
     @Override
     public UserEntity update(UserEntity userEntity) {
         try (PreparedStatement ps = holder(CFG.userdataJdbcUrl()).connection().prepareStatement(
-                "UPDATE \"user\" " +
-                        "SET " +
-                        "username = ?, " +
-                        "currency = ?, " +
-                        "firstname = ?, " +
-                        "surname = ?, " +
-                        "photo = ?, " +
-                        "photo_small = ?, " +
-                        "full_name = ? " +
-                        "WHERE id = ?"
+                """
+                        UPDATE user
+                        SET
+                            username = ?,
+                            currency = ?,
+                            firstname = ?,
+                            surname = ?,
+                            photo = ?,
+                            photo_small = ?,
+                            full_name = ?
+                        WHERE id = ?
+                        """
         )) {
             ps.setString(1, userEntity.getUsername());
             ps.setString(2, String.valueOf(userEntity.getCurrency()));
@@ -105,9 +107,9 @@ public class UserdataUserRepositoryJdbc implements UserdataUserRepository {
         try (PreparedStatement friendshipPs = holder(CFG.userdataJdbcUrl()).connection().prepareStatement(
                 "DELETE FROM friendship WHERE requester_id = ? OR addressee_id = ?"
         );
-            PreparedStatement userPs = holder(CFG.userdataJdbcUrl()).connection().prepareStatement(
-                "DELETE FROM \"user\" WHERE id = ?"
-        )) {
+             PreparedStatement userPs = holder(CFG.userdataJdbcUrl()).connection().prepareStatement(
+                     "DELETE FROM \"user\" WHERE id = ?"
+             )) {
             friendshipPs.setObject(1, userEntity.getId());
             friendshipPs.setObject(2, userEntity.getId());
             friendshipPs.executeUpdate();
