@@ -3,13 +3,17 @@ package guru.qa.niffler.data.repository.impl.spring;
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.data.dao.UserdataUserDao;
 import guru.qa.niffler.data.dao.impl.spring.UserdataUserDaoSpringJdbc;
+import guru.qa.niffler.data.entity.userdata.FriendshipEntity;
 import guru.qa.niffler.data.entity.userdata.FriendshipStatus;
 import guru.qa.niffler.data.entity.userdata.UserEntity;
 import guru.qa.niffler.data.repository.UserdataUserRepository;
 import guru.qa.niffler.data.template.DataSources;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -62,43 +66,49 @@ public class UserdataUserRepositorySpringJdbc implements UserdataUserRepository 
             ps.setObject(8, userEntity.getId());
             return ps;
         });
+
+        List<FriendshipEntity> friendshipEntities = userEntity.getFriendshipRequests();
+        jdbcTemplate.batchUpdate(
+                """
+                        INSERT INTO friendship (
+                            requester_id,
+                            addressee_id,
+                            status
+                        ) VALUES (?, ?, ?)
+                        ON CONFLICT (requester_id, addressee_id)
+                        DO UPDATE SET status = ?
+                        """,
+                new BatchPreparedStatementSetter() {
+                    @Override
+                    public void setValues(PreparedStatement ps, int i) throws SQLException {
+                        ps.setObject(1, userEntity.getId());
+                        ps.setObject(2, friendshipEntities.get(i).getAddressee().getId());
+                        ps.setString(3, friendshipEntities.get(i).getStatus().name());
+                        ps.setString(4, friendshipEntities.get(i).getStatus().name());
+                    }
+
+                    @Override
+                    public int getBatchSize() {
+                        return friendshipEntities.size();
+                    }
+                }
+        );
+
         return userEntity;
     }
 
     @Override
     public void addFriendshipInvitation(UserEntity requester, UserEntity addressee) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.userdataJdbcUrl()));
-        jdbcTemplate.update(con -> {
-            PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO friendship (requester_id, addressee_id, status) VALUES (?, ?, ?)"
-            );
-            ps.setObject(1, requester.getId());
-            ps.setObject(2, addressee.getId());
-            ps.setString(3, String.valueOf(FriendshipStatus.PENDING));
-            return ps;
-        });
+        requester.addFriends(FriendshipStatus.PENDING, addressee);
+        update(requester);
     }
 
     @Override
     public void addFriend(UserEntity requester, UserEntity addressee) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.userdataJdbcUrl()));
-        jdbcTemplate.update(con -> {
-            PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO friendship (requester_id, addressee_id, status) VALUES (?, ?, ?)"
-            );
-            ps.setObject(1, requester.getId());
-            ps.setObject(2, addressee.getId());
-            ps.setString(3, String.valueOf(FriendshipStatus.ACCEPTED));
-            ps.addBatch();
-
-            ps.setObject(1, addressee.getId());
-            ps.setObject(2, requester.getId());
-            ps.setString(3, String.valueOf(FriendshipStatus.ACCEPTED));
-            ps.addBatch();
-
-            ps.executeBatch();
-            return ps;
-        });
+        requester.addFriends(FriendshipStatus.ACCEPTED, addressee);
+        addressee.addFriends(FriendshipStatus.ACCEPTED, requester);
+        update(requester);
+        update(addressee);
     }
 
     @Override

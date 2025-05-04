@@ -3,6 +3,7 @@ package guru.qa.niffler.data.repository.impl.jdbc;
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.data.dao.UserdataUserDao;
 import guru.qa.niffler.data.dao.impl.jdbc.UserdataUserDaoJdbc;
+import guru.qa.niffler.data.entity.userdata.FriendshipEntity;
 import guru.qa.niffler.data.entity.userdata.FriendshipStatus;
 import guru.qa.niffler.data.entity.userdata.UserEntity;
 import guru.qa.niffler.data.repository.UserdataUserRepository;
@@ -37,7 +38,7 @@ public class UserdataUserRepositoryJdbc implements UserdataUserRepository {
 
     @Override
     public UserEntity update(UserEntity userEntity) {
-        try (PreparedStatement ps = holder(CFG.userdataJdbcUrl()).connection().prepareStatement(
+        try (PreparedStatement userPs = holder(CFG.userdataJdbcUrl()).connection().prepareStatement(
                 """
                         UPDATE user
                         SET
@@ -50,16 +51,38 @@ public class UserdataUserRepositoryJdbc implements UserdataUserRepository {
                             full_name = ?
                         WHERE id = ?
                         """
+        );
+        PreparedStatement friendPs = holder(CFG.userdataJdbcUrl()).connection().prepareStatement(
+                """
+                        INSERT INTO friendship (
+                            requester_id,
+                            addressee_id,
+                            status
+                        ) VALUES (?, ?, ?)
+                        ON CONFLICT (requester_id, addressee_id)
+                        DO UPDATE SET status = ?
+                        """
         )) {
-            ps.setString(1, userEntity.getUsername());
-            ps.setString(2, String.valueOf(userEntity.getCurrency()));
-            ps.setString(3, userEntity.getFirstname());
-            ps.setString(4, userEntity.getSurname());
-            ps.setBytes(5, userEntity.getPhoto());
-            ps.setBytes(6, userEntity.getPhotoSmall());
-            ps.setString(7, userEntity.getFullname());
-            ps.setObject(8, userEntity.getId());
-            ps.executeUpdate();
+            userPs.setString(1, userEntity.getUsername());
+            userPs.setString(2, String.valueOf(userEntity.getCurrency()));
+            userPs.setString(3, userEntity.getFirstname());
+            userPs.setString(4, userEntity.getSurname());
+            userPs.setBytes(5, userEntity.getPhoto());
+            userPs.setBytes(6, userEntity.getPhotoSmall());
+            userPs.setString(7, userEntity.getFullname());
+            userPs.setObject(8, userEntity.getId());
+            userPs.executeUpdate();
+
+            for (FriendshipEntity fe : userEntity.getFriendshipRequests()) {
+                friendPs.setObject(1, userEntity.getId());
+                friendPs.setObject(2, fe.getAddressee().getId());
+                friendPs.setString(3, fe.getStatus().name());
+                friendPs.setString(4, fe.getStatus().name());
+                friendPs.addBatch();
+                friendPs.clearParameters();
+            }
+            friendPs.executeBatch();
+
             return userEntity;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -68,38 +91,17 @@ public class UserdataUserRepositoryJdbc implements UserdataUserRepository {
 
     @Override
     public void addFriendshipInvitation(UserEntity requester, UserEntity addressee) {
-        try (PreparedStatement ps = holder(CFG.userdataJdbcUrl()).connection().prepareStatement(
-                "INSERT INTO friendship (requester_id, addressee_id, status) VALUES (?, ?, ?)"
-        )) {
-            ps.setObject(1, requester.getId());
-            ps.setObject(2, addressee.getId());
-            ps.setString(3, String.valueOf(FriendshipStatus.PENDING));
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        requester.addFriends(FriendshipStatus.PENDING, addressee);
+        update(requester);
     }
 
 
     @Override
     public void addFriend(UserEntity requester, UserEntity addressee) {
-        try (PreparedStatement ps = holder(CFG.userdataJdbcUrl()).connection().prepareStatement(
-                "INSERT INTO friendship (requester_id, addressee_id, status) VALUES (?, ?, ?)"
-        )) {
-            ps.setObject(1, requester.getId());
-            ps.setObject(2, addressee.getId());
-            ps.setString(3, String.valueOf(FriendshipStatus.ACCEPTED));
-            ps.addBatch();
-
-            ps.setObject(1, addressee.getId());
-            ps.setObject(2, requester.getId());
-            ps.setString(3, String.valueOf(FriendshipStatus.ACCEPTED));
-            ps.addBatch();
-
-            ps.executeBatch();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        requester.addFriends(FriendshipStatus.ACCEPTED, addressee);
+        addressee.addFriends(FriendshipStatus.ACCEPTED, requester);
+        update(addressee);
+        update(requester);
     }
 
     @Override
