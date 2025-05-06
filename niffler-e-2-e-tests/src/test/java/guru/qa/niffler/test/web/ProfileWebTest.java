@@ -6,6 +6,7 @@ import guru.qa.niffler.jupiter.annotation.Category;
 import guru.qa.niffler.jupiter.annotation.meta.User;
 import guru.qa.niffler.jupiter.extension.BrowserExtension;
 import guru.qa.niffler.model.spend.CategoryJson;
+import guru.qa.niffler.model.userdata.UserJson;
 import guru.qa.niffler.page.LoginPage;
 import guru.qa.niffler.page.ProfilePage;
 import org.junit.jupiter.api.Test;
@@ -15,19 +16,19 @@ import org.junit.jupiter.api.extension.ExtendWith;
 public class ProfileWebTest {
 
     private static final Config CFG = Config.getInstance();
-    private final String username = "duck";
-    private final String password = "12345";
 
     @User(
-            username = "duck",
             categories = @Category(
+                    name = "archived",
                     archived = true
             )
     )
     @Test
-    void archivedCategoryShouldPresentInCategoriesList(CategoryJson category) {
+    void archivedCategoryShouldPresentInCategoriesList(UserJson user) {
+        final CategoryJson category = user.testData().categories().getFirst();
+
         Selenide.open(CFG.frontUrl(), LoginPage.class)
-                .doLogin(username, password)
+                .doLogin(user.username(), user.testData().password())
                 .checkLoginIsSuccessful();
 
         ProfilePage profilePage = Selenide.open(CFG.profileUrl(), ProfilePage.class);
@@ -43,14 +44,14 @@ public class ProfileWebTest {
             )
     )
     @Test
-    void activeCategoryShouldPresentInCategoriesList(CategoryJson category) {
+    void activeCategoryShouldPresentInCategoriesList(CategoryJson[] categories) {
         Selenide.open(CFG.frontUrl(), LoginPage.class)
-                .doLogin(username, password)
+                .doLogin("duck", "12345")
                 .checkLoginIsSuccessful();
 
         ProfilePage profilePage = Selenide.open(CFG.profileUrl(), ProfilePage.class);
-        profilePage.checkCategoryIsVisible(category.name());
+        profilePage.checkCategoryIsVisible(categories[0].name());
         profilePage.switchArchiveToggle();
-        profilePage.checkCategoryIsVisible(category.name());
+        profilePage.checkCategoryIsVisible(categories[0].name());
     }
 }
