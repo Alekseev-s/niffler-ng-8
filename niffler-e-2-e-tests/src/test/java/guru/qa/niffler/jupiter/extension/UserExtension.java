@@ -21,18 +21,31 @@ public class UserExtension implements BeforeEachCallback, ParameterResolver {
     public void beforeEach(ExtensionContext context) throws Exception {
         AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), User.class)
                 .ifPresent(userAnno -> {
-                    final String username = RandomDataUtils.getRandomUsername();
+                    if ("".equals(userAnno.username())) {
+                        final String username = RandomDataUtils.getRandomUsername();
 
-                    UserJson user = usersClient.createUser(
-                            username,
-                            defaultPassword
-                    );
-                    context.getStore(NAMESPACE).put(
-                            context.getUniqueId(),
-                            user.withPassword(
-                                    defaultPassword
-                            )
-                    );
+                        UserJson user = usersClient.createUser(
+                                username,
+                                defaultPassword
+                        );
+
+                        if (userAnno.amountOfIncomeInvitations() > 0) {
+                            usersClient.createIncomeInvitations(user, userAnno.amountOfIncomeInvitations());
+                        }
+                        if (userAnno.amountOfOutcomeInvitations() > 0) {
+                            usersClient.createOutcomeInvitations(user, userAnno.amountOfOutcomeInvitations());
+                        }
+                        if (userAnno.amountOfFriends() > 0) {
+                            usersClient.createFriend(user, userAnno.amountOfFriends());
+                        }
+
+                        context.getStore(NAMESPACE).put(
+                                context.getUniqueId(),
+                                user.withPassword(
+                                        defaultPassword
+                                )
+                        );
+                    }
                 });
     }
 

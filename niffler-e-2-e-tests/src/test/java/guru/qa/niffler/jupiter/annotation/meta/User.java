@@ -22,4 +22,7 @@ public @interface User {
     String username() default "";
     Category[] categories() default {};
     Spending[] spendings() default {};
+    int amountOfFriends() default 0;
+    int amountOfIncomeInvitations() default 0;
+    int amountOfOutcomeInvitations() default 0;
 }

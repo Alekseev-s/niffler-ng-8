@@ -6,6 +6,7 @@ import guru.qa.niffler.data.entity.spend.SpendEntity;
 import guru.qa.niffler.data.repository.SpendRepository;
 import guru.qa.niffler.data.repository.impl.hibernate.SpendRepositoryHibernate;
 import guru.qa.niffler.data.template.JdbcTransactionTemplate;
+import guru.qa.niffler.data.template.XaTransactionTemplate;
 import guru.qa.niffler.model.spend.CategoryJson;
 import guru.qa.niffler.model.spend.SpendJson;
 import guru.qa.niffler.service.SpendClient;
@@ -15,21 +16,21 @@ public class SpendDbClient implements SpendClient {
     private static final Config CFG = Config.getInstance();
 
     private final SpendRepository spendRepositoryHibernate = new SpendRepositoryHibernate();
-    private final JdbcTransactionTemplate jdbcTxTemplate = new JdbcTransactionTemplate(CFG.spendJdbcUrl());
+    private final XaTransactionTemplate xaTxTemplate = new XaTransactionTemplate(CFG.spendJdbcUrl());
 
     @Override
     public SpendJson createSpend(SpendJson spend) {
-        return jdbcTxTemplate.execute(() -> {
+        return xaTxTemplate.execute(() -> {
             SpendEntity spendEntity = SpendEntity.fromJson(spend);
             return SpendJson.fromEntity(spendRepositoryHibernate.create(spendEntity));
-        }, 1);
+        });
     }
 
     @Override
     public CategoryJson createCategory(CategoryJson categoryJson) {
-        return jdbcTxTemplate.execute(() -> {
+        return xaTxTemplate.execute(() -> {
             CategoryEntity categoryEntity = CategoryEntity.fromJson(categoryJson);
             return CategoryJson.fromEntity(spendRepositoryHibernate.createCategory(categoryEntity));
-        }, 1);
+        });
     }
 }
