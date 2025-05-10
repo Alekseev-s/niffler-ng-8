@@ -51,4 +51,8 @@ public class FriendsPage {
         friendsTab.shouldBe(visible);
         allPeopleTab.shouldBe(visible);
     }
+
+    public void searchFriend(String username) {
+        searchField.setValue(username).pressEnter();
+    }
 }

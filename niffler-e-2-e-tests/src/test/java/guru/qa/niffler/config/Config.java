@@ -6,6 +6,10 @@ public interface Config {
     return LocalConfig.instance;
   }
 
+  String authUrl();
+
+  String userdataUrl();
+
   String frontUrl();
 
   String registrationUrl();
