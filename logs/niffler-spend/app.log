@@ -1,0 +1,204 @@
+2025-05-14 12:18:54 INFO  g.qa.niffler.NifflerSpendApplication - Starting NifflerSpendApplication using Java 21.0.6 with PID 22300 (D:\QA.GURU\niffler-ng-8\niffler-spend\build\classes\java\main started by alles in D:\QA.GURU\niffler-ng-8)
+2025-05-14 12:18:54 INFO  g.qa.niffler.NifflerSpendApplication - The following 1 profile is active: "local"
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - ******* systemProperties *******
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - APPLICATION_NAME=niffler-spend
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - CONSOLE_LOG_CHARSET=UTF-8
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - FILE_LOG_CHARSET=UTF-8
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - LOGGED_APPLICATION_NAME=[niffler-spend] 
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - LOG_FILE=.\logs\niffler-spend\spring.log
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - LOG_PATH=./logs/niffler-spend
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - PID=22300
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - file.encoding=UTF-8
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - file.separator=\
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.awt.headless=true
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.class.path=D:\QA.GURU\niffler-ng-8\niffler-spend\build\classes\java\main;D:\QA.GURU\niffler-ng-8\niffler-spend\build\resources\main;D:\QA.GURU\niffler-ng-8\niffler-grpc-common\build\libs\niffler-grpc-common-1.0.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework.boot\spring-boot-starter-web\3.4.2\cf1c8efe77dccf221acf5f0ce9cc24c718c0ca44\spring-boot-starter-web-3.4.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework.boot\spring-boot-starter-data-jpa\3.4.2\b65a304b493807dff48bf114135dc4aa5f267927\spring-boot-starter-data-jpa-3.4.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\net.devh\grpc-client-spring-boot-starter\3.1.0.RELEASE\731890e2098e859e95a890c209abfd9ab35c9f56\grpc-client-spring-boot-starter-3.1.0.RELEASE.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework.cloud\spring-cloud-starter-vault-config\4.2.0\c54afa174772eb6e43040cfb242d63d5133cda58\spring-cloud-starter-vault-config-4.2.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.flywaydb\flyway-database-postgresql\10.17.1\181950894267b18e4d300d3edafc9d8559c609d7\flyway-database-postgresql-10.17.1.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.flywaydb\flyway-core\10.17.1\ca51487c65b6875c79ae1011560c5376a5506315\flyway-core-10.17.1.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.postgresql\postgresql\42.7.3\24f3e9f7231428cd20eb4dde00dd3fce44e05464\postgresql-42.7.3.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\io.grpc\grpc-protobuf\1.63.0\d5f8df431537b4656873be908f64e1a4fe604cd3\grpc-protobuf-1.63.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\io.grpc\grpc-stub\1.63.0\3d7454ffa642b925033e2bb0502842872ba73464\grpc-stub-1.63.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\com.google.api.grpc\proto-google-common-protos\2.29.0\eb1cf1cf4c12d5eb9cef958dfd76af4101c55a62\proto-google-common-protos-2.29.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\com.google.protobuf\protobuf-java\3.25.3\d3200261955f3298e0d85c9892201e70492ce8eb\protobuf-java-3.25.3.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework.boot\spring-boot-starter-json\3.4.2\e413d51228ddaf6a9644533987faa0ae6e18fe47\spring-boot-starter-json-3.4.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework.boot\spring-boot-starter-jdbc\3.4.2\a3698cab03ba6daaaa38c16df1b36c862e9e3e4b\spring-boot-starter-jdbc-3.4.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\net.devh\grpc-common-spring-boot\3.1.0.RELEASE\6e099d9299f4869082c9ef90789252b79f0755cb\grpc-common-spring-boot-3.1.0.RELEASE.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework.cloud\spring-cloud-vault-config\4.2.0\946a6ab00f9f891d1436512175a7c4813dc1dd3d\spring-cloud-vault-config-4.2.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework.cloud\spring-cloud-starter\4.2.0\195fa9ee669616aebd5b1a481578ec336cfc1e9f\spring-cloud-starter-4.2.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework.boot\spring-boot-starter\3.4.2\9d914208449fce99a67d3def60957cdcc98b552a\spring-boot-starter-3.4.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework.boot\spring-boot-starter-tomcat\3.4.2\aa345bdd83adc80db5bc6ac4a711460396ad17ef\spring-boot-starter-tomcat-3.4.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework\spring-webmvc\6.2.2\9b1aeb179ba9667bc78a4a5cec4ec8087db404d7\spring-webmvc-6.2.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework\spring-web\6.2.2\bd2ef98bf98b6ecf8dd29106ae27b7515524c21\spring-web-6.2.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.hibernate.orm\hibernate-core\6.6.5.Final\c81deca40ebdb823d9f8a9e5dc5798a6a205626a\hibernate-core-6.6.5.Final.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework.data\spring-data-jpa\3.4.2\4213f2d185b49447057823f5ef9de41e931f4f2e\spring-data-jpa-3.4.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework\spring-aspects\6.2.2\e9e0379bc353e43ab1cb326f413bb293d8a52e78\spring-aspects-6.2.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\jakarta.validation\jakarta.validation-api\3.0.2\92b6631659ba35ca09e44874d3eb936edfeee532\jakarta.validation-api-3.0.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\io.grpc\grpc-inprocess\1.63.0\3e761aa10972a0f131c25f36917d90bd816905ba\grpc-inprocess-1.63.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\io.grpc\grpc-netty-shaded\1.63.0\5381408f5989b43f238f8ecbd55386038e314fc6\grpc-netty-shaded-1.63.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.apache.httpcomponents.client5\httpclient5\5.4.1\ce913081e592ee8eeee35c4e577d7dce13cba7a4\httpclient5-5.4.1.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.apache.httpcomponents.core5\httpcore5-h2\5.3.2\d908a946e9161511accdc739e443b1e0b0cbba82\httpcore5-h2-5.3.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.apache.httpcomponents.core5\httpcore5\5.3.2\35d387301d4a719972b15fbe863020da5f913c22\httpcore5-5.3.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework.vault\spring-vault-core\3.1.2\8f9ae6158df7447df88d9331b4672ca71e7c8b3c\spring-vault-core-3.1.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.datatype\jackson-datatype-jsr310\2.18.2\7b6ff96adf421f4c6edbd694e797dd8fe434510a\jackson-datatype-jsr310-2.18.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.datatype\jackson-datatype-jdk8\2.18.2\9ed6d538ebcc66864e114a7040953dce6ab6ea53\jackson-datatype-jdk8-2.18.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.module\jackson-module-parameter-names\2.18.2\72960cb3277347a748911d100c3302d60e8a616a\jackson-module-parameter-names-2.18.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-databind\2.18.2\deef8697b92141fb6caf7aa86966cff4eec9b04f\jackson-databind-2.18.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-core\2.18.2\fb64ccac5c27dca8819418eb4e443a9f496d9ee7\jackson-core-2.18.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-annotations\2.18.2\985d77751ebc7fce5db115a986bc9aa82f973f4a\jackson-annotations-2.18.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.dataformat\jackson-dataformat-toml\2.18.2\7c31abc580fe46907b78dbd79406b1e40fbb781d\jackson-dataformat-toml-2.18.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\io.grpc\grpc-util\1.63.0\e0f73a39ec71422ff935f422417fef836986be4a\grpc-util-1.63.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\io.grpc\grpc-core\1.63.0\2b471e22cb94082fad579b739500231bbbaabfd\grpc-core-1.63.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.11.0\527175ca6d81050b53bdd4c457a6d6e017626b0e\gson-2.11.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\io.grpc\grpc-protobuf-lite\1.63.0\cff9c90502368e8457ed6706f77af9b139e1cf60\grpc-protobuf-lite-1.63.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\io.grpc\grpc-context\1.63.0\ed56bfeff3de8e674b2a8a773f8d08a464bb3982\grpc-context-1.63.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\io.grpc\grpc-api\1.63.0\c02adf37b86cdfad1f9178ab0eb98768953f75ac\grpc-api-1.63.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\com.google.guava\guava\33.3.1-jre\852f8b363da0111e819460021ca693cacca3e8db\guava-33.3.1-jre.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.checkerframework\checker-qual\3.43.0\9425eee39e56b116d2b998b7c2cebcbd11a3c98b\checker-qual-3.43.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\com.google.code.findbugs\jsr305\3.0.2\25ea2e8b0c338a877313bd4672d3fe056ea78f0d\jsr305-3.0.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\com.google.errorprone\error_prone_annotations\2.28.0\59fc00087ce372de42e394d2c789295dff2d19f0\error_prone_annotations-2.28.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework.boot\spring-boot-autoconfigure\3.4.2\c50511dba751ffe7df320d27c6875feb2745654e\spring-boot-autoconfigure-3.4.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework.boot\spring-boot\3.4.2\b2514201ba6b838bd638a51619515501c5baefea\spring-boot-3.4.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework.boot\spring-boot-starter-logging\3.4.2\be7631ab8d3cb2a6a3c9981dcaa6d0867c964772\spring-boot-starter-logging-3.4.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\jakarta.annotation\jakarta.annotation-api\2.1.1\48b9bda22b091b1f48b13af03fe36db3be6e1ae3\jakarta.annotation-api-2.1.1.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework\spring-context\6.2.2\aa01a7faa3694983339ca7e45619860ef34052d6\spring-context-6.2.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework\spring-aop\6.2.2\2a1a445d4cd8e5fe2311df04fc25c0bc54bd2ce4\spring-aop-6.2.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework\spring-orm\6.2.2\98d0c8e2f8f65b776b24ffa979e9802a0c7085d7\spring-orm-6.2.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework\spring-jdbc\6.2.2\840572e748c1dfe7122e19a10888918e5ecfb631\spring-jdbc-6.2.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework.data\spring-data-commons\3.4.2\387ff91a749cce404f7a6e4a15a3b75ff497bdbc\spring-data-commons-3.4.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework\spring-tx\6.2.2\91a2e378d0e457b9c500f2b30aaf8a7a422ba522\spring-tx-6.2.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework\spring-beans\6.2.2\ec8ee520ff7b147de8ac04d330848d468253f84d\spring-beans-6.2.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework\spring-expression\6.2.2\20164dd3a70d0048185cf02bb1b097b22e73d820\spring-expression-6.2.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework\spring-core\6.2.2\94269e888dc979e75a1a1b9600d7153d72e6a7f1\spring-core-6.2.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.yaml\snakeyaml\2.3\936b36210e27320f920536f695cf1af210c44586\snakeyaml-2.3.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.apache.tomcat.embed\tomcat-embed-websocket\10.1.34\eef6d430f34b6e393b8d9e40f10db9043732b4e5\tomcat-embed-websocket-10.1.34.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.apache.tomcat.embed\tomcat-embed-core\10.1.34\f610f84be607fbc82e393cc220f0ad45f92afc91\tomcat-embed-core-10.1.34.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.apache.tomcat.embed\tomcat-embed-el\10.1.34\d2b2daca3bc999c62e58ae36b45ba0582530fb25\tomcat-embed-el-10.1.34.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\io.micrometer\micrometer-observation\1.14.3\cd66186a1fe8465dc732d9514bade1104044b56d\micrometer-observation-1.14.3.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\com.zaxxer\HikariCP\5.1.0\8c96e36c14461fc436bb02b264b96ef3ca5dca8c\HikariCP-5.1.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\jakarta.persistence\jakarta.persistence-api\3.1.0\66901fa1c373c6aff65c13791cc11da72060a8d6\jakarta.persistence-api-3.1.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\jakarta.transaction\jakarta.transaction-api\2.0.1\51a520e3fae406abb84e2e1148e6746ce3f80a1a\jakarta.transaction-api-2.0.1.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.jboss.logging\jboss-logging\3.6.1.Final\886afbb445b4016a37c8960a7aef6ebd769ce7e5\jboss-logging-3.6.1.Final.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.hibernate.common\hibernate-commons-annotations\7.0.3.Final\e183c4be8bb41d12e9f19b374e00c34a0a85f439\hibernate-commons-annotations-7.0.3.Final.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\io.smallrye\jandex\3.2.0\f17ad860f62a08487b9edabde608f8ac55c62fa7\jandex-3.2.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\com.fasterxml\classmate\1.7.0\e98374da1f2143ac8e6e0a95036994bb19137a3\classmate-1.7.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\net.bytebuddy\byte-buddy\1.15.11\f61886478e0f9ee4c21d09574736f0ff45e0a46c\byte-buddy-1.15.11.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.glassfish.jaxb\jaxb-runtime\4.0.5\ca84c2a7169b5293e232b9d00d1e4e36d4c3914a\jaxb-runtime-4.0.5.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.glassfish.jaxb\jaxb-core\4.0.5\7b4b11ea5542eea4ad55e1080b23be436795b3\jaxb-core-4.0.5.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\jakarta.xml.bind\jakarta.xml.bind-api\4.0.2\6cd5a999b834b63238005b7144136379dc36cad2\jakarta.xml.bind-api-4.0.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\jakarta.inject\jakarta.inject-api\2.0.1\4c28afe1991a941d7702fe1362c365f0a8641d1e\jakarta.inject-api-2.0.1.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.antlr\antlr4-runtime\4.13.0\5a02e48521624faaf5ff4d99afc88b01686af655\antlr4-runtime-4.13.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\ch.qos.logback\logback-classic\1.5.16\113979db51dfad6dc895b34460d7b7ff64ffe7d2\logback-classic-1.5.16.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.apache.logging.log4j\log4j-to-slf4j\2.24.3\da1143e2a2531ee1c2d90baa98eb50a28a39d5a7\log4j-to-slf4j-2.24.3.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.slf4j\jul-to-slf4j\2.0.16\6d57da3e961daac65bcca0dd3def6cd11e48a24a\jul-to-slf4j-2.0.16.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.slf4j\slf4j-api\2.0.16\172931663a09a1fa515567af5fbef00897d3c04\slf4j-api-2.0.16.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.aspectj\aspectjweaver\1.9.22.1\bca243d0af0db4758fbae45c5f4995cb5dabb612\aspectjweaver-1.9.22.1.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\io.perfmark\perfmark-api\0.26.0\ef65452adaf20bf7d12ef55913aba24037b82738\perfmark-api-0.26.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework.cloud\spring-cloud-context\4.2.0\54e92bae20fad0c5851f1e5a5666129695a13004\spring-cloud-context-4.2.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework.cloud\spring-cloud-commons\4.2.0\3ef9d0044e12016527a1d13bc01774f1d1bfa30e\spring-cloud-commons-4.2.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.bouncycastle\bcprov-jdk18on\1.78.1\39e9e45359e20998eb79c1828751f94a818d25f8\bcprov-jdk18on-1.78.1.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\com.google.guava\failureaccess\1.0.2\c4a06a64e650562f30b7bf9aaec1bfed43aca12b\failureaccess-1.0.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\com.google.guava\listenablefuture\9999.0-empty-to-avoid-conflict-with-guava\b421526c5f297295adef1c886e5246c39d4ac629\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\com.google.j2objc\j2objc-annotations\3.0.0\7399e65dd7e9ff3404f4535b2f017093bdb134c7\j2objc-annotations-3.0.0.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework\spring-jcl\6.2.2\1fbbb0b2e85c6eac7c366c5eed5b124785f05ac8\spring-jcl-6.2.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\io.micrometer\micrometer-commons\1.14.3\bf17f05dd6343d36ecc31076197a962cfdf46131\micrometer-commons-1.14.3.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.eclipse.angus\angus-activation\2.0.2\41f1e0ddd157c856926ed149ab837d110955a9fc\angus-activation-2.0.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\jakarta.activation\jakarta.activation-api\2.1.3\fa165bd70cda600368eee31555222776a46b881f\jakarta.activation-api-2.1.3.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\com.google.android\annotations\4.1.1.4\a1678ba907bf92691d879fef34e1a187038f9259\annotations-4.1.1.4.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.codehaus.mojo\animal-sniffer-annotations\1.23\3c0daebd5f0e1ce72cc50c818321ac957aeb5d70\animal-sniffer-annotations-1.23.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.springframework.security\spring-security-crypto\6.4.2\a4d5bf27ca449200fc39e07de6ae016eb1ad21da\spring-security-crypto-6.4.2.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\ch.qos.logback\logback-core\1.5.16\4f17700f046900aea2fadf115e2d67fec921f7fd\logback-core-1.5.16.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.apache.logging.log4j\log4j-api\2.24.3\b02c125db8b6d295adf72ae6e71af5d83bce2370\log4j-api-2.24.3.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\org.glassfish.jaxb\txw2\4.0.5\f36a4ef12120a9bb06d766d6a0e54b144fd7ed98\txw2-4.0.5.jar;C:\Users\alles\.gradle\caches\modules-2\files-2.1\com.sun.istack\istack-commons-runtime\4.1.2\18ec117c85f3ba0ac65409136afa8e42bc74e739\istack-commons-runtime-4.1.2.jar
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.class.version=65.0
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.home=C:\Program Files\Eclipse Adoptium\jdk-21.0.6.7-hotspot
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.io.tmpdir=C:\Users\alles\AppData\Local\Temp\
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.library.path=C:\Program Files\Eclipse Adoptium\jdk-21.0.6.7-hotspot\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files\Eclipse Adoptium\jdk-21.0.6.7-hotspot\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;D:\Maven\apache-maven-3.6.3-bin\bin;C:\Program Files\PuTTY\;C:\Program Files\MySQL\MySQL Server 8.0\bin;D:\PostgreSQL\13\bin;C:\Program Files\dotnet\;D:\Git\Git\cmd;D:\NodeJS\;D:\Gradle\gradle-8.13\bin;;C:\Program Files\Docker\Docker\resources\bin;C:\Users\alles\scoop\shims;C:\Users\alles\AppData\Local\Programs\Python\Python311\Scripts\;C:\Users\alles\AppData\Local\Programs\Python\Python311\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\alles\AppData\Local\Microsoft\WindowsApps;;C:\Program Files\JetBrains\IntelliJ IDEA 2020.3.2\bin;;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.3.2\bin;;D:\vscode\Microsoft VS Code\bin;D:\Fiddler;C:\Users\alles\AppData\Roaming\npm;D:\cursor\resources\app\bin;.
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.runtime.name=OpenJDK Runtime Environment
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.runtime.version=21.0.6+7-LTS
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.specification.name=Java Platform API Specification
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.specification.vendor=Oracle Corporation
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.specification.version=21
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.vendor=Eclipse Adoptium
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.vendor.url=https://adoptium.net/
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.vendor.url.bug=https://github.com/adoptium/adoptium-support/issues
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.vendor.version=Temurin-21.0.6+7
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.version=21.0.6
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.version.date=2025-01-21
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.vm.compressedOopsMode=Zero based
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.vm.info=mixed mode, sharing
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.vm.name=OpenJDK 64-Bit Server VM
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.vm.specification.name=Java Virtual Machine Specification
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.vm.specification.vendor=Oracle Corporation
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.vm.specification.version=21
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.vm.vendor=Eclipse Adoptium
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - java.vm.version=21.0.6+7-LTS
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - jdk.debug=release
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - line.separator=
+
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - native.encoding=Cp1251
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - org.jboss.logging.provider=slf4j
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - os.arch=amd64
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - os.name=Windows 10
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - os.version=10.0
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - path.separator=;
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.profiles.active=local
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - stderr.encoding=Cp1251
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - stdout.encoding=Cp1251
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - sun.arch.data.model=64
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - sun.boot.library.path=C:\Program Files\Eclipse Adoptium\jdk-21.0.6.7-hotspot\bin
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - sun.cpu.endian=little
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - sun.cpu.isalist=amd64
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - sun.io.unicode.encoding=UnicodeLittle
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - sun.java.command=guru.qa.niffler.NifflerSpendApplication
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - sun.java.launcher=SUN_STANDARD
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - sun.jnu.encoding=Cp1251
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - sun.management.compiler=HotSpot 64-Bit Tiered Compilers
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - sun.os.patch.level=
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - user.country=RU
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - user.dir=D:\QA.GURU\niffler-ng-8
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - user.home=C:\Users\alles
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - user.language=ru
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - user.name=alles
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - user.script=
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - user.timezone=Europe/Moscow
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - user.variant=
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - ******* systemEnvironment *******
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - =::=::\
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - ALLURE_HOME=C:\Users\alles\scoop\apps\allure\current
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - ALLUSERSPROFILE=C:\ProgramData
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - APPDATA=C:\Users\alles\AppData\Roaming
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - COMPUTERNAME=DESKTOP-OH5LNRA
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - ComSpec=C:\Windows\system32\cmd.exe
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - CommonProgramFiles=C:\Program Files\Common Files
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - CommonProgramW6432=C:\Program Files\Common Files
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - DriverData=C:\Windows\System32\Drivers\DriverData
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - FPS_BROWSER_APP_PROFILE_STRING=Internet Explorer
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - FPS_BROWSER_USER_PROFILE_STRING=Default
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - GRADLE_HOME=D:\Gradle\gradle-8.13
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - HOMEDRIVE=C:
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - HOMEPATH=\Users\alles
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - IntelliJ IDEA=C:\Program Files\JetBrains\IntelliJ IDEA 2020.3.2\bin;
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - IntelliJ IDEA Community Edition=C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.3.2\bin;
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - JAVA_HOME=C:\Program Files\Eclipse Adoptium\jdk-21.0.6.7-hotspot
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - LOCALAPPDATA=C:\Users\alles\AppData\Local
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - LOGONSERVER=\\DESKTOP-OH5LNRA
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - MAVEN_HOME=D:\Maven\apache-maven-3.6.3-bin
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - NUMBER_OF_PROCESSORS=6
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - OS=Windows_NT
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - OneDrive=C:\Users\alles\OneDrive
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - OneDriveConsumer=C:\Users\alles\OneDrive
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - PROCESSOR_ARCHITECTURE=AMD64
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - PROCESSOR_IDENTIFIER=AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - PROCESSOR_LEVEL=23
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - PROCESSOR_REVISION=7100
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - PSModulePath=C:\Program Files\WindowsPowerShell\Modules;C:\Windows\system32\WindowsPowerShell\v1.0\Modules
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - PUBLIC=C:\Users\Public
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - Path=C:\Program Files\Eclipse Adoptium\jdk-21.0.6.7-hotspot\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;D:\Maven\apache-maven-3.6.3-bin\bin;C:\Program Files\PuTTY\;C:\Program Files\MySQL\MySQL Server 8.0\bin;D:\PostgreSQL\13\bin;C:\Program Files\dotnet\;D:\Git\Git\cmd;D:\NodeJS\;D:\Gradle\gradle-8.13\bin;;C:\Program Files\Docker\Docker\resources\bin;C:\Users\alles\scoop\shims;C:\Users\alles\AppData\Local\Programs\Python\Python311\Scripts\;C:\Users\alles\AppData\Local\Programs\Python\Python311\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\alles\AppData\Local\Microsoft\WindowsApps;;C:\Program Files\JetBrains\IntelliJ IDEA 2020.3.2\bin;;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.3.2\bin;;D:\vscode\Microsoft VS Code\bin;D:\Fiddler;C:\Users\alles\AppData\Roaming\npm;D:\cursor\resources\app\bin
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - ProgramData=C:\ProgramData
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - ProgramFiles=C:\Program Files
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - ProgramFiles(x86)=C:\Program Files (x86)
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - ProgramW6432=C:\Program Files
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - SESSIONNAME=Console
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - SystemDrive=C:
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - SystemRoot=C:\Windows
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - TEMP=C:\Users\alles\AppData\Local\Temp
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - TMP=C:\Users\alles\AppData\Local\Temp
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - USERDOMAIN=DESKTOP-OH5LNRA
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - USERDOMAIN_ROAMINGPROFILE=DESKTOP-OH5LNRA
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - USERNAME=alles
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - USERPROFILE=C:\Users\alles
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - VBOX_HWVIRTEX_IGNORE_SVM_IN_USE=1
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - windir=C:\Windows
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - ******* Config resource 'class path resource [application.yaml]' via location 'optional:classpath:/' (document #1) *******
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - grpc.client.grpcCurrencyClient.address=static://localhost:8092
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - grpc.client.grpcCurrencyClient.negotiationType=PLAINTEXT
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - niffler-currency.base-uri=http://127.0.0.1:8091
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - niffler-userdata.base-uri=http://127.0.0.1:8089
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.autoconfigure.exclude[0]=org.springframework.cloud.vault.config.VaultAutoConfiguration
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.autoconfigure.exclude[1]=org.springframework.cloud.vault.config.VaultObservationAutoConfiguration
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.autoconfigure.exclude[2]=org.springframework.cloud.vault.config.VaultReactiveAutoConfiguration
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.config.activate.on-profile=local
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.datasource.password=secret
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.datasource.url=jdbc:postgresql://localhost:5432/niffler-spend
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.datasource.username=postgres
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - ******* Config resource 'class path resource [application.yaml]' via location 'optional:classpath:/' (document #0) *******
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - logging.file.path=./logs/niffler-spend
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - logging.level.org.springframework.boot.autoconfigure=INFO
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - logging.level.org.springframework.security=INFO
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - logging.level.org.springframework.security.oauth2=INFO
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - logging.level.org.springframework.web=INFO
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - logging.level.root=INFO
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - server.port=8093
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.application.name=niffler-spend
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.datasource.hikari.auto-commit=true
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.datasource.hikari.connection-timeout=20000
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.datasource.hikari.idle-timeout=10000
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.datasource.hikari.max-lifetime=1000
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.datasource.hikari.maximum-pool-size=30
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.datasource.hikari.minimum-idle=10
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.flyway.baseline-on-migrate=true
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.flyway.baseline-version=0
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.flyway.enabled=true
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.flyway.locations=classpath:db/migration/niffler-spend
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.flyway.schemas=public
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.jpa.generate-ddl=true
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.jpa.hibernate.ddl-auto=none
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.jpa.open-in-view=false
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.jpa.show-sql=false
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - ******* springCloudClientHostInfo *******
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.cloud.client.hostname=DESKTOP-OH5LNRA.mshome.net
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.cloud.client.ip-address=172.21.224.1
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - ******* applicationInfo *******
+2025-05-14 12:18:54 INFO  g.q.niffler.service.PropertiesLogger - spring.application.pid=22300
+2025-05-14 12:18:56 INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-14 12:18:56 INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 75 ms. Found 2 JPA repository interfaces.
+2025-05-14 12:18:56 INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=f532881b-278c-3e35-af03-ea99950f5dde
+2025-05-14 12:18:57 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8093 (http)
+2025-05-14 12:18:57 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8093"]
+2025-05-14 12:18:57 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-14 12:18:57 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2025-05-14 12:18:57 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-14 12:18:57 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3218 ms
+2025-05-14 12:18:58 WARN  com.zaxxer.hikari.HikariConfig - HikariPool-1 - maxLifetime is less than 30000ms, setting to default 1800000ms.
+2025-05-14 12:18:58 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-05-14 12:18:58 INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7e77678c
+2025-05-14 12:18:58 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-05-14 12:18:58 INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://localhost:5432/niffler-spend (PostgreSQL 15.1)
+2025-05-14 12:18:58 INFO  o.f.core.internal.command.DbValidate - Successfully validated 4 migrations (execution time 00:00.075s)
+2025-05-14 12:18:58 INFO  o.f.core.internal.command.DbMigrate - Current version of schema "public": 4
+2025-05-14 12:18:58 INFO  o.f.core.internal.command.DbMigrate - Schema "public" is up to date. No migration necessary.
+2025-05-14 12:18:58 INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-14 12:18:58 INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.5.Final
+2025-05-14 12:18:58 INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-05-14 12:18:59 INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-14 12:18:59 WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-14 12:18:59 INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 15.1
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-14 12:19:00 INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-14 12:19:00 INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-14 12:19:00 INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-05-14 12:19:03 INFO  n.d.b.g.c.a.GrpcClientAutoConfiguration - Detected grpc-netty-shaded: Creating ShadedNettyChannelFactory + InProcessChannelFactory
+2025-05-14 12:19:03 INFO  o.s.v.b.OptionalValidatorFactoryBean - Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2025-05-14 12:19:04 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8093"]
+2025-05-14 12:19:04 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8093 (http) with context path '/'
+2025-05-14 12:19:04 INFO  g.qa.niffler.NifflerSpendApplication - Started NifflerSpendApplication in 11.246 seconds (process running for 14.425)
+2025-05-14 12:20:47 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-14 12:20:47 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-05-14 12:20:47 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2025-05-14 12:20:47 WARN  o.s.d.w.c.SpringDataJacksonConfiguration$PageModule$WarningLoggingModifier - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+

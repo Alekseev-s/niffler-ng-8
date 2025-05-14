@@ -3,6 +3,7 @@ package guru.qa.niffler.test.web;
 import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.jupiter.annotation.Category;
+import guru.qa.niffler.jupiter.annotation.meta.ScreenShotTest;
 import guru.qa.niffler.jupiter.annotation.meta.User;
 import guru.qa.niffler.jupiter.extension.BrowserExtension;
 import guru.qa.niffler.model.spend.CategoryJson;
@@ -11,6 +12,9 @@ import guru.qa.niffler.page.LoginPage;
 import guru.qa.niffler.page.ProfilePage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 @ExtendWith(BrowserExtension.class)
 public class ProfileWebTest {
@@ -53,5 +57,19 @@ public class ProfileWebTest {
         profilePage.checkCategoryIsVisible(categories[0].name());
         profilePage.switchArchiveToggle();
         profilePage.checkCategoryIsVisible(categories[0].name());
+    }
+
+    @User
+    @ScreenShotTest("img/expected-avatar.png")
+    void userAvatarShouldBeVisible(UserJson user, BufferedImage expected) throws IOException {
+        Selenide.open(CFG.frontUrl(), LoginPage.class)
+                .doLogin(user.username(), user.testData().password())
+                .checkLoginIsSuccessful();
+
+        ProfilePage profilePage = Selenide.open(CFG.profileUrl(), ProfilePage.class)
+                .uploadAvatar("img/avatar.jpg")
+                .saveChanges();
+
+        profilePage.checkProfileAvatar(expected);
     }
 }

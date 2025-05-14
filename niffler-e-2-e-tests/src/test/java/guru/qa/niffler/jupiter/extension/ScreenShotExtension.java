@@ -12,6 +12,7 @@ import org.springframework.core.io.ClassPathResource;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.Base64;
 
@@ -35,6 +36,11 @@ public class ScreenShotExtension implements ParameterResolver, TestExecutionExce
 
     @Override
     public void handleTestExecutionException(ExtensionContext context, Throwable throwable) throws Throwable {
+        ScreenShotTest screenShotTest = context.getRequiredTestMethod().getAnnotation(ScreenShotTest.class);
+        if (screenShotTest.rewriteExpected()) {
+            BufferedImage actual = getActual();
+            ImageIO.write(actual, "png", new File("src/test/resources/" + screenShotTest.value()));
+        }
         ScreenDiff screenDiff = new ScreenDiff(
                 "data:image/png;base64," + Base64.getEncoder().encodeToString(imageToBytes(getExpected())),
                 "data:image/png;base64," + Base64.getEncoder().encodeToString(imageToBytes(getActual())),
