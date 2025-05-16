@@ -6,12 +6,19 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class EditSpendingPage {
 
+  private final SelenideElement amountInput = $("#amount");
   private final SelenideElement descriptionInput = $("#description");
   private final SelenideElement submitBtn = $("#save");
 
   public void editDescription(String description) {
     descriptionInput.clear();
     descriptionInput.setValue(description);
+    submitBtn.click();
+  }
+
+  public void editAmount(int amount) {
+    amountInput.clear();
+    amountInput.setValue(String.valueOf(amount));
     submitBtn.click();
   }
 }
