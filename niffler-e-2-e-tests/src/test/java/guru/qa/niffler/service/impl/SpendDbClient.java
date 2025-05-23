@@ -24,15 +24,6 @@ public class SpendDbClient implements SpendClient {
     public SpendJson createSpend(SpendJson spend) {
         return xaTxTemplate.execute(() -> {
             SpendEntity spendEntity = SpendEntity.fromJson(spend);
-            CategoryEntity categoryEntity = spendEntity.getCategory();
-            if (categoryEntity.getId() == null) {
-                Optional<CategoryEntity> createdCategory = spendRepositoryHibernate.findCategoryByUsernameAndCategoryName(
-                        categoryEntity.getUsername(),
-                        categoryEntity.getName()
-                );
-                createdCategory.ifPresent(spendEntity::setCategory);
-
-            }
             return SpendJson.fromEntity(spendRepositoryHibernate.create(spendEntity));
         });
     }

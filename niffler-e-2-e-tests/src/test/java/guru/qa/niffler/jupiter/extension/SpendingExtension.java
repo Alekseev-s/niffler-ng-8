@@ -16,9 +16,7 @@ import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.platform.commons.support.AnnotationSupport;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class SpendingExtension implements BeforeEachCallback, ParameterResolver {
 
@@ -35,18 +33,26 @@ public class SpendingExtension implements BeforeEachCallback, ParameterResolver 
                                 ? createdUser.username()
                                 : anno.username();
 
+                        final List<CategoryJson> existingCategories = createdUser != null
+                                ? createdUser.testData().categories()
+                                : CategoryExtension.createdCategories(context);
+
                         final List<SpendJson> createdSpendings = new ArrayList<>();
 
                         for (Spending spendAnno : anno.spendings()) {
+                            final Optional<CategoryJson> matchedCategory = existingCategories.stream()
+                                    .filter(category -> category.name().equals(spendAnno.category()))
+                                    .findFirst();
+
                             SpendJson spend = new SpendJson(
                                     null,
                                     new Date(),
-                                    new CategoryJson(
+                                    matchedCategory.orElseGet(() -> new CategoryJson(
                                             null,
                                             spendAnno.category(),
                                             username,
                                             false
-                                    ),
+                                    )),
                                     CurrencyValues.RUB,
                                     spendAnno.amount(),
                                     spendAnno.description(),
@@ -74,10 +80,13 @@ public class SpendingExtension implements BeforeEachCallback, ParameterResolver 
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public SpendJson[] resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-        return (SpendJson[]) extensionContext.getStore(SpendingExtension.NAMESPACE)
-                .get(extensionContext.getUniqueId(), List.class)
-                .toArray();
+        return createdSpendings(extensionContext).toArray(SpendJson[]::new);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<SpendJson> createdSpendings(ExtensionContext extensionContext) {
+        return Optional.ofNullable(extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId(), List.class))
+                .orElse(Collections.emptyList());
     }
 }

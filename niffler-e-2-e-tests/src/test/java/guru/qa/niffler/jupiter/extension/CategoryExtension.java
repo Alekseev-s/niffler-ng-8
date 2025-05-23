@@ -12,7 +12,9 @@ import org.junit.jupiter.api.extension.*;
 import org.junit.platform.commons.support.AnnotationSupport;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class CategoryExtension implements BeforeEachCallback, ParameterResolver {
 
@@ -64,10 +66,13 @@ public class CategoryExtension implements BeforeEachCallback, ParameterResolver 
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public CategoryJson[] resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-        return (CategoryJson[]) extensionContext.getStore(NAMESPACE)
-                .get(extensionContext.getUniqueId(), List.class)
-                .toArray();
+        return createdCategories(extensionContext).toArray(CategoryJson[]::new);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<CategoryJson> createdCategories(ExtensionContext extensionContext) {
+        return Optional.ofNullable(extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId(), List.class))
+                .orElse(Collections.emptyList());
     }
 }
