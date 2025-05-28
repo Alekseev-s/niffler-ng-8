@@ -2,6 +2,7 @@ package guru.qa.niffler.page;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import guru.qa.niffler.config.Config;
 import guru.qa.niffler.utils.ScreenDiffResult;
 
 import javax.imageio.ImageIO;
@@ -15,6 +16,8 @@ import static com.codeborne.selenide.Selenide.$$;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class ProfilePage {
+
+    public static String url = Config.getInstance().frontUrl() + "profile";
 
     private final SelenideElement imageInput = $("#image__input");
     private final SelenideElement avatar = $("button[aria-label='Menu']").$("img");
