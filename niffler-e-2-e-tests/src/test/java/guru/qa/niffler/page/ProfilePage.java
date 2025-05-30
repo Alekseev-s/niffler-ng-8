@@ -4,7 +4,9 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.utils.ScreenDiffResult;
+import io.qameta.allure.Step;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -15,6 +17,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+@ParametersAreNonnullByDefault
 public class ProfilePage {
 
     public static String url = Config.getInstance().frontUrl() + "profile";
@@ -28,46 +31,63 @@ public class ProfilePage {
     private final SelenideElement categoryInput = $("#category");
     private final ElementsCollection categories = $$(".MuiChip-label");
 
-    public ProfilePage setName(String name) {
-        nameInput.setValue(name);
-        return this;
-    }
-
+    @Step("Save changes")
     public ProfilePage saveChanges() {
         saveBtn.click();
         return this;
     }
 
+    @Step("Switch archive toggle")
     public ProfilePage switchArchiveToggle() {
         archiveToggle.click();
         return this;
     }
 
+    @Step("Upload avatar")
     public ProfilePage uploadAvatar(String path) {
         imageInput.uploadFromClasspath(path);
         return this;
     }
 
+    @Step("Add new category '{0}'")
     public ProfilePage addNewCategory(String category) {
         categoryInput.setValue(category).pressEnter();
         return this;
     }
 
-    public void checkCategoryIsVisible(String category) {
+    @Step("Set name '{0}'")
+    public ProfilePage setName(String name) {
+        nameInput.setValue(name);
+        return this;
+    }
+
+    @Step("Check category '{0} is visible'")
+    public ProfilePage checkCategoryIsVisible(String category) {
         categories.findBy(text(category))
                 .shouldBe(visible);
+        return this;
     }
 
-    public void checkCategoryIsNotVisible(String category) {
+    @Step("Check category '{0}' is not visible")
+    public ProfilePage checkCategoryIsNotVisible(String category) {
         categories.findBy(text(category))
                 .shouldNotBe(visible);
+        return this;
     }
 
-    public void checkProfileAvatar(BufferedImage expected) throws IOException {
+    @Step("Check profile avatar")
+    public ProfilePage checkProfileAvatar(BufferedImage expected) throws IOException {
         BufferedImage actual = ImageIO.read(avatar.screenshot());
         assertFalse(new ScreenDiffResult(
                 expected,
                 actual
         ));
+        return this;
+    }
+
+    @Step("Check name '{0}'")
+    public ProfilePage checkName(String name) {
+        nameInput.shouldHave(text(name));
+        return this;
     }
 }

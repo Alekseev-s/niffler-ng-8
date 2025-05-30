@@ -6,15 +6,18 @@ import guru.qa.niffler.config.Config;
 import guru.qa.niffler.model.userdata.UserJson;
 import guru.qa.niffler.service.UsersClient;
 import guru.qa.niffler.utils.RandomDataUtils;
+import io.qameta.allure.Step;
 import okhttp3.OkHttpClient;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@ParametersAreNonnullByDefault
 public class UsersApiClient implements UsersClient {
 
     private static final Config CFG = Config.getInstance();
@@ -36,6 +39,7 @@ public class UsersApiClient implements UsersClient {
 
     private final String defaultPassword = "12345";
 
+    @Step("Create user")
     @Override
     public UserJson createUser(String username, String password) {
         final Response<UserJson> response;
@@ -49,6 +53,7 @@ public class UsersApiClient implements UsersClient {
         return response.body();
     }
 
+    @Step("Create income invitation")
     @Override
     public void createIncomeInvitations(UserJson targetUser, int count) {
         if (count > 0) {
@@ -66,6 +71,7 @@ public class UsersApiClient implements UsersClient {
         }
     }
 
+    @Step("Create outcome invitation")
     @Override
     public void createOutcomeInvitations(UserJson targetUser, int count) {
         if (count > 0) {
@@ -83,6 +89,7 @@ public class UsersApiClient implements UsersClient {
         }
     }
 
+    @Step("Create friendship")
     @Override
     public void createFriend(UserJson targetUser, int count) {
         if (count > 0) {

@@ -14,11 +14,15 @@ import guru.qa.niffler.model.spend.CurrencyValues;
 import guru.qa.niffler.model.userdata.UserJson;
 import guru.qa.niffler.service.UsersClient;
 import guru.qa.niffler.utils.RandomDataUtils;
+import io.qameta.allure.Step;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
 
+@ParametersAreNonnullByDefault
 public class UsersDbClient implements UsersClient {
 
     private static final Config CFG = Config.getInstance();
@@ -32,6 +36,8 @@ public class UsersDbClient implements UsersClient {
             CFG.userdataJdbcUrl()
     );
 
+    @Step("Create user")
+    @Nonnull
     public UserJson createUser(String username, String password) {
         return xaTransactionTemplate.execute(() -> {
             AuthUserEntity authUserEntity = authUserEntity(username, password);
@@ -43,6 +49,7 @@ public class UsersDbClient implements UsersClient {
         });
     }
 
+    @Step("Create income invitation")
     @Override
     public void createIncomeInvitations(UserJson targetUser, int count) {
         if (count > 0) {
@@ -63,6 +70,7 @@ public class UsersDbClient implements UsersClient {
         }
     }
 
+    @Step("Create outcome invitation")
     @Override
     public void createOutcomeInvitations(UserJson targetUser, int count) {
         if (count > 0) {
@@ -83,6 +91,7 @@ public class UsersDbClient implements UsersClient {
         }
     }
 
+    @Step("Create friendship")
     @Override
     public void createFriend(UserJson targetUser, int count) {
         if (count > 0) {
@@ -103,6 +112,7 @@ public class UsersDbClient implements UsersClient {
         }
     }
 
+    @Nonnull
     private UserEntity userEntity(String username) {
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(username);
@@ -110,6 +120,7 @@ public class UsersDbClient implements UsersClient {
         return userEntity;
     }
 
+    @Nonnull
     private AuthUserEntity authUserEntity(String username, String password) {
         AuthUserEntity authUserEntity = new AuthUserEntity();
         authUserEntity.setUsername(username);

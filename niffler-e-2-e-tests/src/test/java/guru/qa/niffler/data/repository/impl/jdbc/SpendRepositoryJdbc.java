@@ -10,12 +10,15 @@ import guru.qa.niffler.data.entity.spend.SpendEntity;
 import guru.qa.niffler.data.mapper.SpendEntityRowMapper;
 import guru.qa.niffler.data.repository.SpendRepository;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.sql.*;
 import java.util.Optional;
 import java.util.UUID;
 
 import static guru.qa.niffler.data.template.Connections.holder;
 
+@ParametersAreNonnullByDefault
 public class SpendRepositoryJdbc implements SpendRepository {
 
     private static final Config CFG = Config.getInstance();
@@ -23,6 +26,7 @@ public class SpendRepositoryJdbc implements SpendRepository {
     private final CategoryDao categoryDao = new CategoryDaoJdbc();
     private final SpendDao spendDao = new SpendDaoJdbc();
 
+    @Nonnull
     @Override
     public SpendEntity create(SpendEntity spendEntity) {
         if (spendEntity.getCategory().getId() == null) {
@@ -33,6 +37,7 @@ public class SpendRepositoryJdbc implements SpendRepository {
         return spendDao.create(spendEntity);
     }
 
+    @Nonnull
     @Override
     public SpendEntity update(SpendEntity spendEntity) {
         if (spendEntity.getCategory().getId() == null) {
@@ -67,21 +72,25 @@ public class SpendRepositoryJdbc implements SpendRepository {
         return spendEntity;
     }
 
+    @Nonnull
     @Override
     public CategoryEntity createCategory(CategoryEntity categoryEntity) {
         return categoryDao.create(categoryEntity);
     }
 
+    @Nonnull
     @Override
     public Optional<CategoryEntity> findCategoryById(UUID id) {
         return categoryDao.findCategoryById(id);
     }
 
+    @Nonnull
     @Override
     public Optional<CategoryEntity> findCategoryByUsernameAndCategoryName(String username, String categoryName) {
         return categoryDao.findCategoryByUsernameAndCategoryName(username, categoryName);
     }
 
+    @Nonnull
     @Override
     public Optional<SpendEntity> findById(UUID id) {
         try (PreparedStatement ps = holder(CFG.spendJdbcUrl()).connection().prepareStatement(
@@ -107,6 +116,7 @@ public class SpendRepositoryJdbc implements SpendRepository {
         }
     }
 
+    @Nonnull
     @Override
     public Optional<SpendEntity> findByUsernameAndSpendDescription(String username, String description) {
         try (PreparedStatement ps = holder(CFG.spendJdbcUrl()).connection().prepareStatement(

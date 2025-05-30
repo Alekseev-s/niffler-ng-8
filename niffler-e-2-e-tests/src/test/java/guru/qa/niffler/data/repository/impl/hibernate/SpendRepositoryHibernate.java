@@ -7,25 +7,29 @@ import guru.qa.niffler.data.repository.SpendRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Optional;
 import java.util.UUID;
 
 import static guru.qa.niffler.data.jpa.EntityManagers.em;
 
+@ParametersAreNonnullByDefault
 public class SpendRepositoryHibernate implements SpendRepository {
 
     private static final Config CFG = Config.getInstance();
     private final EntityManager entityManager = em(CFG.spendJdbcUrl());
 
+    @Nonnull
     @Override
     public SpendEntity create(SpendEntity spendEntity) {
         entityManager.joinTransaction();
         CategoryEntity category = spendEntity.getCategory();
         if (category != null) {
-            if (category.getId() != null) {
-                category = entityManager.find(CategoryEntity.class, category.getId());
+            if (category.getId() == null) {
+                category = createCategory(category);
             } else {
-                createCategory(category);
+                category = entityManager.find(CategoryEntity.class, category.getId());
             }
             spendEntity.setCategory(category);
         }
@@ -33,19 +37,27 @@ public class SpendRepositoryHibernate implements SpendRepository {
         return spendEntity;
     }
 
+    @Nonnull
     @Override
     public SpendEntity update(SpendEntity spendEntity) {
         entityManager.joinTransaction();
         return entityManager.merge(spendEntity);
     }
 
+    @Nonnull
     @Override
     public CategoryEntity createCategory(CategoryEntity categoryEntity) {
         entityManager.joinTransaction();
-        entityManager.persist(categoryEntity);
-        return categoryEntity;
+        Optional<CategoryEntity> createdCategory = findCategoryByUsernameAndCategoryName(categoryEntity.getUsername(), categoryEntity.getName());
+        if (createdCategory.isEmpty()) {
+            entityManager.persist(categoryEntity);
+            return categoryEntity;
+        } else {
+            return createdCategory.get();
+        }
     }
 
+    @Nonnull
     @Override
     public Optional<CategoryEntity> findCategoryById(UUID id) {
         return Optional.ofNullable(
@@ -53,12 +65,13 @@ public class SpendRepositoryHibernate implements SpendRepository {
         );
     }
 
+    @Nonnull
     @Override
     public Optional<CategoryEntity> findCategoryByUsernameAndCategoryName(String username, String name) {
         try {
             return Optional.of(
                     entityManager.createQuery(
-                            "SELECT c FROM CategoryEntity c WHERE c.username =: username AND c.name =: name",
+                                    "SELECT c FROM CategoryEntity c WHERE c.username =: username AND c.name =: name",
                                     CategoryEntity.class)
                             .setParameter("username", username)
                             .setParameter("name", name)
@@ -69,6 +82,7 @@ public class SpendRepositoryHibernate implements SpendRepository {
         }
     }
 
+    @Nonnull
     @Override
     public Optional<SpendEntity> findById(UUID id) {
         return Optional.ofNullable(
@@ -76,12 +90,13 @@ public class SpendRepositoryHibernate implements SpendRepository {
         );
     }
 
+    @Nonnull
     @Override
     public Optional<SpendEntity> findByUsernameAndSpendDescription(String username, String description) {
         try {
             return Optional.of(
                     entityManager.createQuery(
-                            "SELECT s SpendEntity s WHERE s.username =: username AND s.description =: description",
+                                    "SELECT s SpendEntity s WHERE s.username =: username AND s.description =: description",
                                     SpendEntity.class)
                             .setParameter("username", username)
                             .setParameter("description", description)

@@ -2,6 +2,7 @@ package guru.qa.niffler.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import guru.qa.niffler.config.Config;
+import io.qameta.allure.Step;
 import lombok.SneakyThrows;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -24,6 +25,7 @@ public class GhApiClient {
 
   private final GhApi ghApi = retrofit.create(GhApi.class);
 
+  @Step("Get state from github api for issue '{0}'")
   public @Nonnull String issueState(@Nonnull String issueNumber) {
     final Response<JsonNode> response;
     try {

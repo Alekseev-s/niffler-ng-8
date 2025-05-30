@@ -10,14 +10,18 @@ import guru.qa.niffler.data.entity.auth.AuthorityEntity;
 import guru.qa.niffler.data.extractor.AuthUserEntityExtractor;
 import guru.qa.niffler.data.repository.AuthUserRepository;
 import guru.qa.niffler.data.template.DataSources;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@ParametersAreNonnullByDefault
 public class AuthUserRepositorySpringJdbc implements AuthUserRepository {
 
     private static final Config CFG = Config.getInstance();
@@ -25,6 +29,7 @@ public class AuthUserRepositorySpringJdbc implements AuthUserRepository {
     private final AuthUserDao authUserDao = new AuthUserDaoSpringJdbc();
     private final AuthAuthorityDao authAuthorityDao = new AuthAuthorityDaoSpringJdbc();
 
+    @Nonnull
     @Override
     public AuthUserEntity create(AuthUserEntity userEntity) {
         AuthUserEntity authUserEntity = authUserDao.create(userEntity);
@@ -33,6 +38,7 @@ public class AuthUserRepositorySpringJdbc implements AuthUserRepository {
         return authUserEntity;
     }
 
+    @Nonnull
     @Override
     public AuthUserEntity update(AuthUserEntity authUserEntity) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.authJdbcUrl()));
@@ -63,6 +69,7 @@ public class AuthUserRepositorySpringJdbc implements AuthUserRepository {
         return authUserEntity;
     }
 
+    @Nonnull
     @Override
     public Optional<AuthUserEntity> findById(UUID id) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.authJdbcUrl()));
@@ -93,6 +100,7 @@ public class AuthUserRepositorySpringJdbc implements AuthUserRepository {
         }
     }
 
+    @Nonnull
     @Override
     public Optional<AuthUserEntity> findByUsername(String username) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.authJdbcUrl()));

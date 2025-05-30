@@ -5,15 +5,19 @@ import guru.qa.niffler.config.Config;
 import guru.qa.niffler.model.spend.CategoryJson;
 import guru.qa.niffler.model.spend.SpendJson;
 import guru.qa.niffler.service.SpendClient;
+import io.qameta.allure.Step;
 import okhttp3.OkHttpClient;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@ParametersAreNonnullByDefault
 public class SpendApiClient implements SpendClient {
 
     private static final Config CFG = Config.getInstance();
@@ -27,8 +31,9 @@ public class SpendApiClient implements SpendClient {
 
     private final SpendApi spendApi = retrofit.create(SpendApi.class);
 
+    @Step("Create spend using REST API")
     @Override
-    public SpendJson createSpend(SpendJson spend) {
+    public @Nullable SpendJson createSpend(SpendJson spend) {
         final Response<SpendJson> response;
         try {
             response = spendApi.addSpend(spend)
@@ -40,8 +45,9 @@ public class SpendApiClient implements SpendClient {
         return response.body();
     }
 
+    @Step("Create category using REST API")
     @Override
-    public CategoryJson createCategory(CategoryJson categoryJson) {
+    public @Nullable CategoryJson createCategory(CategoryJson categoryJson) {
         final Response<CategoryJson> response;
         try {
             response = spendApi.addCategory(categoryJson)

@@ -4,6 +4,8 @@ import guru.qa.niffler.config.Config;
 import guru.qa.niffler.data.dao.AuthUserDao;
 import guru.qa.niffler.data.entity.auth.AuthUserEntity;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +14,12 @@ import java.util.UUID;
 
 import static guru.qa.niffler.data.template.Connections.holder;
 
+@ParametersAreNonnullByDefault
 public class AuthUserDaoJdbc implements AuthUserDao {
 
     private static final Config CFG = Config.getInstance();
 
+    @Nonnull
     @Override
     public AuthUserEntity create(AuthUserEntity userEntity) {
         try (PreparedStatement ps = holder(CFG.authJdbcUrl()).connection().prepareStatement(
@@ -57,6 +61,7 @@ public class AuthUserDaoJdbc implements AuthUserDao {
         }
     }
 
+    @Nonnull
     @Override
     public Optional<AuthUserEntity> findUserById(UUID id) {
         try (PreparedStatement ps = holder(CFG.authJdbcUrl()).connection().prepareStatement(
@@ -85,6 +90,7 @@ public class AuthUserDaoJdbc implements AuthUserDao {
         }
     }
 
+    @Nonnull
     @Override
     public List<AuthUserEntity> findAll() {
         try (PreparedStatement ps = holder(CFG.authJdbcUrl()).connection().prepareStatement(

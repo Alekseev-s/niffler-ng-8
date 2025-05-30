@@ -11,33 +11,40 @@ import guru.qa.niffler.data.template.DataSources;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@ParametersAreNonnullByDefault
 public class UserdataUserRepositorySpringJdbc implements UserdataUserRepository {
 
     private static final Config CFG = Config.getInstance();
 
     private final UserdataUserDao userdataUserDao = new UserdataUserDaoSpringJdbc();
 
+    @Nonnull
     @Override
     public UserEntity create(UserEntity userEntity) {
         return userdataUserDao.createUser(userEntity);
     }
 
+    @Nonnull
     @Override
     public Optional<UserEntity> findById(UUID id) {
         return userdataUserDao.findById(id);
     }
 
+    @Nonnull
     @Override
     public Optional<UserEntity> findByUsername(String username) {
         return userdataUserDao.findByUsername(username);
     }
 
+    @Nonnull
     @Override
     public UserEntity update(UserEntity userEntity) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.userdataJdbcUrl()));

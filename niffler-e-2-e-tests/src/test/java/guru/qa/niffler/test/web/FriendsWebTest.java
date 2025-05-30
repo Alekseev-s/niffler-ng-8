@@ -2,18 +2,13 @@ package guru.qa.niffler.test.web;
 
 import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.config.Config;
-import guru.qa.niffler.jupiter.annotation.UserType;
 import guru.qa.niffler.jupiter.annotation.meta.User;
 import guru.qa.niffler.jupiter.extension.BrowserExtension;
-import guru.qa.niffler.model.userdata.StaticUser;
-import guru.qa.niffler.jupiter.annotation.meta.WebTest;
 import guru.qa.niffler.model.userdata.UserJson;
 import guru.qa.niffler.page.FriendsPage;
 import guru.qa.niffler.page.LoginPage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-import static guru.qa.niffler.jupiter.annotation.UserType.Type.*;
 
 @ExtendWith(BrowserExtension.class)
 public class FriendsWebTest {
@@ -30,11 +25,10 @@ public class FriendsWebTest {
 
         String friendUsername = user.testData().friends().getFirst().username();
 
-        FriendsPage fiendsPage = Selenide.open(CFG.friendsUrl(), FriendsPage.class);
-
-        fiendsPage.checkFriendPageIsVisible();
-        fiendsPage.searchFriend(friendUsername);
-        fiendsPage.checkFriendIsVisible(friendUsername);
+        Selenide.open(CFG.friendsUrl(), FriendsPage.class)
+                .checkFriendPageIsVisible()
+                .searchFriend(friendUsername)
+                .checkFriendIsVisible(friendUsername);
     }
 
     @User
@@ -43,10 +37,9 @@ public class FriendsWebTest {
         Selenide.open(CFG.frontUrl(), LoginPage.class)
                 .doLogin(user.username(), user.testData().password());
 
-        FriendsPage friendsPage = Selenide.open(CFG.friendsUrl(), FriendsPage.class);
-
-        friendsPage.checkFriendPageIsVisible();
-        friendsPage.checkThereAreNoFriends();
+        Selenide.open(CFG.friendsUrl(), FriendsPage.class)
+                .checkFriendPageIsVisible()
+                .checkThereAreNoFriends();
     }
 
 
@@ -60,11 +53,10 @@ public class FriendsWebTest {
 
         String friendUsername = user.testData().incomeInvitations().getFirst().username();
 
-        FriendsPage friendsPage = Selenide.open(CFG.friendsUrl(), FriendsPage.class);
-
-        friendsPage.checkFriendPageIsVisible();
-        friendsPage.searchFriend(friendUsername);
-        friendsPage.checkIncomeFriendshipRequest(friendUsername);
+        Selenide.open(CFG.friendsUrl(), FriendsPage.class)
+                .checkFriendPageIsVisible()
+                .searchFriend(friendUsername)
+                .checkIncomeFriendshipRequest(friendUsername);
     }
 
     @User(
@@ -77,11 +69,37 @@ public class FriendsWebTest {
 
         String friendUsername = user.testData().outcomeInvitations().getFirst().username();
 
-        FriendsPage friendsPage = Selenide.open(CFG.friendsUrl(), FriendsPage.class)
-                .goToAllPeopleTab();
+        Selenide.open(CFG.friendsUrl(), FriendsPage.class)
+                .goToAllPeopleTab()
+                .checkFriendPageIsVisible()
+                .searchFriend(friendUsername)
+                .checkOutcomeFriendshipRequest(friendUsername);
+    }
 
-        friendsPage.checkFriendPageIsVisible();
-        friendsPage.searchFriend(friendUsername);
-        friendsPage.checkOutcomeFriendshipRequest(friendUsername);
+    @User(
+            amountOfIncomeInvitations = 1
+    )
+    @Test
+    void acceptFriendship(UserJson user) {
+        Selenide.open(CFG.frontUrl(), LoginPage.class)
+                .doLogin(user.username(), user.testData().password());
+
+        String friendUsername = user.testData().incomeInvitations().getFirst().username();
+
+        Selenide.open(CFG.friendsUrl(), FriendsPage.class)
+                .acceptFriendship()
+                .checkFriendIsVisible(friendUsername);
+    }
+
+    @User(
+            amountOfIncomeInvitations = 1
+    )
+    @Test
+    void declineFriendship(UserJson user) {
+        Selenide.open(CFG.frontUrl(), LoginPage.class)
+                .doLogin(user.username(), user.testData().password());
+        Selenide.open(CFG.friendsUrl(), FriendsPage.class)
+                .declineFriendship()
+                .checkThereAreNoFriends();
     }
 }
