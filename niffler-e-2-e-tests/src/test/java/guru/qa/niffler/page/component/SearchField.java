@@ -9,9 +9,12 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 @ParametersAreNonnullByDefault
-public class SearchField {
+public class SearchField extends BaseComponent<SearchField> {
 
-    private final SelenideElement self = $("input[placeholder='Search']").parent().parent();
+    public SearchField() {
+        super($("input[placeholder='Search']").parent().parent());
+    }
+
     private final SelenideElement searchField = self.$("input[placeholder='Search']");
     private final SelenideElement searchButton = self.$("#input-submit");
     private final SelenideElement clearButton = self.$("input-clear");

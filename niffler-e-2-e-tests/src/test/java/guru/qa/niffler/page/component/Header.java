@@ -7,9 +7,12 @@ import io.qameta.allure.Step;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 
-public class Header {
+public class Header extends BaseComponent<Header> {
 
-    private final SelenideElement self = $("#root header");
+    public Header() {
+        super($("#root header"));
+    }
+
     private final SelenideElement menuBtn = self.$("svg[data-testid='PersonIcon']");
     private final SelenideElement addSpendingBtn = self.$("a[href='/spending']");
     private final SelenideElement mainPageBtn = self.$("a[href='/main']");

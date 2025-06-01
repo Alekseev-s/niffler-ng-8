@@ -1,14 +1,16 @@
 package guru.qa.niffler.test.web;
 
+import guru.qa.niffler.jupiter.extension.UserClientExtension;
 import guru.qa.niffler.model.userdata.UserJson;
 import guru.qa.niffler.service.UsersClient;
-import guru.qa.niffler.service.impl.UsersDbClient;
 import guru.qa.niffler.utils.RandomDataUtils;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@ExtendWith(UserClientExtension.class)
 public class JdbcTest {
 
-    private final UsersClient usersClient = new UsersDbClient();
+    private UsersClient usersClient;
 
     @Test
     void createUser() {

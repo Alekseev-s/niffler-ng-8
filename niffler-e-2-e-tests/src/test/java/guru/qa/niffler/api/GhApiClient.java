@@ -1,29 +1,28 @@
 package guru.qa.niffler.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import guru.qa.niffler.config.Config;
+import guru.qa.niffler.api.core.RestClient;
 import io.qameta.allure.Step;
-import lombok.SneakyThrows;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class GhApiClient {
+@ParametersAreNonnullByDefault
+public class GhApiClient extends RestClient {
 
   private static final String GH_TOKEN_ENV = "GITHUB_TOKEN";
 
-  private final Retrofit retrofit = new Retrofit.Builder()
-      .baseUrl(Config.getInstance().ghUrl())
-      .addConverterFactory(JacksonConverterFactory.create())
-      .build();
+  private final GhApi ghApi;
 
-  private final GhApi ghApi = retrofit.create(GhApi.class);
+  public GhApiClient() {
+    super(CFG.ghUrl());
+    this.ghApi = create(GhApi.class);
+  }
 
   @Step("Get state from github api for issue '{0}'")
   public @Nonnull String issueState(@Nonnull String issueNumber) {
