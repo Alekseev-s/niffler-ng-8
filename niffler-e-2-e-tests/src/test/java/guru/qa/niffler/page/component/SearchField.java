@@ -22,7 +22,7 @@ public class SearchField {
         return this;
     }
 
-    @Step("Clear search input if not empty")
+    @Step("Clear search input")
     public SearchField clearIfNotEmpty() {
         clearButton.shouldBe(visible).click();
         return this;
