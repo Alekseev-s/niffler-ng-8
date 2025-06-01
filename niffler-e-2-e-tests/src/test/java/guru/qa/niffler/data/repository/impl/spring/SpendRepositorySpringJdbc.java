@@ -13,11 +13,14 @@ import guru.qa.niffler.data.template.DataSources;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.util.Optional;
 import java.util.UUID;
 
+@ParametersAreNonnullByDefault
 public class SpendRepositorySpringJdbc implements SpendRepository {
 
     private static final Config CFG = Config.getInstance();
@@ -25,6 +28,7 @@ public class SpendRepositorySpringJdbc implements SpendRepository {
     private final CategoryDao categoryDao = new CategoryDaoSpringJdbc();
     private final SpendDao spendDao = new SpendDaoSpringJdbc();
 
+    @Nonnull
     @Override
     public SpendEntity create(SpendEntity spendEntity) {
         if (spendEntity.getCategory().getId() == null) {
@@ -35,6 +39,7 @@ public class SpendRepositorySpringJdbc implements SpendRepository {
         return spendDao.create(spendEntity);
     }
 
+    @Nonnull
     @Override
     public SpendEntity update(SpendEntity spendEntity) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.spendJdbcUrl()));
@@ -69,21 +74,25 @@ public class SpendRepositorySpringJdbc implements SpendRepository {
         return spendEntity;
     }
 
+    @Nonnull
     @Override
     public CategoryEntity createCategory(CategoryEntity categoryEntity) {
         return categoryDao.create(categoryEntity);
     }
 
+    @Nonnull
     @Override
     public Optional<CategoryEntity> findCategoryById(UUID id) {
         return categoryDao.findCategoryById(id);
     }
 
+    @Nonnull
     @Override
     public Optional<CategoryEntity> findCategoryByUsernameAndCategoryName(String username, String categoryName) {
         return categoryDao.findCategoryByUsernameAndCategoryName(username, categoryName);
     }
 
+    @Nonnull
     @Override
     public Optional<SpendEntity> findById(UUID id) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.spendJdbcUrl()));
@@ -100,6 +109,7 @@ public class SpendRepositorySpringJdbc implements SpendRepository {
         }
     }
 
+    @Nonnull
     @Override
     public Optional<SpendEntity> findByUsernameAndSpendDescription(String username, String description) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.spendJdbcUrl()));

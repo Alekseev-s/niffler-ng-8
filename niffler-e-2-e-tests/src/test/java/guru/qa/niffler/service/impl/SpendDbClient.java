@@ -10,9 +10,12 @@ import guru.qa.niffler.data.template.XaTransactionTemplate;
 import guru.qa.niffler.model.spend.CategoryJson;
 import guru.qa.niffler.model.spend.SpendJson;
 import guru.qa.niffler.service.SpendClient;
+import io.qameta.allure.Step;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Optional;
 
+@ParametersAreNonnullByDefault
 public class SpendDbClient implements SpendClient {
 
     private static final Config CFG = Config.getInstance();
@@ -20,6 +23,7 @@ public class SpendDbClient implements SpendClient {
     private final SpendRepository spendRepositoryHibernate = new SpendRepositoryHibernate();
     private final XaTransactionTemplate xaTxTemplate = new XaTransactionTemplate(CFG.spendJdbcUrl());
 
+    @Step("Create spend using SQL")
     @Override
     public SpendJson createSpend(SpendJson spend) {
         return xaTxTemplate.execute(() -> {
@@ -28,6 +32,7 @@ public class SpendDbClient implements SpendClient {
         });
     }
 
+    @Step("Create category using SQL")
     @Override
     public CategoryJson createCategory(CategoryJson categoryJson) {
         return xaTxTemplate.execute(() -> {

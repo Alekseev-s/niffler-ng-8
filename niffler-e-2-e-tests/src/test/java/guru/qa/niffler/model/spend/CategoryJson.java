@@ -3,8 +3,11 @@ package guru.qa.niffler.model.spend;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import guru.qa.niffler.data.entity.spend.CategoryEntity;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.UUID;
 
+@ParametersAreNonnullByDefault
 public record CategoryJson(
     @JsonProperty("id")
     UUID id,
@@ -15,7 +18,7 @@ public record CategoryJson(
     @JsonProperty("archived")
     boolean archived) {
 
-    public static CategoryJson fromEntity(CategoryEntity categoryEntity) {
+    public static @Nonnull CategoryJson fromEntity(CategoryEntity categoryEntity) {
         return new CategoryJson(
                 categoryEntity.getId(),
                 categoryEntity.getName(),

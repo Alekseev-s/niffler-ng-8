@@ -10,7 +10,10 @@ import guru.qa.niffler.data.entity.auth.AuthorityEntity;
 import guru.qa.niffler.data.mapper.AuthUserEntityRowMapper;
 import guru.qa.niffler.data.repository.AuthUserRepository;
 import guru.qa.niffler.model.auth.AuthorityValues;
+import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,6 +21,7 @@ import java.util.*;
 
 import static guru.qa.niffler.data.template.Connections.holder;
 
+@ParametersAreNonnullByDefault
 public class AuthUserRepositoryJdbc implements AuthUserRepository {
 
     private static final Config CFG = Config.getInstance();
@@ -25,6 +29,7 @@ public class AuthUserRepositoryJdbc implements AuthUserRepository {
     private final AuthUserDao authUserDao = new AuthUserDaoJdbc();
     private final AuthAuthorityDao authAuthorityDao = new AuthAuthorityDaoJdbc();
 
+    @Nonnull
     @Override
     public AuthUserEntity create(AuthUserEntity userEntity) {
         AuthUserEntity authUserEntity = authUserDao.create(userEntity);
@@ -33,6 +38,7 @@ public class AuthUserRepositoryJdbc implements AuthUserRepository {
         return authUserEntity;
     }
 
+    @Nonnull
     @Override
     public AuthUserEntity update(AuthUserEntity authUserEntity) {
         try (PreparedStatement ps = holder(CFG.authJdbcUrl()).connection().prepareStatement(
@@ -62,6 +68,7 @@ public class AuthUserRepositoryJdbc implements AuthUserRepository {
         }
     }
 
+    @Nonnull
     @Override
     public Optional<AuthUserEntity> findById(UUID id) {
         try (PreparedStatement ps = holder(CFG.authJdbcUrl()).connection().prepareStatement(
@@ -97,6 +104,7 @@ public class AuthUserRepositoryJdbc implements AuthUserRepository {
         }
     }
 
+    @Nonnull
     @Override
     public Optional<AuthUserEntity> findByUsername(String username) {
         try (PreparedStatement ps = holder(CFG.authJdbcUrl()).connection().prepareStatement(

@@ -3,8 +3,11 @@ package guru.qa.niffler.page;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import guru.qa.niffler.model.spend.SpendJson;
+import guru.qa.niffler.page.component.SpendingTable;
 import guru.qa.niffler.utils.ScreenDiffResult;
+import io.qameta.allure.Step;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -20,50 +23,27 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+@ParametersAreNonnullByDefault
 public class MainPage {
 
-    private final ElementsCollection tableRows = $$("#spendings tbody tr");
     private final ElementsCollection spendingLabels = $("#legend-container").$$("li");
     private final SelenideElement spendingDiagram = $("canvas[role='img']");
-    private final SelenideElement deleteButton = $("#delete");
-    private final SelenideElement dialogWindow = $("div[role='dialog']");
+    private final SpendingTable spendingTable = new SpendingTable();
 
+    @Step("Edit spending '{0}'")
     public EditSpendingPage editSpending(String spendingDescription) {
-        tableRows.find(text(spendingDescription))
-                .$$("td")
-                .get(5)
-                .click();
-        return new EditSpendingPage();
+        return spendingTable.editSpending(spendingDescription);
     }
 
+    @Step("Delete spending '{0}'")
     public MainPage deleteSpending(String spendingDescription) {
-        checkSpending(spendingDescription)
-                .clickDeleteButton()
-                .confirmDeletion();
+        spendingTable.deleteSpending(spendingDescription);
         return this;
     }
 
-    public MainPage checkSpending(String spendingDescription) {
-        tableRows.find(text(spendingDescription))
-                .$$("td")
-                .get(0)
-                .click();
-        return this;
-    }
-
-    public MainPage clickDeleteButton() {
-        deleteButton.click();
-        return this;
-    }
-
-    public MainPage confirmDeletion() {
-        dialogWindow.$(byText("Delete")).click();
-        return this;
-    }
-
+    @Step("Check that table contains spending '{0}'")
     public MainPage checkThatTableContains(String spendingDescription) {
-        tableRows.find(text(spendingDescription))
-                .should(visible);
+        spendingTable.checkTableContains(spendingDescription);
         return this;
     }
 
@@ -73,6 +53,7 @@ public class MainPage {
         return this;
     }
 
+    @Step("Check spending diagram")
     public MainPage checkSpendingDiagram(BufferedImage expected) throws IOException {
         try {
             Thread.sleep(3000);
@@ -89,6 +70,7 @@ public class MainPage {
         return this;
     }
 
+    @Step("Check spending labels are visible")
     public MainPage checkSpendingLabelsAreVisible(String...labels) {
         spendingLabels.shouldHave(textsInAnyOrder(labels));
         return this;

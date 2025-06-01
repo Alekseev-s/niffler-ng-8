@@ -10,6 +10,7 @@ import guru.qa.niffler.model.spend.CategoryJson;
 import guru.qa.niffler.model.userdata.UserJson;
 import guru.qa.niffler.page.LoginPage;
 import guru.qa.niffler.page.ProfilePage;
+import guru.qa.niffler.utils.RandomDataUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -35,10 +36,10 @@ public class ProfileWebTest {
                 .doLogin(user.username(), user.testData().password())
                 .checkLoginIsSuccessful();
 
-        ProfilePage profilePage = Selenide.open(CFG.profileUrl(), ProfilePage.class);
-        profilePage.checkCategoryIsNotVisible(category.name());
-        profilePage.switchArchiveToggle();
-        profilePage.checkCategoryIsVisible(category.name());
+        Selenide.open(CFG.profileUrl(), ProfilePage.class)
+                .checkCategoryIsNotVisible(category.name())
+                .switchArchiveToggle()
+                .checkCategoryIsVisible(category.name());
     }
 
     @User(
@@ -53,23 +54,41 @@ public class ProfileWebTest {
                 .doLogin("duck", "12345")
                 .checkLoginIsSuccessful();
 
-        ProfilePage profilePage = Selenide.open(CFG.profileUrl(), ProfilePage.class);
-        profilePage.checkCategoryIsVisible(categories[0].name());
-        profilePage.switchArchiveToggle();
-        profilePage.checkCategoryIsVisible(categories[0].name());
+        Selenide.open(CFG.profileUrl(), ProfilePage.class)
+                .checkCategoryIsVisible(categories[0].name())
+                .switchArchiveToggle()
+                .checkCategoryIsVisible(categories[0].name());
     }
 
     @User
-    @ScreenShotTest("img/expected-avatar.png")
+    @ScreenShotTest(value = "img/expected-avatar.png",
+    rewriteExpected = true)
     void userAvatarShouldBeVisible(UserJson user, BufferedImage expected) throws IOException {
         Selenide.open(CFG.frontUrl(), LoginPage.class)
                 .doLogin(user.username(), user.testData().password())
                 .checkLoginIsSuccessful();
 
-        ProfilePage profilePage = Selenide.open(CFG.profileUrl(), ProfilePage.class)
+        Selenide.open(CFG.profileUrl(), ProfilePage.class)
                 .uploadAvatar("img/avatar.jpg")
-                .saveChanges();
+                .saveChanges()
+                .checkProfileAvatar(expected);
+    }
 
-        profilePage.checkProfileAvatar(expected);
+    @User
+    @ScreenShotTest(
+            value = "img/expected-avatar.png")
+    void editProfile(UserJson user, BufferedImage expected) throws IOException {
+        final String name = RandomDataUtils.getRandomUsername();
+
+        Selenide.open(CFG.frontUrl(), LoginPage.class)
+                .doLogin(user.username(), user.testData().password())
+                .checkLoginIsSuccessful();
+
+        Selenide.open(CFG.profileUrl(), ProfilePage.class)
+                .uploadAvatar("img/avatar.jpg")
+                .setName(name)
+                .saveChanges()
+                .checkProfileAvatar(expected)
+                .checkName(name);
     }
 }

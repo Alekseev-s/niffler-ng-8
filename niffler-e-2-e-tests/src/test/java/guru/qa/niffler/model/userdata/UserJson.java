@@ -6,6 +6,8 @@ import guru.qa.niffler.data.entity.userdata.FriendshipStatus;
 import guru.qa.niffler.data.entity.userdata.UserEntity;
 import guru.qa.niffler.model.spend.CurrencyValues;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -32,7 +34,7 @@ public record UserJson(
         @JsonIgnore
         TestData testData
 ) {
-    public static UserJson fromEntity(UserEntity userEntity, FriendshipStatus friendshipStatus) {
+    public static @Nonnull UserJson fromEntity(@Nonnull UserEntity userEntity, FriendshipStatus friendshipStatus) {
         return new UserJson(
                 userEntity.getId(),
                 userEntity.getUsername(),
@@ -54,7 +56,7 @@ public record UserJson(
         );
     }
 
-    public UserJson withPassword(String password) {
+    public @Nonnull UserJson withPassword(@Nonnull String password) {
         return withTestData(
                 new TestData(
                         password,
@@ -67,7 +69,7 @@ public record UserJson(
         );
     }
 
-    public UserJson withTestData(TestData testData) {
+    public @Nonnull UserJson withTestData(@Nonnull TestData testData) {
         return new UserJson(
                 id,
                 username,
