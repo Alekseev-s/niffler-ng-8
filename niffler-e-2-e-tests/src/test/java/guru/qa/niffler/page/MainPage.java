@@ -24,7 +24,7 @@ import static com.codeborne.selenide.Selenide.$$;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @ParametersAreNonnullByDefault
-public class MainPage {
+public class MainPage extends BasePage<MainPage> {
 
     private final ElementsCollection spendingLabels = $("#legend-container").$$("li");
     private final SelenideElement spendingDiagram = $("canvas[role='img']");
