@@ -12,8 +12,11 @@ import io.qameta.allure.Step;
 import retrofit2.Response;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -103,5 +106,18 @@ public class UsersApiClient implements UsersClient {
                 assertEquals(200, acceptResponse.code());
             }
         }
+    }
+
+    @Step("Get all users")
+    @Nonnull
+    public List<UserJson> getAllUsers(String username, @Nullable String searchQuery) {
+        final Response<List<UserJson>> response;
+        try {
+            response = userdataApi.allUsers(username, searchQuery).execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(200, response.code());
+        return response.body() != null ? response.body() : Collections.emptyList();
     }
 }
