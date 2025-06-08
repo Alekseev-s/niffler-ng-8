@@ -6,6 +6,10 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
+
 public interface UserdataApi {
 
     @GET("internal/users/current")
@@ -18,4 +22,8 @@ public interface UserdataApi {
     @POST("/internal/invitations/accept")
     Call<UserJson> acceptInvitation(@Query("username") String username,
                                     @Query("targetUsername") String targetUsername);
+
+    @GET("internal/users/all")
+    Call<List<UserJson>> allUsers(@Query("username") String username,
+                                  @Query("searchQuery") String searchQuery);
 }
