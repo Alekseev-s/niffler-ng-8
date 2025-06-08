@@ -7,6 +7,7 @@ import guru.qa.niffler.model.spend.CategoryJson;
 import guru.qa.niffler.model.spend.SpendJson;
 import guru.qa.niffler.service.SpendClient;
 import io.qameta.allure.Step;
+import io.qameta.allure.okhttp3.AllureOkHttp3;
 import okhttp3.OkHttpClient;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -26,7 +27,12 @@ public class SpendApiClient extends RestClient implements SpendClient {
     private final SpendApi spendApi;
 
     public SpendApiClient() {
-        super(CFG.spendUrl());
+        super(
+                CFG.spendUrl(),
+                new AllureOkHttp3()
+                        .setRequestTemplate("http-request.ftl")
+                        .setResponseTemplate("http-response.ftl")
+        );
         this.spendApi = create(SpendApi.class);
     }
 
