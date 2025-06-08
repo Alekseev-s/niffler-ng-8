@@ -1,5 +1,6 @@
 package guru.qa.niffler.api;
 
+import guru.qa.niffler.api.core.RestClient;
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.model.spend.CategoryJson;
 import guru.qa.niffler.model.spend.CurrencyValues;
@@ -20,18 +21,16 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ParametersAreNonnullByDefault
-public class SpendApiClient {
+public class SpendApiClient extends RestClient {
 
   private static final Config CFG = Config.getInstance();
 
-  private final OkHttpClient client = new OkHttpClient.Builder().build();
-  private final Retrofit retrofit = new Retrofit.Builder()
-      .baseUrl(CFG.spendUrl())
-      .client(client)
-      .addConverterFactory(JacksonConverterFactory.create())
-      .build();
+  private final SpendApi spendApi;
 
-  private final SpendApi spendApi = retrofit.create(SpendApi.class);
+  public SpendApiClient(String baseUrl) {
+    super(CFG.spendUrl());
+    this.spendApi = create(SpendApi.class);
+  }
 
   public @Nullable SpendJson addSpend(SpendJson spend) {
     final Response<SpendJson> response;

@@ -12,9 +12,12 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 
 @ParametersAreNonnullByDefault
-public class SpendingTable {
+public class SpendingTable extends BaseComponent<SpendingTable> {
 
-    private final SelenideElement self = $("#spendings");
+    public SpendingTable() {
+        super($("#spendings"));
+    }
+
     private final SelenideElement periodBtn = self.$("#period");
     private final SelenideElement deleteBtn = self.$("#delete");
     private final ElementsCollection tableRows = self.$$("tbody tr");

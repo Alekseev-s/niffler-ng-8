@@ -8,8 +8,12 @@ import guru.qa.niffler.page.ProfilePage;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 
-public class AccountMenu {
-    private final SelenideElement self = $("#account-menu");
+public class AccountMenu extends BaseComponent<AccountMenu> {
+
+    public AccountMenu() {
+        super($("#account-menu"));
+    }
+
     private final SelenideElement toFriendsBtn = self.$("a[href='/people/friends']");
     private final SelenideElement toAllPeopleBtn = self.$("a[href='/people/all']");
     private final SelenideElement toProfileBtn = self.$("a[href='/profile']");

@@ -1,6 +1,7 @@
 package guru.qa.niffler.service.impl;
 
 import guru.qa.niffler.api.SpendApi;
+import guru.qa.niffler.api.core.RestClient;
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.model.spend.CategoryJson;
 import guru.qa.niffler.model.spend.SpendJson;
@@ -18,18 +19,16 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ParametersAreNonnullByDefault
-public class SpendApiClient implements SpendClient {
+public class SpendApiClient extends RestClient implements SpendClient {
 
     private static final Config CFG = Config.getInstance();
 
-    private final OkHttpClient client = new OkHttpClient.Builder().build();
-    private final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(CFG.spendUrl())
-            .client(client)
-            .addConverterFactory(JacksonConverterFactory.create())
-            .build();
+    private final SpendApi spendApi;
 
-    private final SpendApi spendApi = retrofit.create(SpendApi.class);
+    public SpendApiClient() {
+        super(CFG.spendUrl());
+        this.spendApi = create(SpendApi.class);
+    }
 
     @Step("Create spend using REST API")
     @Override

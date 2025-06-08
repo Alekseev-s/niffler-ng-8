@@ -75,6 +75,7 @@ public class SpendingWebTest {
     Selenide.open(CFG.frontUrl(), LoginPage.class)
             .doLogin(user.username(), user.testData().password())
             .deleteSpending(user.testData().spendings().get(0).description())
+            .checkAlertMessage("Spendings succesfully deleted")
             .checkSpendingDiagram(expected);
   }
 

@@ -2,16 +2,16 @@ package guru.qa.niffler.service.impl;
 
 import guru.qa.niffler.api.AuthUserApi;
 import guru.qa.niffler.api.UserdataApi;
+import guru.qa.niffler.api.core.ThreadSafeCookieStorage;
 import guru.qa.niffler.config.Config;
+import guru.qa.niffler.api.core.RestClient.EmptyRestClient;
 import guru.qa.niffler.model.userdata.UserJson;
 import guru.qa.niffler.service.UsersClient;
 import guru.qa.niffler.utils.RandomDataUtils;
 import io.qameta.allure.Step;
-import okhttp3.OkHttpClient;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.jackson.JacksonConverterFactory;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
 
@@ -21,30 +21,24 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class UsersApiClient implements UsersClient {
 
     private static final Config CFG = Config.getInstance();
-
-    private final OkHttpClient client = new OkHttpClient.Builder().build();
-    private final Retrofit authRetrofit = new Retrofit.Builder()
-            .baseUrl(CFG.authUrl())
-            .client(client)
-            .addConverterFactory(JacksonConverterFactory.create())
-            .build();
-    private final Retrofit userdataRetrofit = new Retrofit.Builder()
-            .baseUrl(CFG.userdataUrl())
-            .client(client)
-            .addConverterFactory(JacksonConverterFactory.create())
-            .build();
-
-    private final AuthUserApi authUserApi = authRetrofit.create(AuthUserApi.class);
-    private final UserdataApi userdataApi = userdataRetrofit.create(UserdataApi.class);
-
     private final String defaultPassword = "12345";
 
+    private final AuthUserApi authUserApi = new EmptyRestClient(CFG.authUrl()).create(AuthUserApi.class);
+    private final UserdataApi userdataApi = new EmptyRestClient(CFG.userdataUrl()).create(UserdataApi.class);
+
     @Step("Create user")
+    @Nonnull
     @Override
     public UserJson createUser(String username, String password) {
         final Response<UserJson> response;
         try {
-            authUserApi.register(username, password, password, null).execute();
+            authUserApi.getRegisterForm().execute();
+            authUserApi.register(
+                            username,
+                            password,
+                            password,
+                            ThreadSafeCookieStorage.INSTANCE.cookieValue("XSRF-TOKEN"))
+                    .execute();
             response = userdataApi.currentUser(username).execute();
         } catch (IOException e) {
             throw new RuntimeException(e);

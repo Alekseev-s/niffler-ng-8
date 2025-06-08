@@ -88,6 +88,7 @@ public class ProfileWebTest {
                 .uploadAvatar("img/avatar.jpg")
                 .setName(name)
                 .saveChanges()
+                .checkAlertMessage("Profile successfully updated")
                 .checkProfileAvatar(expected)
                 .checkName(name);
     }

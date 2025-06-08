@@ -16,7 +16,7 @@ public class UserExtension implements BeforeEachCallback, ParameterResolver {
 
     public static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(UserExtension.class);
 
-    private final UsersClient usersClient = new UsersDbClient();
+    private final UsersClient usersClient = UsersClient.getInstance();
     private static final String defaultPassword = "12345";
 
     @Override

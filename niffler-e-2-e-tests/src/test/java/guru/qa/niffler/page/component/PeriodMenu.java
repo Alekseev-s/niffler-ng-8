@@ -8,9 +8,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import static com.codeborne.selenide.Selenide.$;
 
 @ParametersAreNonnullByDefault
-public class PeriodMenu {
+public class PeriodMenu extends BaseComponent<PeriodMenu> {
 
-    private final SelenideElement self = $("#menu-period");
+    public PeriodMenu() {
+        super($("#menu-period"));
+    }
 
     @Step("Select period")
     public void selectPeriod(DataFilterValues period) {

@@ -17,9 +17,16 @@ import static com.codeborne.selenide.Selenide.$$;
 import static java.util.Calendar.*;
 
 @ParametersAreNonnullByDefault
-public class Calendar {
+public class Calendar extends BaseComponent<Calendar> {
 
-    private SelenideElement self = $(".MuiDateCalendar-root");
+    public Calendar(SelenideElement self) {
+        super(self);
+    }
+
+    public Calendar() {
+        super($(".MuiDateCalendar-root"));
+    }
+
     private final SelenideElement chooseDateBtn = $("button[aria-label*=\"Choose date\"]");
     private final ElementsCollection chooseYear = self.$$(".MuiPickersYear-yearButton");
     private final SelenideElement currentMonthAndYear = self.$(".MuiPickersFadeTransitionGroup-root");
