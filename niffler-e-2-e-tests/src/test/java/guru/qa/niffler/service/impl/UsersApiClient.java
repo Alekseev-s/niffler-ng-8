@@ -9,6 +9,7 @@ import guru.qa.niffler.model.userdata.UserJson;
 import guru.qa.niffler.service.UsersClient;
 import guru.qa.niffler.utils.RandomDataUtils;
 import io.qameta.allure.Step;
+import io.qameta.allure.okhttp3.AllureOkHttp3;
 import retrofit2.Response;
 
 import javax.annotation.Nonnull;
@@ -26,8 +27,18 @@ public class UsersApiClient implements UsersClient {
     private static final Config CFG = Config.getInstance();
     private final String defaultPassword = "12345";
 
-    private final AuthUserApi authUserApi = new EmptyRestClient(CFG.authUrl()).create(AuthUserApi.class);
-    private final UserdataApi userdataApi = new EmptyRestClient(CFG.userdataUrl()).create(UserdataApi.class);
+    private final AuthUserApi authUserApi = new EmptyRestClient(
+            CFG.authUrl(),
+            new AllureOkHttp3()
+                    .setRequestTemplate("http-request.ftl")
+                    .setResponseTemplate("http-response.ftl"))
+            .create(AuthUserApi.class);
+    private final UserdataApi userdataApi = new EmptyRestClient(
+            CFG.userdataUrl(),
+            new AllureOkHttp3()
+                    .setRequestTemplate("http-request.ftl")
+                    .setResponseTemplate("http-response.ftl"))
+            .create(UserdataApi.class);
 
     @Step("Create user")
     @Nonnull

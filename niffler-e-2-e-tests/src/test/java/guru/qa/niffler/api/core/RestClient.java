@@ -30,6 +30,10 @@ public class RestClient {
         this(baseUrl, followRedirect, JacksonConverterFactory.create(), HttpLoggingInterceptor.Level.BODY);
     }
 
+    public RestClient(String baseUrl, Interceptor... interceptors) {
+        this(baseUrl, false, JacksonConverterFactory.create(), HttpLoggingInterceptor.Level.BODY, interceptors);
+    }
+
     public RestClient(String baseUrl, Converter.Factory factory) {
         this(baseUrl, false, factory, HttpLoggingInterceptor.Level.BODY);
     }
@@ -68,6 +72,10 @@ public class RestClient {
     public static final class EmptyRestClient extends RestClient {
         public EmptyRestClient(String baseUrl) {
             super(baseUrl);
+        }
+
+        public EmptyRestClient(String baseUrl, Interceptor... interceptors) {
+            super(baseUrl, interceptors);
         }
 
         public EmptyRestClient(String baseUrl, boolean followRedirect) {
