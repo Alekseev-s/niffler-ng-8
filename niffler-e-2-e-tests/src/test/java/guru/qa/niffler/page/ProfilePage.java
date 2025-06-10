@@ -3,6 +3,7 @@ package guru.qa.niffler.page;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import guru.qa.niffler.config.Config;
+import guru.qa.niffler.jupiter.extension.ScreenShotExtension;
 import guru.qa.niffler.utils.ScreenDiffResult;
 import io.qameta.allure.Step;
 
@@ -15,6 +16,7 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @ParametersAreNonnullByDefault
@@ -77,11 +79,12 @@ public class ProfilePage extends BasePage<ProfilePage> {
 
     @Step("Check profile avatar")
     public ProfilePage checkProfileAvatar(BufferedImage expected) throws IOException {
-        BufferedImage actual = ImageIO.read(avatar.screenshot());
+        BufferedImage actual = ImageIO.read(requireNonNull(avatar.screenshot()));
         assertFalse(new ScreenDiffResult(
-                expected,
-                actual
-        ));
+                        expected,
+                        actual
+                ),
+                ScreenShotExtension.ASSERT_SCREEN_MESSAGE);
         return this;
     }
 
