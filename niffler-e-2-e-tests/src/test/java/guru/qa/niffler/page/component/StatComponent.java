@@ -6,6 +6,8 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import guru.qa.niffler.condition.Color;
 import guru.qa.niffler.jupiter.extension.ScreenShotExtension;
+import guru.qa.niffler.model.spend.Bubble;
+import guru.qa.niffler.model.spend.SpendJson;
 import guru.qa.niffler.utils.ScreenDiffResult;
 import io.qameta.allure.Step;
 
@@ -15,7 +17,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import static com.codeborne.selenide.Selenide.$;
-import static guru.qa.niffler.condition.StatCondition.color;
+import static guru.qa.niffler.condition.StatCondition.*;
 import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -53,6 +55,24 @@ public class StatComponent extends BaseComponent<StatComponent> {
     @Nonnull
     public StatComponent checkBubbles(Color... expectedColors) {
         bubbles.should(color(expectedColors));
+        return this;
+    }
+
+    @Step("Check stat bubbles")
+    public StatComponent checkStatBubbles(Bubble... expectedBubbles) {
+        bubbles.should(bubbles(expectedBubbles));
+        return this;
+    }
+
+    @Step("Check stat bubbles in any order")
+    public StatComponent checkStatBubblesInAnyOrder(Bubble... expectedBubbles) {
+        bubbles.should(bubblesAnyOrder(expectedBubbles));
+        return this;
+    }
+
+    @Step("Check stat bubbles contains")
+    public StatComponent checkStatBubblesContains(Bubble... expectedBubbles) {
+        bubbles.shouldHave(bubblesContains(expectedBubbles));
         return this;
     }
 }

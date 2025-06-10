@@ -18,6 +18,14 @@ public class MainPage extends BasePage<MainPage> {
     private final SpendingTable spendingTable = new SpendingTable();
     private final StatComponent statComponent = new StatComponent();
 
+    public StatComponent getStatComponent() {
+        return statComponent;
+    }
+
+    public SpendingTable getSpendingTable() {
+        return spendingTable;
+    }
+
     @Step("Edit spending '{0}'")
     public EditSpendingPage editSpending(String spendingDescription) {
         return spendingTable.editSpending(spendingDescription);

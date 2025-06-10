@@ -1,12 +1,14 @@
 package guru.qa.niffler.test.web;
 
 import com.codeborne.selenide.Selenide;
+import guru.qa.niffler.condition.Color;
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.jupiter.annotation.Category;
 import guru.qa.niffler.jupiter.annotation.meta.ScreenShotTest;
 import guru.qa.niffler.jupiter.annotation.meta.User;
 import guru.qa.niffler.jupiter.extension.BrowserExtension;
 import guru.qa.niffler.jupiter.annotation.Spending;
+import guru.qa.niffler.model.spend.Bubble;
 import guru.qa.niffler.model.spend.CurrencyValues;
 import guru.qa.niffler.model.spend.SpendJson;
 import guru.qa.niffler.model.userdata.UserJson;
@@ -37,12 +39,11 @@ public class SpendingWebTest {
     final String newDescription = "Обучение Niffler NG";
 
     Selenide.open(CFG.frontUrl(), LoginPage.class)
-        .doLogin("duck", "12345");
+        .doLogin("duck", "12345")
+            .editSpending(spends[0].description())
+            .editDescription(newDescription);
 
     MainPage mainPage = new MainPage();
-    mainPage.editSpending(spends[0].description())
-        .editDescription(newDescription);
-
     mainPage.checkThatTableContains(newDescription);
   }
 
@@ -58,8 +59,9 @@ public class SpendingWebTest {
   void checkStatComponentTest(UserJson user, BufferedImage expected) throws IOException {
     Selenide.open(CFG.frontUrl(), LoginPage.class)
             .doLogin(user.username(), user.testData().password())
-            .checkSpendingDiagram(expected)
-            .checkSpendingLabelsAreVisible("Обучение 79990 ₽");
+            .getStatComponent()
+            .checkStatisticImage(expected)
+            .checkStatBubbles(new Bubble(Color.green, "Обучение 79990 ₽"));
   }
 
   @User(
@@ -76,7 +78,8 @@ public class SpendingWebTest {
             .doLogin(user.username(), user.testData().password())
             .deleteSpending(user.testData().spendings().get(0).description())
             .checkAlertMessage("Spendings succesfully deleted")
-            .checkSpendingDiagram(expected);
+            .getStatComponent()
+            .checkStatisticImage(expected);
   }
 
   @User(
@@ -100,8 +103,9 @@ public class SpendingWebTest {
             .editAmount(newAmount);
 
     Selenide.open(CFG.frontUrl(), MainPage.class)
-            .checkSpendingDiagram(expected)
-            .checkSpendingLabelsAreVisible("Обучение 50000 ₽");
+            .getStatComponent()
+            .checkStatisticImage(expected)
+            .checkStatBubbles(new Bubble(Color.green, "Обучение 79990 ₽"));
   }
 
   @User(
@@ -140,7 +144,8 @@ public class SpendingWebTest {
   void checkArchivedStatComponentTest(UserJson user, BufferedImage expected) throws IOException {
     Selenide.open(CFG.frontUrl(), LoginPage.class)
             .doLogin(user.username(), user.testData().password())
-            .checkSpendingDiagram(expected)
-            .checkSpendingLabelsAreVisible("Обучение 79990 ₽", "Archived 21000 ₽");
+            .getStatComponent()
+            .checkStatisticImage(expected)
+            .checkStatBubbles(new Bubble(Color.green, "Обучение 79990 ₽"), new Bubble(Color.yellow, "Archived 21000 ₽"));
   }
 }
