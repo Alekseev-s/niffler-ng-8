@@ -1,5 +1,6 @@
 package guru.qa.niffler.service.impl;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import guru.qa.niffler.api.AuthUserApi;
 import guru.qa.niffler.api.UserdataApi;
 import guru.qa.niffler.api.core.ThreadSafeCookieStorage;
@@ -7,9 +8,11 @@ import guru.qa.niffler.config.Config;
 import guru.qa.niffler.api.core.RestClient.EmptyRestClient;
 import guru.qa.niffler.model.userdata.UserJson;
 import guru.qa.niffler.service.UsersClient;
+import guru.qa.niffler.utils.OauthUtils;
 import guru.qa.niffler.utils.RandomDataUtils;
 import io.qameta.allure.Step;
 import io.qameta.allure.okhttp3.AllureOkHttp3;
+import org.apache.commons.lang3.StringUtils;
 import retrofit2.Response;
 
 import javax.annotation.Nonnull;
@@ -130,5 +133,57 @@ public class UsersApiClient implements UsersClient {
         }
         assertEquals(200, response.code());
         return response.body() != null ? response.body() : Collections.emptyList();
+    }
+
+    @Step("Login user")
+    @Nonnull
+    public String login(String username, String password) {
+        final String codeVerifier = OauthUtils.generateCodeVerifier();
+        final String codeChallenge = OauthUtils.generateCodeChallenge(codeVerifier);
+
+        Response<Void> authorizeResponse;
+        try {
+            authorizeResponse = authUserApi.authorize(
+                    "code",
+                    "client",
+                    "openid",
+                    CFG.frontUrl() + "authorized",
+                    codeChallenge,
+                    "S256"
+            ).execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(302, authorizeResponse.code());
+
+        Response<Void> loginResponse;
+        try {
+            loginResponse = authUserApi.login(
+                    ThreadSafeCookieStorage.INSTANCE.cookieValue("XSRF-TOKEN"),
+                    username,
+                    password
+            ).execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(302, loginResponse.code());
+
+        String code = StringUtils.substringAfter(String.valueOf(loginResponse.raw().request().url()), "code=");
+
+        Response<JsonNode> tokenResponse;
+        try {
+            tokenResponse = authUserApi.token(
+                    code,
+                    CFG.frontUrl() + "authorized",
+                    codeVerifier,
+                    "authorization_code",
+                    "client"
+            ).execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(200, tokenResponse.code());
+
+        return tokenResponse.body().get("id_token").asText();
     }
 }
