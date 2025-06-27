@@ -11,6 +11,11 @@ import org.junit.platform.commons.support.AnnotationSupport;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static guru.qa.niffler.jupiter.extension.TestsMethodContextExtension.context;
+
 @ParametersAreNonnullByDefault
 public class UserExtension implements BeforeEachCallback, ParameterResolver {
 
@@ -31,20 +36,27 @@ public class UserExtension implements BeforeEachCallback, ParameterResolver {
                                 defaultPassword
                         );
 
+                        List<UserJson> friends = new ArrayList<>();
+                        List<UserJson> income = new ArrayList<>();
+                        List<UserJson> outcome = new ArrayList<>();
+
                         if (userAnno.amountOfIncomeInvitations() > 0) {
-                            usersClient.createIncomeInvitations(user, userAnno.amountOfIncomeInvitations());
+                            income = usersClient.createIncomeInvitations(user, userAnno.amountOfIncomeInvitations());
                         }
                         if (userAnno.amountOfOutcomeInvitations() > 0) {
-                            usersClient.createOutcomeInvitations(user, userAnno.amountOfOutcomeInvitations());
+                            outcome = usersClient.createOutcomeInvitations(user, userAnno.amountOfOutcomeInvitations());
                         }
                         if (userAnno.amountOfFriends() > 0) {
-                            usersClient.createFriend(user, userAnno.amountOfFriends());
+                            friends = usersClient.createFriend(user, userAnno.amountOfFriends());
                         }
 
-                        context.getStore(NAMESPACE).put(
-                                context.getUniqueId(),
+                        setUser(
                                 user.withPassword(
                                         defaultPassword
+                                ).withUsers(
+                                        friends,
+                                        outcome,
+                                        income
                                 )
                         );
                     }
@@ -62,7 +74,15 @@ public class UserExtension implements BeforeEachCallback, ParameterResolver {
     }
 
      public static @Nullable UserJson createdUser() {
-        final ExtensionContext extensionContext = TestsMethodContextExtension.context();
+        final ExtensionContext extensionContext = context();
         return extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId(), UserJson.class);
+     }
+
+     public static void setUser(UserJson testUser) {
+        final ExtensionContext context = context();
+        context.getStore(NAMESPACE).put(
+                context.getUniqueId(),
+                testUser
+        );
      }
 }

@@ -3,6 +3,7 @@ package guru.qa.niffler.model.userdata;
 import guru.qa.niffler.model.spend.CategoryJson;
 import guru.qa.niffler.model.spend.SpendJson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public record TestData(
@@ -13,4 +14,7 @@ public record TestData(
         List<UserJson> outcomeInvitations,
         List<UserJson> friends
 ) {
+    public TestData(String password) {
+        this(password, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+    }
 }
