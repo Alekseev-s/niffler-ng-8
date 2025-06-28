@@ -47,7 +47,7 @@ public class UsersApiClient implements UsersClient {
     public UserJson createUser(String username, String password) {
         final Response<UserJson> response;
         try {
-            authUserApi.getRegisterForm().execute();
+            authUserApi.requestRegisterForm().execute();
             authUserApi.register(
                             username,
                             password,

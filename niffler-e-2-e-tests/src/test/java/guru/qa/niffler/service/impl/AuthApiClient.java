@@ -11,14 +11,15 @@ import guru.qa.niffler.utils.OauthUtils;
 import lombok.SneakyThrows;
 import retrofit2.Response;
 
+
 public class AuthApiClient extends RestClient {
 
     private static final Config CFG = Config.getInstance();
-    private final AuthUserApi authUserApi;
+    private final AuthUserApi authApi;
 
     public AuthApiClient() {
         super(CFG.authUrl(), true, new CodeInterceptor());
-        this.authUserApi = create(AuthUserApi.class);
+        this.authApi = create(AuthUserApi.class);
     }
 
     @SneakyThrows
@@ -28,7 +29,7 @@ public class AuthApiClient extends RestClient {
         final String redirectUri = CFG.frontUrl() + "authorized";
         final String clientId = "client";
 
-        authUserApi.authorize(
+        authApi.authorize(
                 "code",
                 clientId,
                 "openid",
@@ -37,13 +38,13 @@ public class AuthApiClient extends RestClient {
                 "S256"
         ).execute();
 
-        authUserApi.login(
+        authApi.login(
                 username,
                 password,
                 ThreadSafeCookieStorage.INSTANCE.cookieValue("XSRF-TOKEN")
         ).execute();
 
-        Response<JsonNode> tokenResponse = authUserApi.token(
+        Response<JsonNode> tokenResponse = authApi.token(
                 ApiLoginExtension.getCode(),
                 redirectUri,
                 clientId,

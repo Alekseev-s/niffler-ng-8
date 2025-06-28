@@ -1,12 +1,20 @@
 package guru.qa.niffler.jupiter.extension;
 
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
 import guru.qa.niffler.api.core.ThreadSafeCookieStorage;
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.jupiter.annotation.ApiLogin;
+import guru.qa.niffler.jupiter.annotation.Token;
 import guru.qa.niffler.model.userdata.TestData;
 import guru.qa.niffler.model.userdata.UserJson;
+import guru.qa.niffler.page.MainPage;
 import guru.qa.niffler.service.impl.AuthApiClient;
-import org.junit.jupiter.api.extension.*;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
+import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.platform.commons.support.AnnotationSupport;
 import org.openqa.selenium.Cookie;
 
@@ -39,6 +47,7 @@ public class ApiLoginExtension implements BeforeEachCallback, ParameterResolver 
     public void beforeEach(ExtensionContext context) throws Exception {
         AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), ApiLogin.class)
                 .ifPresent(apiLogin -> {
+
                     final UserJson userToLogin;
                     final UserJson userFromUserExtension = UserExtension.createdUser();
                     if ("".equals(apiLogin.username()) || "".equals(apiLogin.password())) {
@@ -60,18 +69,31 @@ public class ApiLoginExtension implements BeforeEachCallback, ParameterResolver 
                         userToLogin = fakeUser;
                     }
 
-                    final String token = authApiClient.
+                    final String token = authApiClient.login(
+                            userToLogin.username(),
+                            userToLogin.testData().password()
+                    );
+                    setToken(token);
+                    if (setupBrowser) {
+                        Selenide.open(CFG.frontUrl());
+                        Selenide.localStorage().setItem("id_token", getToken());
+                        WebDriverRunner.getWebDriver().manage().addCookie(
+                                getJsessionIdCookie()
+                        );
+                        Selenide.open(MainPage.URL, MainPage.class).checkThatPageLoaded();
+                    }
                 });
     }
 
     @Override
     public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-        return false;
+        return parameterContext.getParameter().getType().isAssignableFrom(String.class)
+                && AnnotationSupport.isAnnotated(parameterContext.getParameter(), Token.class);
     }
 
     @Override
-    public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-        return null;
+    public String resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
+        return getToken();
     }
 
     public static void setToken(String token) {

@@ -15,11 +15,11 @@ public interface UserdataApi {
     @GET("internal/users/current")
     Call<UserJson> currentUser(@Query("username") String username);
 
-    @POST("/internal/invitations/send")
+    @POST("internal/invitations/send")
     Call<UserJson> sendInvitation(@Query("username") String username,
                                   @Query("targetUsername") String targetUsername);
 
-    @POST("/internal/invitations/accept")
+    @POST("internal/invitations/accept")
     Call<UserJson> acceptInvitation(@Query("username") String username,
                                     @Query("targetUsername") String targetUsername);
 
