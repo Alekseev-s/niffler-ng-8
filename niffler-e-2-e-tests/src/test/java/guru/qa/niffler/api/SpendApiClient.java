@@ -5,10 +5,7 @@ import guru.qa.niffler.config.Config;
 import guru.qa.niffler.model.spend.CategoryJson;
 import guru.qa.niffler.model.spend.CurrencyValues;
 import guru.qa.niffler.model.spend.SpendJson;
-import okhttp3.OkHttpClient;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -74,7 +71,7 @@ public class SpendApiClient extends RestClient {
                                                @Nullable Date to) {
     final Response<List<SpendJson>> response;
     try {
-      response = spendApi.getAllSpends(username, currency, from, to)
+      response = spendApi.getSpends(username, currency, from, to)
               .execute();
     } catch (IOException e) {
         throw new AssertionError(e);

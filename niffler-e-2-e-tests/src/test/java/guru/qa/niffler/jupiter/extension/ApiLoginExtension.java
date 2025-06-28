@@ -10,6 +10,8 @@ import guru.qa.niffler.model.userdata.TestData;
 import guru.qa.niffler.model.userdata.UserJson;
 import guru.qa.niffler.page.MainPage;
 import guru.qa.niffler.service.impl.AuthApiClient;
+import guru.qa.niffler.service.impl.SpendApiClient;
+import guru.qa.niffler.service.impl.UsersApiClient;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
@@ -29,6 +31,8 @@ public class ApiLoginExtension implements BeforeEachCallback, ParameterResolver 
     public static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(ApiLoginExtension.class);
 
     private final AuthApiClient authApiClient = new AuthApiClient();
+    private final UsersApiClient usersApiClient = new UsersApiClient();
+    private final SpendApiClient spendApiClient = new SpendApiClient();
     private final boolean setupBrowser;
 
     private ApiLoginExtension(boolean setupBrowser) {
@@ -56,12 +60,7 @@ public class ApiLoginExtension implements BeforeEachCallback, ParameterResolver 
                         }
                         userToLogin = userFromUserExtension;
                     } else {
-                        UserJson fakeUser = new UserJson(
-                                apiLogin.username(),
-                                new TestData(
-                                        apiLogin.password()
-                                )
-                        );
+                        UserJson fakeUser = fillUserInfo(apiLogin.username(), apiLogin.password());
                         if (userFromUserExtension != null) {
                             throw new IllegalStateException("@User must not be present in case that @ApiLogin contains username or password!");
                         }
@@ -117,5 +116,18 @@ public class ApiLoginExtension implements BeforeEachCallback, ParameterResolver 
                 "JSESSIONID",
                 ThreadSafeCookieStorage.INSTANCE.cookieValue("JSESSIONID")
         );
+    }
+
+    private UserJson fillUserInfo(String username, String password) {
+        UserJson user = usersApiClient.currentUser(username);
+        TestData testData = new TestData(
+                password,
+                spendApiClient.getCategories(username, false),
+                spendApiClient.getSpends(username, null, null, null),
+                usersApiClient.getFriends(username, null),
+                usersApiClient.getOutcomeInvitations(username, null),
+                usersApiClient.getIncomeInvitations(username, null)
+        );
+        return user.withTestData(testData);
     }
 }

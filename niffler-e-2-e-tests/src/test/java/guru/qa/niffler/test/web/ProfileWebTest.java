@@ -2,6 +2,7 @@ package guru.qa.niffler.test.web;
 
 import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.config.Config;
+import guru.qa.niffler.jupiter.annotation.ApiLogin;
 import guru.qa.niffler.jupiter.annotation.Category;
 import guru.qa.niffler.jupiter.annotation.meta.ScreenShotTest;
 import guru.qa.niffler.jupiter.annotation.meta.User;
@@ -28,13 +29,10 @@ public class ProfileWebTest {
                     archived = true
             )
     )
+    @ApiLogin
     @Test
     void archivedCategoryShouldPresentInCategoriesList(UserJson user) {
         final CategoryJson category = user.testData().categories().getFirst();
-
-        Selenide.open(CFG.frontUrl(), LoginPage.class)
-                .doLogin(user.username(), user.testData().password())
-                .checkLoginIsSuccessful();
 
         Selenide.open(CFG.profileUrl(), ProfilePage.class)
                 .checkCategoryIsNotVisible(category.name())
@@ -43,31 +41,27 @@ public class ProfileWebTest {
     }
 
     @User(
-            username = "duck",
             categories = @Category(
+                    name = "active",
                     archived = false
             )
     )
+    @ApiLogin
     @Test
-    void activeCategoryShouldPresentInCategoriesList(CategoryJson[] categories) {
-        Selenide.open(CFG.frontUrl(), LoginPage.class)
-                .doLogin("duck", "12345")
-                .checkLoginIsSuccessful();
+    void activeCategoryShouldPresentInCategoriesList(UserJson user) {
+        final CategoryJson category = user.testData().categories().getFirst();
 
         Selenide.open(CFG.profileUrl(), ProfilePage.class)
-                .checkCategoryIsVisible(categories[0].name())
+                .checkCategoryIsVisible(category.name())
                 .switchArchiveToggle()
-                .checkCategoryIsVisible(categories[0].name());
+                .checkCategoryIsVisible(category.name());
     }
 
     @User
+    @ApiLogin
     @ScreenShotTest(value = "img/expected-avatar.png",
     rewriteExpected = true)
-    void userAvatarShouldBeVisible(UserJson user, BufferedImage expected) throws IOException {
-        Selenide.open(CFG.frontUrl(), LoginPage.class)
-                .doLogin(user.username(), user.testData().password())
-                .checkLoginIsSuccessful();
-
+    void userAvatarShouldBeVisible(BufferedImage expected) throws IOException {
         Selenide.open(CFG.profileUrl(), ProfilePage.class)
                 .uploadAvatar("img/avatar.jpg")
                 .saveChanges()
@@ -75,14 +69,11 @@ public class ProfileWebTest {
     }
 
     @User
+    @ApiLogin
     @ScreenShotTest(
             value = "img/expected-avatar.png")
-    void editProfile(UserJson user, BufferedImage expected) throws IOException {
+    void editProfile(BufferedImage expected) throws IOException {
         final String name = RandomDataUtils.getRandomUsername();
-
-        Selenide.open(CFG.frontUrl(), LoginPage.class)
-                .doLogin(user.username(), user.testData().password())
-                .checkLoginIsSuccessful();
 
         Selenide.open(CFG.profileUrl(), ProfilePage.class)
                 .uploadAvatar("img/avatar.jpg")

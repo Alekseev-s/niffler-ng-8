@@ -19,7 +19,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import static guru.qa.niffler.data.entity.userdata.FriendshipStatus.INVITE_RECEIVED;
+import static guru.qa.niffler.data.entity.userdata.FriendshipStatus.INVITE_SENT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ParametersAreNonnullByDefault
@@ -59,6 +62,19 @@ public class UsersApiClient implements UsersClient {
             throw new RuntimeException(e);
         }
         assertEquals(201, response.code());
+        return response.body();
+    }
+
+    @Step("Get current user")
+    public UserJson currentUser(String username){
+        final Response<UserJson> response;
+        try {
+            response = userdataApi.currentUser(username)
+                    .execute();
+        } catch (IOException e) {
+            throw new AssertionError(e);
+        }
+        assertEquals(200, response.code());
         return response.body();
     }
 
@@ -142,5 +158,36 @@ public class UsersApiClient implements UsersClient {
         }
         assertEquals(200, response.code());
         return response.body() != null ? response.body() : Collections.emptyList();
+    }
+
+    @Step("Get friends")
+    public List<UserJson> getFriends(String username, @Nullable String searchQuery){
+        final Response<List<UserJson>> response;
+        try {
+            response = userdataApi.friends(username, searchQuery).execute();
+        } catch (IOException e) {
+            throw new AssertionError(e);
+        }
+        assertEquals(200, response.code());
+        return response.body() != null ? response.body() : Collections.emptyList();
+    }
+
+    @Step("Get income invitations")
+    public List<UserJson> getIncomeInvitations(String username, @Nullable String searchQuery){
+        List<UserJson> friends = getFriends(username, searchQuery);
+
+        return friends.stream()
+                .filter(userJson -> userJson.friendshipStatus().equals(INVITE_RECEIVED))
+                .toList();
+    }
+
+    @Step("Get outcome invitations")
+    @Nonnull
+    public List<UserJson> getOutcomeInvitations(String username, @Nullable String searchQuery){
+        List<UserJson> allPeople = getAllUsers(username, searchQuery);
+
+        return allPeople.stream()
+                .filter(userJson -> userJson.friendshipStatus().equals(INVITE_SENT))
+                .collect(Collectors.toList());
     }
 }

@@ -25,5 +25,17 @@ public interface UserdataApi {
 
     @GET("internal/users/all")
     Call<List<UserJson>> allUsers(@Query("username") String username,
-                                  @Query("searchQuery") String searchQuery);
+                                  @Query("searchQuery") @Nullable String searchQuery);
+
+    @GET("internal/friends/all")
+    Call<List<UserJson>> friends(@Query("username") String username,
+                                 @Query("searchQuery") @Nullable String searchQuery);
+
+    @GET("internal/invitations/income")
+    Call<List<UserJson>> incomeInvitations(@Query("username") String username,
+                                           @Query("searchQuery") @Nullable String searchQuery);
+
+    @GET("internal/invitations/outcome")
+    Call<List<UserJson>> outcomeInvitations(@Query("username") String username,
+                                            @Query("searchQuery") @Nullable String searchQuery);
 }
