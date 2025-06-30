@@ -5,11 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import guru.qa.niffler.data.entity.userdata.FriendshipStatus;
 import guru.qa.niffler.data.entity.userdata.UserEntity;
 import guru.qa.niffler.model.spend.CurrencyValues;
+import org.openqa.selenium.devtools.v130.layertree.model.Layer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public record UserJson(
@@ -56,6 +58,14 @@ public record UserJson(
         );
     }
 
+    public UserJson(String username) {
+        this(username, null);
+    }
+
+    public UserJson(String username, TestData testData) {
+        this(null, username, null, null, null, null, null, null, null, testData);
+    }
+
     public @Nonnull UserJson withPassword(@Nonnull String password) {
         return withTestData(
                 new TestData(
@@ -81,6 +91,23 @@ public record UserJson(
                 photoSmall,
                 friendshipStatus,
                 testData
+        );
+    }
+
+    public UserJson withUsers(
+            List<UserJson> friends,
+            List<UserJson> outcomeInvitations,
+            List<UserJson> incomeInvitations
+    ) {
+        return withTestData(
+                new TestData(
+                        testData.password(),
+                        testData.categories(),
+                        testData.spendings(),
+                        friends,
+                        outcomeInvitations,
+                        incomeInvitations
+                )
         );
     }
 }

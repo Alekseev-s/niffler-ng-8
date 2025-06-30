@@ -1,6 +1,5 @@
 package guru.qa.niffler.service.impl;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import guru.qa.niffler.api.AuthUserApi;
 import guru.qa.niffler.api.UserdataApi;
 import guru.qa.niffler.api.core.ThreadSafeCookieStorage;
@@ -8,20 +7,22 @@ import guru.qa.niffler.config.Config;
 import guru.qa.niffler.api.core.RestClient.EmptyRestClient;
 import guru.qa.niffler.model.userdata.UserJson;
 import guru.qa.niffler.service.UsersClient;
-import guru.qa.niffler.utils.OauthUtils;
 import guru.qa.niffler.utils.RandomDataUtils;
 import io.qameta.allure.Step;
 import io.qameta.allure.okhttp3.AllureOkHttp3;
-import org.apache.commons.lang3.StringUtils;
 import retrofit2.Response;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import static guru.qa.niffler.data.entity.userdata.FriendshipStatus.INVITE_RECEIVED;
+import static guru.qa.niffler.data.entity.userdata.FriendshipStatus.INVITE_SENT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ParametersAreNonnullByDefault
@@ -49,7 +50,7 @@ public class UsersApiClient implements UsersClient {
     public UserJson createUser(String username, String password) {
         final Response<UserJson> response;
         try {
-            authUserApi.getRegisterForm().execute();
+            authUserApi.requestRegisterForm().execute();
             authUserApi.register(
                             username,
                             password,
@@ -64,55 +65,78 @@ public class UsersApiClient implements UsersClient {
         return response.body();
     }
 
+    @Step("Get current user")
+    public UserJson currentUser(String username){
+        final Response<UserJson> response;
+        try {
+            response = userdataApi.currentUser(username)
+                    .execute();
+        } catch (IOException e) {
+            throw new AssertionError(e);
+        }
+        assertEquals(200, response.code());
+        return response.body();
+    }
+
     @Step("Create income invitation")
     @Override
-    public void createIncomeInvitations(UserJson targetUser, int count) {
+    public List<UserJson> createIncomeInvitations(UserJson targetUser, int count) {
+        final List<UserJson> result = new ArrayList<>();
         if (count > 0) {
             for (int i = 0; i < count; i++) {
-                String username = RandomDataUtils.getRandomUsername();
+                final String username = RandomDataUtils.getRandomUsername();
                 final Response<UserJson> response;
-                createUser(username, defaultPassword);
+                final UserJson newUser;
                 try {
+                    newUser = createUser(username, defaultPassword);
                     response = userdataApi.sendInvitation(username, targetUser.username()).execute();
+                    result.add(newUser);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
                 assertEquals(200, response.code());
             }
         }
+        return result;
     }
 
     @Step("Create outcome invitation")
     @Override
-    public void createOutcomeInvitations(UserJson targetUser, int count) {
+    public List<UserJson> createOutcomeInvitations(UserJson targetUser, int count) {
+        final List<UserJson> result = new ArrayList<>();
         if (count > 0) {
             for (int i = 0; i < count; i++) {
-                String username = RandomDataUtils.getRandomUsername();
+                final String username = RandomDataUtils.getRandomUsername();
                 final Response<UserJson> response;
-                createUser(username, defaultPassword);
+                final UserJson newUser;
                 try {
+                    newUser = createUser(username, defaultPassword);
                     response = userdataApi.sendInvitation(targetUser.username(), username).execute();
+                    result.add(newUser);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
                 assertEquals(200, response.code());
             }
         }
+        return result;
     }
 
     @Step("Create friendship")
     @Override
-    public void createFriend(UserJson targetUser, int count) {
+    public List<UserJson> createFriend(UserJson targetUser, int count) {
+        final List<UserJson> result = new ArrayList<>();
         if (count > 0) {
             for (int i = 0; i < count; i++) {
-                String username = RandomDataUtils.getRandomUsername();
+                final String username = RandomDataUtils.getRandomUsername();
+                final UserJson newUser;
                 final Response<UserJson> invitationResponse;
                 final Response<UserJson> acceptResponse;
-                createUser(username, defaultPassword);
                 try {
+                    newUser = createUser(username, defaultPassword);
                     invitationResponse = userdataApi.sendInvitation(username, targetUser.username()).execute();
                     acceptResponse = userdataApi.acceptInvitation(targetUser.username(), username).execute();
-
+                    result.add(newUser);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -120,6 +144,7 @@ public class UsersApiClient implements UsersClient {
                 assertEquals(200, acceptResponse.code());
             }
         }
+        return result;
     }
 
     @Step("Get all users")
@@ -135,55 +160,34 @@ public class UsersApiClient implements UsersClient {
         return response.body() != null ? response.body() : Collections.emptyList();
     }
 
-    @Step("Login user")
+    @Step("Get friends")
+    public List<UserJson> getFriends(String username, @Nullable String searchQuery){
+        final Response<List<UserJson>> response;
+        try {
+            response = userdataApi.friends(username, searchQuery).execute();
+        } catch (IOException e) {
+            throw new AssertionError(e);
+        }
+        assertEquals(200, response.code());
+        return response.body() != null ? response.body() : Collections.emptyList();
+    }
+
+    @Step("Get income invitations")
+    public List<UserJson> getIncomeInvitations(String username, @Nullable String searchQuery){
+        List<UserJson> friends = getFriends(username, searchQuery);
+
+        return friends.stream()
+                .filter(userJson -> userJson.friendshipStatus().equals(INVITE_RECEIVED))
+                .toList();
+    }
+
+    @Step("Get outcome invitations")
     @Nonnull
-    public String login(String username, String password) {
-        final String codeVerifier = OauthUtils.generateCodeVerifier();
-        final String codeChallenge = OauthUtils.generateCodeChallenge(codeVerifier);
+    public List<UserJson> getOutcomeInvitations(String username, @Nullable String searchQuery){
+        List<UserJson> allPeople = getAllUsers(username, searchQuery);
 
-        Response<Void> authorizeResponse;
-        try {
-            authorizeResponse = authUserApi.authorize(
-                    "code",
-                    "client",
-                    "openid",
-                    CFG.frontUrl() + "authorized",
-                    codeChallenge,
-                    "S256"
-            ).execute();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        assertEquals(302, authorizeResponse.code());
-
-        Response<Void> loginResponse;
-        try {
-            loginResponse = authUserApi.login(
-                    ThreadSafeCookieStorage.INSTANCE.cookieValue("XSRF-TOKEN"),
-                    username,
-                    password
-            ).execute();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        assertEquals(302, loginResponse.code());
-
-        String code = StringUtils.substringAfter(String.valueOf(loginResponse.raw().request().url()), "code=");
-
-        Response<JsonNode> tokenResponse;
-        try {
-            tokenResponse = authUserApi.token(
-                    code,
-                    CFG.frontUrl() + "authorized",
-                    codeVerifier,
-                    "authorization_code",
-                    "client"
-            ).execute();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        assertEquals(200, tokenResponse.code());
-
-        return tokenResponse.body().get("id_token").asText();
+        return allPeople.stream()
+                .filter(userJson -> userJson.friendshipStatus().equals(INVITE_SENT))
+                .collect(Collectors.toList());
     }
 }

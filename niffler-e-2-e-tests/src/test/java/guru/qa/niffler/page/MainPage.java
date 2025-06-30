@@ -1,9 +1,11 @@
 package guru.qa.niffler.page;
 
+import guru.qa.niffler.page.component.Header;
 import guru.qa.niffler.page.component.SpendingTable;
 import guru.qa.niffler.page.component.StatComponent;
 import io.qameta.allure.Step;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -15,6 +17,9 @@ import static com.codeborne.selenide.Selenide.$;
 @ParametersAreNonnullByDefault
 public class MainPage extends BasePage<MainPage> {
 
+    public static final String URL = CFG.frontUrl() + "main";
+
+    private final Header header = new Header();
     private final SpendingTable spendingTable = new SpendingTable();
     private final StatComponent statComponent = new StatComponent();
 
@@ -58,6 +63,15 @@ public class MainPage extends BasePage<MainPage> {
     @Step("Check spending labels are visible")
     public MainPage checkSpendingLabelsAreVisible(String...labels) {
         statComponent.checkStatisticBubblesContains(labels);
+        return this;
+    }
+
+    @Step("Check that page is loaded")
+    @Nonnull
+    public MainPage checkThatPageLoaded() {
+        header.getSelf().should(visible).shouldHave(text("Niffler"));
+        statComponent.getSelf().should(visible).shouldHave(text("Statistics"));
+        spendingTable.getSelf().should(visible).shouldHave(text("History of Spendings"));
         return this;
     }
 }
