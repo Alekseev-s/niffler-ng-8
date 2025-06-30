@@ -1,5 +1,7 @@
 package guru.qa.niffler.config;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.annotation.Nonnull;
 
 enum LocalConfig implements Config {
@@ -51,6 +53,12 @@ enum LocalConfig implements Config {
     @Override
     public String friendsUrl() {
         return "http://127.0.0.1:3000/people/friends";
+    }
+
+    @NotNull
+    @Override
+    public String gatewayUrl() {
+        return "http://127.0.0.1:8090/";
     }
 
     @Nonnull

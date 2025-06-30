@@ -1,7 +1,7 @@
 package guru.qa.niffler.jupiter.extension;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import guru.qa.niffler.jupiter.annotation.meta.ScreenShotTest;
+import guru.qa.niffler.jupiter.annotation.ScreenShotTest;
 import guru.qa.niffler.model.allure.ScreenDiff;
 import io.qameta.allure.Allure;
 import lombok.SneakyThrows;
@@ -41,9 +41,13 @@ public class ScreenShotExtension implements ParameterResolver, TestExecutionExce
     @Override
     public void handleTestExecutionException(ExtensionContext context, Throwable throwable) throws Throwable {
         ScreenShotTest screenShotTest = context.getRequiredTestMethod().getAnnotation(ScreenShotTest.class);
-        if (screenShotTest.rewriteExpected()) {
-            BufferedImage actual = getActual();
-            ImageIO.write(actual, "png", new File("src/test/resources/" + screenShotTest.value()));
+        if (screenShotTest != null) {
+            if (screenShotTest.rewriteExpected()) {
+                BufferedImage actual = getActual();
+                if (actual != null) {
+                    ImageIO.write(actual, "png", new File("src/test/resources/" + screenShotTest.value()));
+                }
+            }
         }
 
         if (throwable.getMessage().contains(ASSERT_SCREEN_MESSAGE)) {
