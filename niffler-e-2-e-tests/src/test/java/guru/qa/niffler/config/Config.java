@@ -35,6 +35,9 @@ public interface Config {
     String friendsUrl();
 
     @Nonnull
+    String gatewayUrl();
+
+    @Nonnull
     String authJdbcUrl();
 
     @Nonnull

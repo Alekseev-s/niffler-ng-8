@@ -5,30 +5,29 @@ import guru.qa.niffler.condition.Color;
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.jupiter.annotation.ApiLogin;
 import guru.qa.niffler.jupiter.annotation.Category;
-import guru.qa.niffler.jupiter.annotation.meta.ScreenShotTest;
-import guru.qa.niffler.jupiter.annotation.meta.User;
+import guru.qa.niffler.jupiter.annotation.ScreenShotTest;
+import guru.qa.niffler.jupiter.annotation.User;
+import guru.qa.niffler.jupiter.annotation.meta.WebTest;
 import guru.qa.niffler.jupiter.extension.BrowserExtension;
 import guru.qa.niffler.jupiter.annotation.Spending;
 import guru.qa.niffler.model.spend.Bubble;
 import guru.qa.niffler.model.spend.CurrencyValues;
-import guru.qa.niffler.model.spend.SpendJson;
+import guru.qa.niffler.model.rest.SpendJson;
 import guru.qa.niffler.model.userdata.UserJson;
-import guru.qa.niffler.page.LoginPage;
 import guru.qa.niffler.page.MainPage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.List;
 
-@ExtendWith(BrowserExtension.class)
+@WebTest
 public class SpendingWebTest {
 
     private static final Config CFG = Config.getInstance();
 
     @User(
-            spendings = @Spending(
+            spends = @Spending(
                     category = "Обучение",
                     description = "Обучение Niffler 2.0",
                     amount = 89000.00,
@@ -50,7 +49,7 @@ public class SpendingWebTest {
     }
 
     @User(
-            spendings = @Spending(
+            spends = @Spending(
                     category = "Обучение",
                     description = "Обучение Niffler 2.0",
                     amount = 79990,
@@ -67,7 +66,7 @@ public class SpendingWebTest {
     }
 
     @User(
-            spendings = @Spending(
+            spends = @Spending(
                     category = "Обучение",
                     description = "Обучение Niffler 2.0",
                     amount = 79990,
@@ -87,7 +86,7 @@ public class SpendingWebTest {
     }
 
     @User(
-            spendings = @Spending(
+            spends = @Spending(
                     category = "Обучение",
                     description = "Обучение Niffler 2.0",
                     amount = 79990,
@@ -123,7 +122,7 @@ public class SpendingWebTest {
                             archived = true
                     )
             },
-            spendings = {
+            spends = {
                     @Spending(
                             category = "Обучение",
                             description = "Обучение Niffler 2.0",

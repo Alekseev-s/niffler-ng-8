@@ -3,16 +3,13 @@ package guru.qa.niffler.service.impl;
 import guru.qa.niffler.api.SpendApi;
 import guru.qa.niffler.api.core.RestClient;
 import guru.qa.niffler.config.Config;
-import guru.qa.niffler.model.spend.CategoryJson;
+import guru.qa.niffler.model.rest.CategoryJson;
 import guru.qa.niffler.model.spend.CurrencyValues;
-import guru.qa.niffler.model.spend.SpendJson;
+import guru.qa.niffler.model.rest.SpendJson;
 import guru.qa.niffler.service.SpendClient;
 import io.qameta.allure.Step;
 import io.qameta.allure.okhttp3.AllureOkHttp3;
-import okhttp3.OkHttpClient;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;

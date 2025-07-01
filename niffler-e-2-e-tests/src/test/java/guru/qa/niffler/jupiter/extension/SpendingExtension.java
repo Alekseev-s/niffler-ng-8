@@ -1,10 +1,10 @@
 package guru.qa.niffler.jupiter.extension;
 
 import guru.qa.niffler.jupiter.annotation.Spending;
-import guru.qa.niffler.jupiter.annotation.meta.User;
-import guru.qa.niffler.model.spend.CategoryJson;
+import guru.qa.niffler.jupiter.annotation.User;
+import guru.qa.niffler.model.rest.CategoryJson;
 import guru.qa.niffler.model.spend.CurrencyValues;
-import guru.qa.niffler.model.spend.SpendJson;
+import guru.qa.niffler.model.rest.SpendJson;
 import guru.qa.niffler.model.userdata.UserJson;
 import guru.qa.niffler.service.SpendClient;
 import guru.qa.niffler.service.impl.SpendDbClient;
@@ -29,7 +29,7 @@ public class SpendingExtension implements BeforeEachCallback, ParameterResolver 
     public void beforeEach(ExtensionContext context) {
         AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), User.class)
                 .ifPresent(anno -> {
-                    if (ArrayUtils.isNotEmpty(anno.spendings())) {
+                    if (ArrayUtils.isNotEmpty(anno.spends())) {
                         UserJson createdUser = UserExtension.createdUser();
                         final String username = createdUser != null
                                 ? createdUser.username()
@@ -41,7 +41,7 @@ public class SpendingExtension implements BeforeEachCallback, ParameterResolver 
 
                         final List<SpendJson> createdSpendings = new ArrayList<>();
 
-                        for (Spending spendAnno : anno.spendings()) {
+                        for (Spending spendAnno : anno.spends()) {
                             final Optional<CategoryJson> matchedCategory = existingCategories.stream()
                                     .filter(category -> category.name().equals(spendAnno.category()))
                                     .findFirst();
