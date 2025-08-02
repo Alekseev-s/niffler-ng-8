@@ -43,10 +43,9 @@ public class CurrencyGrpcTest extends BaseGrpcTest {
     }
 
     @Test
-    void allCurrenciesShouldBeReturned(){
+    void allCurrenciesShouldBeReturned() {
         final CurrencyResponse allCurrencies = blockingStub.getAllCurrencies(Empty.getDefaultInstance());
         List<Currency> allCurrenciesList = allCurrencies.getAllCurrenciesList();
-        Assertions.assertEquals(4, allCurrenciesList.size());
         assertEquals(4, allCurrenciesList.size());
     }
 }
